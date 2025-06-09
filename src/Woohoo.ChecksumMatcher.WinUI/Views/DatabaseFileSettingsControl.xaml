@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseFileSettingsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:lclviews="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="RootControlElement"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <Grid>
+            <StackPanel Margin="0,0,0,20" Spacing="{StaticResource SettingsCardSpacing}">
+
+                <TextBlock x:Uid="DatabaseFileSettings_LocalStorage" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileSettings_UseLocalStorageSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xF89A;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.UseOnlineStorage, Mode=TwoWay}" />
+                </ctcontrols:SettingsCard>
+
+                <ctcontrols:SettingsExpander
+                    x:Uid="DatabaseFileSettings_LocalFoldersSettingsExpander"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8F4;}"
+                    IsExpanded="True"
+                    ItemsSource="{x:Bind ViewModel.ScanOnlineFolders, Mode=OneWay}">
+                    <ctcontrols:SettingsExpander.ItemTemplate>
+                        <DataTemplate x:DataType="lclviewmodels:DatabaseScanOnlineFolderItemViewModel">
+                            <ctcontrols:SettingsCard Header="{x:Bind FolderPath}" HeaderIcon="{ct:FontIcon Glyph=&#xE8B7;}">
+                                <StackPanel Margin="{StaticResource XSmallTopMargin}" Orientation="Horizontal">
+                                    <ToggleSwitch x:Uid="DatabaseFileSettings_LocalFolderToggleSwitch" IsOn="{x:Bind IsIncluded, Mode=TwoWay}" />
+                                    <Button
+                                        x:Uid="DatabaseFileSettings_LocalFolderRemoveButton"
+                                        MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                                        Margin="{StaticResource MediumLeftMargin}"
+                                        Command="{x:Bind RemoveCommand, Mode=OneWay}" />
+                                </StackPanel>
+                            </ctcontrols:SettingsCard>
+                        </DataTemplate>
+                    </ctcontrols:SettingsExpander.ItemTemplate>
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <Button
+                            x:Uid="DatabaseFileSettings_LocalFolderAddButton"
+                            MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                            Command="{x:Bind ViewModel.AddScanOnlineFolderCommand, Mode=OneWay}" />
+                    </StackPanel>
+                </ctcontrols:SettingsExpander>
+
+                <TextBlock x:Uid="DatabaseFileSettings_OfflineStorage" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileSettings_UseOfflineStorageSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xF89A;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.UseOfflineStorage, Mode=TwoWay}" />
+                </ctcontrols:SettingsCard>
+
+                <ctcontrols:SettingsExpander
+                    x:Uid="DatabaseFileSettings_OfflineFoldersSettingsExpander"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8F4;}"
+                    IsExpanded="True"
+                    ItemsSource="{x:Bind ViewModel.ScanOfflineFolders, Mode=OneWay}">
+                    <ctcontrols:SettingsExpander.ItemTemplate>
+                        <DataTemplate x:DataType="lclviewmodels:DatabaseScanOfflineFolderItemViewModel">
+                            <ctcontrols:SettingsCard Header="{x:Bind DisplayName}" HeaderIcon="{ct:FontIcon Glyph=&#xE8B7;}">
+                                <StackPanel Margin="{StaticResource XSmallTopMargin}" Orientation="Horizontal">
+                                    <ToggleSwitch x:Uid="DatabaseFileSettings_OfflineFolderToggleSwitch" IsOn="{x:Bind IsIncluded, Mode=TwoWay}" />
+                                    <Button
+                                        x:Uid="DatabaseFileSettings_OfflineFolderRemoveButton"
+                                        MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                                        Margin="{StaticResource MediumLeftMargin}"
+                                        Command="{x:Bind RemoveCommand, Mode=OneWay}" />
+                                </StackPanel>
+                            </ctcontrols:SettingsCard>
+                        </DataTemplate>
+                    </ctcontrols:SettingsExpander.ItemTemplate>
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <Button x:Uid="DatabaseFileSettings_OfflineFolderAddButton" MinWidth="{StaticResource ButtonDefaultMinWidth}">
+                            <Button.Flyout>
+                                <Flyout
+                                    x:Name="AddOfflineFolderFlyout"
+                                    Opening="AddOfflineFolderFlyout_Opening"
+                                    Placement="Bottom">
+                                    <StackPanel MinWidth="400" Orientation="Vertical">
+                                        <TextBlock
+                                            x:Name="OfflineDiskLabel"
+                                            x:Uid="DatabaseFileSettings_OfflineFolderPopupDisk"
+                                            Margin="{StaticResource SmallTopMargin}" />
+                                        <ComboBox
+                                            Margin="{StaticResource XSmallTopMargin}"
+                                            HorizontalAlignment="Stretch"
+                                            AutomationProperties.LabeledBy="{Binding ElementName=OfflineDiskLabel}"
+                                            ItemsSource="{x:Bind ViewModel.BrowseOfflineFolder.Disks, Mode=OneWay}"
+                                            SelectedItem="{x:Bind ViewModel.BrowseOfflineFolder.SelectedDisk, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate x:DataType="lclviewmodels:DatabaseSelectOfflineDiskItemViewModel">
+                                                    <TextBlock Text="{x:Bind Name}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBlock
+                                            x:Name="OfflineFolderLabel"
+                                            x:Uid="DatabaseFileSettings_OfflineFolderPopupFolder"
+                                            Margin="{StaticResource SmallTopMargin}" />
+                                        <ComboBox
+                                            Margin="{StaticResource XSmallTopMargin}"
+                                            HorizontalAlignment="Stretch"
+                                            AutomationProperties.LabeledBy="{Binding ElementName=OfflineFolderLabel}"
+                                            ItemsSource="{x:Bind ViewModel.BrowseOfflineFolder.SelectedDisk.Folders, Mode=OneWay}"
+                                            SelectedItem="{x:Bind ViewModel.BrowseOfflineFolder.SelectedDisk.SelectedFolder, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate x:DataType="lclviewmodels:DatabaseSelectOfflineFolderItemViewModel">
+                                                    <TextBlock Text="{x:Bind FolderPath}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button
+                                            x:Name="ApplyOfflineFolderButton"
+                                            x:Uid="DatabaseFileSettings_OfflineFolderApplyButton"
+                                            MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                                            Margin="{StaticResource SmallTopMargin}"
+                                            Command="{x:Bind ViewModel.BrowseOfflineFolder.ApplySelectionCommand, Mode=OneWay}" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </StackPanel>
+                </ctcontrols:SettingsExpander>
+
+                <TextBlock x:Uid="DatabaseFileSettings_Checksums" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileSettings_ForceCalculateChecksumsSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8EF;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ForceCalculateChecksums, Mode=TwoWay}" />
+                </ctcontrols:SettingsCard>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,42 @@
+﻿// Copyright (c) Hugues Valois. All rights reserved.
+// Licensed under the MIT license. See LICENSE in the project root for license information.
+
+namespace Woohoo.ChecksumMatcher.Core.Services;
+
+using System.Text;
+using Woohoo.ChecksumMatcher.Core.Contracts.Services;
+using Woohoo.ChecksumMatcher.Core.Helpers;
+
+public class FileService : IFileService
+{
+    public T? Read<T>(string folderPath, string fileName)
+    {
+        var path = Path.Combine(folderPath, fileName);
+        if (File.Exists(path))
+        {
+            var json = File.ReadAllText(path);
+            return Json.ToObject<T>(json);
+        }
+
+        return default;
+    }
+
+    public void Save<T>(string folderPath, string fileName, T content)
+    {
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        var fileContent = Json.Stringify(content);
+        File.WriteAllText(Path.Combine(folderPath, fileName), fileContent, Encoding.UTF8);
+    }
+
+    public void Delete(string folderPath, string fileName)
+    {
+        if (fileName != null && File.Exists(Path.Combine(folderPath, fileName)))
+        {
+            File.Delete(Path.Combine(folderPath, fileName));
+        }
+    }
+}

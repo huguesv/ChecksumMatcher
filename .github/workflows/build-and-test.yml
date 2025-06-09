@@ -1,0 +1,70 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    env:
+      solutionFile: src/ChecksumMatcher.slnx
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Clean
+      run: dotnet clean ${{env.solutionFile}} --configuration Release && dotnet nuget locals all --clear
+
+    - name: Build
+      run: dotnet build ${{env.solutionFile}} --configuration Release
+
+    - name: Test
+      run: dotnet test ${{env.solutionFile}} --configuration Release --no-restore --verbosity detailed -- --diagnostic
+
+    - name: Upload Woohoo.ChecksumDatabase.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.ChecksumDatabase.UnitTest-Results
+        path: bin/Release/Woohoo.ChecksumDatabase.UnitTest/TestResults
+        retention-days: 5
+      if: ${{ always() }}
+
+    - name: Upload Woohoo.IO.Compression.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.IO.Compression.UnitTest-Results
+        path: bin/Release/Woohoo.IO.Compression.UnitTest/TestResults
+        retention-days: 5
+      if: ${{ always() }}
+
+    - name: Woohoo.IO.AbstractFileSystem.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.IO.AbstractFileSystem.UnitTest-Results
+        path: bin/Release/Woohoo.IO.AbstractFileSystem.UnitTest/TestResults
+        retention-days: 5
+      if: ${{ always() }}
+
+    - name: Upload Woohoo.ChecksumMatcher.Core.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.ChecksumMatcher.Core.UnitTest-Results
+        path: bin/Release/Woohoo.ChecksumMatcher.Core.UnitTest/TestResults
+        retention-days: 5
+      if: ${{ always() }}
+
+    - name: Upload Woohoo.ChecksumMatcher.WinUI.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.ChecksumMatcher.WinUI.UnitTest-Results
+        path: bin/Release/Woohoo.ChecksumMatcher.WinUI.UnitTest/TestResults
+        retention-days: 5
+      if: ${{ always() }}

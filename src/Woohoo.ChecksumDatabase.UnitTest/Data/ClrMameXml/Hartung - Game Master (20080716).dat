@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE datafile PUBLIC "-//Logiqx//DTD ROM Management Datafile//EN" "http://www.logiqx.com/Dats/datafile.dtd">
+
+<datafile>
+	<header>
+		<name>Hartung - Game Master</name>
+		<description>Hartung - Game Master</description>
+		<category>no-intro romset</category>
+		<version>20080716</version>
+		<author>incog | www.no-intro.org</author>
+		<clrmamepro/>
+	</header>
+	<game name="[Bios] Hartung Game Master">
+		<description>[Bios] Hartung Game Master</description>
+		<manufacturer></manufacturer>
+		<rom name="[Bios] Hartung Game Master.bin" size="4096" crc="05cc45e5" md5="6bff08b5e5f96de405cd56d5f04a08f8" sha1="05d73638dea9657ccc2791c0202d9074a4782c1e"/>
+	</game>
+	<game name="Bubble Boy">
+		<description>Bubble Boy</description>
+		<manufacturer></manufacturer>
+		<rom name="Bubble Boy.bin" size="16384" crc="edd0679d" md5="a03ca20479ff776e0217313edafe4047" sha1="5f6f81b1a5ba6d21e5fb5bc38aa9ee0770b46b97"/>
+	</game>
+	<game name="Continental Galaxy 2020">
+		<description>Continental Galaxy 2020</description>
+		<manufacturer></manufacturer>
+		<rom name="Continental Galaxy 2020.bin" size="16384" crc="fedec9d5" md5="cb8b5a9e6f73fc86dc5837869492e837" sha1="f2afe09e8b6368cf2fb956afe7fd055107f943ee"/>
+	</game>
+	<game name="Dungeon Adventure">
+		<description>Dungeon Adventure</description>
+		<manufacturer></manufacturer>
+		<rom name="Dungeon Adventure.bin" size="32768" crc="60afb4b5" md5="809df2a9559f6a860c877f914912aa88" sha1="6048a84ac5a5a51a6522c662398e44cdf2934588"/>
+	</game>
+	<game name="Falling Block!">
+		<description>Falling Block!</description>
+		<manufacturer></manufacturer>
+		<rom name="Falling Block!.bin" size="8192" crc="58e409fb" md5="fd09a58f4dcd275dcbc5f1d4bc2f3e09" sha1="f6f7e3dae361fbd56d4a8457d81bb4f3828c48ab"/>
+	</game>
+	<game name="Go Bang">
+		<description>Go Bang</description>
+		<manufacturer></manufacturer>
+		<rom name="Go Bang.bin" size="16384" crc="fda2c4e6" md5="c2e198743c83fea5b5176c8811f334f2" sha1="959c16b1657154bb352cb4d6a3e177d7b46850c6"/>
+	</game>
+	<game name="Hyper Space">
+		<description>Hyper Space</description>
+		<manufacturer></manufacturer>
+		<rom name="Hyper Space.bin" size="32768" crc="95e0ceac" md5="2ec75fcdf4ec1c87d86215caa5d26193" sha1="b3f95ea3dbc881262e734a2e35feb44a1ddd5641"/>
+	</game>
+	<game name="Kung Fu Challenge">
+		<description>Kung Fu Challenge</description>
+		<manufacturer></manufacturer>
+		<rom name="Kung Fu Challenge.bin" size="32768" crc="3ea0670b" md5="9da233d4ce78262063087cbd72f7c7a1" sha1="01647f87f59f2b05bb46f7bdb2fab38bcd8e3d6e"/>
+	</game>
+	<game name="Pin Ball">
+		<description>Pin Ball</description>
+		<manufacturer></manufacturer>
+		<rom name="Pin Ball.bin" size="32768" crc="f5ffc768" md5="ea07da74db1cec925554e216e18a77ad" sha1="1a30e6b969a8f3824e1aae0bbeb38dabbc75da8b"/>
+	</game>
+	<game name="Space Castle">
+		<description>Space Castle</description>
+		<manufacturer></manufacturer>
+		<rom name="Space Castle.bin" size="16384" crc="11d734f1" md5="db6f4c5272d6d400339bbae4b27aeca8" sha1="6b213a19fc65e967b1b6beba4c4e9e1491b59268"/>
+	</game>
+	<game name="Tennis Master">
+		<description>Tennis Master</description>
+		<manufacturer></manufacturer>
+		<rom name="Tennis Master.bin" size="32768" crc="48d425cf" md5="c8a03104f14efb82614377258c930b6e" sha1="080642009569d7cfdb3d1afe0ce5315842ce4ae8"/>
+	</game>
+	<game name="Urban Champion">
+		<description>Urban Champion</description>
+		<manufacturer></manufacturer>
+		<rom name="Urban Champion.bin" size="32768" crc="d53e6cac" md5="052b4ee08184b1dda2af62d5b2cec46a" sha1="0bea8b120b3cb02136519010cb217fd0b819617d"/>
+	</game>
+</datafile>

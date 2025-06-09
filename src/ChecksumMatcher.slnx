@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../LICENSE" />
+    <File Path="../README.md" />
+    <File Path="Common/Common.AssemblyInfo.cs" />
+    <File Path="Common/Requires.cs" />
+    <File Path="Common/stylecop.json" />
+    <File Path="Common/ValidatedNotNullAttribute.cs" />
+  </Folder>
+  <Project Path="Woohoo.ChecksumDatabase.UnitTest/Woohoo.ChecksumDatabase.UnitTest.csproj" />
+  <Project Path="Woohoo.ChecksumDatabase/Woohoo.ChecksumDatabase.csproj" />
+  <Project Path="Woohoo.ChecksumMatcher.Core.UnitTest/Woohoo.ChecksumMatcher.Core.UnitTest.csproj" Id="fc4e89b9-1192-4f4a-985d-0a80c9b3d904" />
+  <Project Path="Woohoo.ChecksumMatcher.Core/Woohoo.ChecksumMatcher.Core.csproj" />
+  <Project Path="Woohoo.ChecksumMatcher.WinUI.UnitTest/Woohoo.ChecksumMatcher.WinUI.UnitTest.csproj" Id="76e4891b-984d-43e1-9539-a8ff2a6f739d">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="Woohoo.ChecksumMatcher.WinUI/Woohoo.ChecksumMatcher.WinUI.csproj">
+    <Platform Project="x64" />
+    <Deploy />
+  </Project>
+  <Project Path="Woohoo.IO.AbstractFileSystem.UnitTest/Woohoo.IO.AbstractFileSystem.UnitTest.csproj" Id="d6a396d6-97a7-4606-b5ff-98cb8a838edf" />
+  <Project Path="Woohoo.IO.AbstractFileSystem/Woohoo.IO.AbstractFileSystem.csproj" />
+  <Project Path="Woohoo.IO.Compression.UnitTest/Woohoo.IO.Compression.UnitTest.csproj" />
+  <Project Path="Woohoo.IO.Compression/Woohoo.IO.Compression.csproj" Id="90075ff4-02b2-4999-8bda-b8141360f7d8" />
+</Solution>
