@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.OfflineStorageFolderSelectionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:local="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="{StaticResource SmallTopBottomMargin}" Orientation="Vertical">
+        <TextBlock Text="Offline disk" />
+        <ComboBox
+            MinWidth="{StaticResource TextBoxDefaultMinWidth}"
+            Margin="{StaticResource SmallTopMargin}"
+            ItemsSource="{x:Bind ViewModel.Disks, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedDisk, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="lclviewmodels:OfflineStorageFolderSelectionDiskItemViewModel">
+                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Margin="{StaticResource MediumTopMargin}" Text="Offline folder" />
+        <ComboBox
+            MinWidth="{StaticResource PathTextBoxDefaultMinWidth}"
+            Margin="{StaticResource SmallTopMargin}"
+            ItemsSource="{x:Bind ViewModel.SelectedDisk.Folders, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedDisk.SelectedFolder, Mode=TwoWay}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="lclviewmodels:OfflineStorageFolderSelectionFolderItemViewModel">
+                    <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
+
+</Page>

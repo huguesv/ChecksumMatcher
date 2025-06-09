@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://tempuri.org/softwarelist" elementFormDefault="qualified" targetNamespace="http://tempuri.org/softwarelist" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="softwarelist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" ref="notes" />
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="software" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="description" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="notes" type="xs:string" />
+  <xs:element name="software">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="description" />
+        <xs:element ref="year" />
+        <xs:element ref="publisher" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="notes" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="info" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="sharedfeat" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="part" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="cloneof" type="xs:string" />
+      <xs:attribute default="yes" name="supported">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="yes" />
+            <xs:enumeration value="partial" />
+            <xs:enumeration value="no" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="description" type="xs:string" />
+  <xs:element name="year" type="xs:string" />
+  <xs:element name="publisher" type="xs:string" />
+  <xs:element name="info">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sharedfeat">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="part">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="feature" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="dataarea" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="diskarea" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="dipswitch" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="interface" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feature">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dataarea">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="rom" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="size" type="xs:string" use="required" />
+      <xs:attribute default="8" name="width">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="8" />
+            <xs:enumeration value="16" />
+            <xs:enumeration value="32" />
+            <xs:enumeration value="64" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute default="little" name="endianness">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="big" />
+            <xs:enumeration value="little" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="rom">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" />
+      <xs:attribute name="size" type="xs:string" />
+      <xs:attribute name="crc" type="xs:string" />
+      <xs:attribute name="sha1" type="xs:string" />
+      <xs:attribute name="offset" type="xs:string" />
+      <xs:attribute name="value" type="xs:string" />
+      <xs:attribute default="good" name="status">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="baddump" />
+            <xs:enumeration value="nodump" />
+            <xs:enumeration value="good" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="loadflag">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="load16_byte" />
+            <xs:enumeration value="load16_word" />
+            <xs:enumeration value="load16_word_swap" />
+            <xs:enumeration value="load32_byte" />
+            <xs:enumeration value="load32_word" />
+            <xs:enumeration value="load32_word_swap" />
+            <xs:enumeration value="load32_dword" />
+            <xs:enumeration value="load64_word" />
+            <xs:enumeration value="load64_word_swap" />
+            <xs:enumeration value="reload" />
+            <xs:enumeration value="fill" />
+            <xs:enumeration value="continue" />
+            <xs:enumeration value="reload_plain" />
+            <xs:enumeration value="ignore" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="diskarea">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="disk" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="disk">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="sha1" type="xs:string" />
+      <xs:attribute default="good" name="status">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="baddump" />
+            <xs:enumeration value="nodump" />
+            <xs:enumeration value="good" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute default="no" name="writeable">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="yes" />
+            <xs:enumeration value="no" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dipswitch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="dipvalue" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="tag" type="xs:string" use="required" />
+      <xs:attribute name="mask" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dipvalue">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" use="required" />
+      <xs:attribute default="no" name="default">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="yes" />
+            <xs:enumeration value="no" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

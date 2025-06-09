@@ -1,0 +1,74 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    timeout-minutes: 10
+    env:
+      dotnetActionVersion: '10.0.x'
+      dotnetBuildVersion: 'net10.0'
+      solutionFile: ChecksumMatcher.slnx
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.dotnetActionVersion }}
+
+    - name: Clean
+      working-directory: src
+      run: dotnet clean ${{env.solutionFile}} --configuration Release && dotnet nuget locals all --clear
+
+    - name: Build
+      working-directory: src
+      run: dotnet build ${{env.solutionFile}} --configuration Release
+
+    - name: Format
+      working-directory: src
+      run: dotnet format ${{env.solutionFile}} --verify-no-changes --verbosity diagnostic
+
+    - name: Test
+      working-directory: src
+      run: dotnet test --solution ${{env.solutionFile}} --no-restore --verbosity normal --configuration Release
+
+    - name: Upload Woohoo.ChecksumDatabase.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.ChecksumDatabase.UnitTest-Results
+        path: src/Woohoo.ChecksumDatabase.UnitTest/bin/Release/${{ env.dotnetBuildVersion }}/TestResults
+        retention-days: 5
+      if: ${{ always() }}
+
+    - name: Upload Woohoo.IO.Compression.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.IO.Compression.UnitTest-Results
+        path: src/Woohoo.IO.Compression.UnitTest/bin/Release/${{ env.dotnetBuildVersion }}/TestResults
+        retention-days: 5
+      if: ${{ always() }}
+
+    - name: Woohoo.IO.AbstractFileSystem.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.IO.AbstractFileSystem.UnitTest-Results
+        path: src/Woohoo.IO.AbstractFileSystem.UnitTest/bin/Release/${{ env.dotnetBuildVersion }}/TestResults
+        retention-days: 5
+      if: ${{ always() }}
+
+    - name: Upload Woohoo.ChecksumMatcher.Core.UnitTest Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Woohoo.ChecksumMatcher.Core.UnitTest-Results
+        path: src/Woohoo.ChecksumMatcher.Core.UnitTest/bin/Release/${{ env.dotnetBuildVersion }}/TestResults
+        retention-days: 5
+      if: ${{ always() }}
