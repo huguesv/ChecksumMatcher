@@ -1,0 +1,1487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>Checksum Matcher</value>
+  </data>
+  <data name="Shell_Main.Content" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="ListDetails_NoSelection.Text" xml:space="preserve">
+    <value>Select an item from the list.</value>
+  </data>
+  <data name="Shell_Databases.Content" xml:space="preserve">
+    <value>Databases</value>
+  </data>
+  <data name="Shell_ContentGrid.Content" xml:space="preserve">
+    <value>Hash Calculator</value>
+  </data>
+  <data name="Settings_Appearance.Text" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Settings_Audit.Text" xml:space="preserve">
+    <value>Audit</value>
+  </data>
+  <data name="Settings_Databases.Text" xml:space="preserve">
+    <value>Databases</value>
+  </data>
+  <data name="SettingsPage_ThemeExpander.Description" xml:space="preserve">
+    <value>Select which app theme to display</value>
+  </data>
+  <data name="SettingsPage_ThemeExpander.Header" xml:space="preserve">
+    <value>App theme</value>
+  </data>
+  <data name="Settings_Theme_Light.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>Use system setting</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SettingsPage_RemoveDatabaseFolderMenuItem.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SettingsPage_RemoveCueFolderMenuItem.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SettingsPage_DatabaseFolderExpander.Description" xml:space="preserve">
+    <value>Configure the folders that contain database files</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_SourceFolderExpander.Description" xml:space="preserve">
+    <value>Select the folder that contains files to be rebuilt</value>
+  </data>
+  <data name="SettingsPage_CueFolderExpander.Description" xml:space="preserve">
+    <value>Configure the folders that contain cue files for rebuild to search when a game container is missing only its cue file</value>
+  </data>
+  <data name="SettingsPage_DatabaseFolderExpander.Header" xml:space="preserve">
+    <value>Database folders</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_SourceFolderExpander.Header" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="SettingsPage_CueFolderExpander.Header" xml:space="preserve">
+    <value>Cue folders</value>
+  </data>
+  <data name="SettingsPage_AddDatabaseFolderButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="SettingsPage_AddCueFolderButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="SettingsPage_ExtractCard.Description" xml:space="preserve">
+    <value>Extract files from archives to calculate checksums instead of using the crc32 stored in the archive</value>
+  </data>
+  <data name="SettingsPage_ExtractCard.Header" xml:space="preserve">
+    <value>Extract files to calculate checksums</value>
+  </data>
+  <data name="SettingsPage_AboutExpander.Description" xml:space="preserve">
+    <value>© 2008-2025 Hugues Valois. All rights reserved.</value>
+  </data>
+  <data name="SettingsPage_AboutExpander.Header" xml:space="preserve">
+    <value>Checksum Matcher</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/huguesv/ChecksumMatcher</value>
+  </data>
+  <data name="SettingsPage_LicenseTermsLink.Content" xml:space="preserve">
+    <value>License Terms</value>
+  </data>
+  <data name="SettingsPage_LicenseTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/huguesv/ChecksumMatcher/blob/main/LICENSE</value>
+  </data>
+  <data name="SettingsPage_SendFeedback.Content" xml:space="preserve">
+    <value>Send feedback</value>
+  </data>
+  <data name="SettingsPage_SendFeedback.NavigateUri" xml:space="preserve">
+    <value>https://github.com/huguesv/ChecksumMatcher/issues</value>
+  </data>
+  <data name="AppNotificationSamplePayload" xml:space="preserve">
+    <value>&lt;toast launch="action=ToastClick"&gt;
+  &lt;visual&gt;
+    &lt;binding template="ToastGeneric"&gt;
+      &lt;text&gt;App Notification&lt;/text&gt;
+      &lt;text&gt;&lt;/text&gt;
+      &lt;image placement="appLogoOverride" hint-crop="circle" src="{0}Assets/WindowIcon.ico"/&gt;
+    &lt;/binding&gt;
+  &lt;/visual&gt;
+  &lt;actions&gt;
+    &lt;action content="Settings" arguments="action=Settings"/&gt;
+  &lt;/actions&gt;
+&lt;/toast&gt;</value>
+  </data>
+  <data name="Shell_CreateDatabase.Content" xml:space="preserve">
+    <value>Create Database</value>
+  </data>
+  <data name="MainPage_ConfigureCard.Description" xml:space="preserve">
+    <value>Specify the location of the database files.</value>
+  </data>
+  <data name="MainPage_ConfigureCard.Header" xml:space="preserve">
+    <value>Configure your database folders</value>
+  </data>
+  <data name="MainPage_AuditCard.Header" xml:space="preserve">
+    <value>Audit your files</value>
+  </data>
+  <data name="MainPage_AuditCard.Description" xml:space="preserve">
+    <value>Scan your files to see if they match the files in the database.</value>
+  </data>
+  <data name="MainPage_HashFiles.Text" xml:space="preserve">
+    <value>Hash files</value>
+  </data>
+  <data name="MainPage_OfflineStorage.Text" xml:space="preserve">
+    <value>Offline storage</value>
+  </data>
+  <data name="MainPage_CreateDatabaseCard.Header" xml:space="preserve">
+    <value>Create a checksum database</value>
+  </data>
+  <data name="MainPage_CreateDatabaseCard.Description" xml:space="preserve">
+    <value>Create a database by scanning files in a folder.</value>
+  </data>
+  <data name="MainPage_CreateDatabase.Text" xml:space="preserve">
+    <value>Create your own databases</value>
+  </data>
+  <data name="MainPage_AuditFiles.Text" xml:space="preserve">
+    <value>Audit your files</value>
+  </data>
+  <data name="MainPage_HashCard.Header" xml:space="preserve">
+    <value>Calculate file hash</value>
+  </data>
+  <data name="MainPage_HashCard.Description" xml:space="preserve">
+    <value>Calculate and display an individual file's CRC32, MD5 and SHA1 checksums.</value>
+  </data>
+  <data name="MainPage_OfflineStorageView.Description" xml:space="preserve">
+    <value>Explore and search your offline storage</value>
+  </data>
+  <data name="MainPage_OfflineStorageCreate.Description" xml:space="preserve">
+    <value>Index the contents of your external hard drives to offline storage files</value>
+  </data>
+  <data name="MainPage_OfflineStorageCreate.Header" xml:space="preserve">
+    <value>Create an offline storage file</value>
+  </data>
+  <data name="MainPage_OfflineStorageView.Header" xml:space="preserve">
+    <value>View offline storage</value>
+  </data>
+  <data name="MainPage_DownloadDatabases.Text" xml:space="preserve">
+    <value>Download databases from online preservation groups</value>
+  </data>
+  <data name="MainPage_DownloadCard.ActionIconToolTip" xml:space="preserve">
+    <value>Open in web browser</value>
+  </data>
+  <data name="CreateDatabasePage_Name.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="CreateDatabasePage_Author.Text" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="CreateDatabasePage_Version.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="CreateDatabasePage_Url.Text" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="CreateDatabasePage_CreateButton.Content" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateDatabasePage_CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateDatabasePage_BrowseSourceFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateDatabasePage_BrowseDestinationFileButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateDatabasePage_BrowseSourceFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Source Folder</value>
+  </data>
+  <data name="CreateDatabasePage_BrowseDestinationFileButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Database Destination File</value>
+  </data>
+  <data name="CreateDatabasePage_DatabaseDestinationFile.Text" xml:space="preserve">
+    <value>Database destination file</value>
+  </data>
+  <data name="CreateDatabasePage_SourceFolder.Text" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_Name.Text" xml:space="preserve">
+    <value>Disk name</value>
+  </data>
+  <data name="CreateOfflineStoragePage_CreateButton.Content" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateOfflineStoragePage_CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseSourceFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseTargetFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseSourceFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Source Folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseTargetFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Target Folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseTargetFolderButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Browse Target Folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_TargetFolder.Text" xml:space="preserve">
+    <value>Target folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_SourceFolder.Text" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="DatabaseFileRebuild_SourceFolder.Text" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="DatabaseFileRebuild_BrowseSourceFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Source Folder</value>
+  </data>
+  <data name="DatabaseFileRebuild_BrowseSourceFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="DatabaseFileRebuild_TargetFolder.Text" xml:space="preserve">
+    <value>Target folder</value>
+  </data>
+  <data name="DatabaseFileRebuild_BrowseTargetFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Target Folder</value>
+  </data>
+  <data name="DatabaseFileRebuild_BrowseTargetFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="DatabaseFileRebuild_RebuildButton.Content" xml:space="preserve">
+    <value>Rebuild</value>
+  </data>
+  <data name="ScanPage_ScanButton.Content" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="ScanPage_CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DatabaseFileRebuild_CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ScanPage_ClearResultsButton.Content" xml:space="preserve">
+    <value>Clear Results</value>
+  </data>
+  <data name="DatabaseFileRebuild_ClearResultsButton.Content" xml:space="preserve">
+    <value>Clear Results</value>
+  </data>
+  <data name="SettingsPage_RemoveOfflineFolderMenuItem.Text" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SettingsPage_AddOfflineFolderButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="SettingsPage_OfflineFolderExpander.Header" xml:space="preserve">
+    <value>Offline storage folders</value>
+  </data>
+  <data name="SettingsPage_OfflineFolderExpander.Description" xml:space="preserve">
+    <value>Configure the folders that contain offline storage index files</value>
+  </data>
+  <data name="Settings_OfflineStorage.Text" xml:space="preserve">
+    <value>Offline storage</value>
+  </data>
+  <data name="Shell_CreateDisk.Content" xml:space="preserve">
+    <value>Create Offline Storage</value>
+  </data>
+  <data name="Shell_OfflineExplorer.Content" xml:space="preserve">
+    <value>Offline Storage Explorer</value>
+  </data>
+  <data name="ScanPage_SelectorBarItemSummary.Text" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="DatabaseFileRebuild_TargetContainerType.Text" xml:space="preserve">
+    <value>Target container type</value>
+  </data>
+  <data name="DatabaseFileRebuild_RemoveSource.Content" xml:space="preserve">
+    <value>Remove matched source files</value>
+  </data>
+  <data name="DatabaseFileRebuild_FindMissingCue.Content" xml:space="preserve">
+    <value>When only cue file is missing, look for it in configured cue folder</value>
+  </data>
+  <data name="DatabaseFileRebuild_ForceCalculateChecksums.Content" xml:space="preserve">
+    <value>Extract files from archives to calculate checksums instead of using the crc32 stored in the archive</value>
+  </data>
+  <data name="Settings_OfflineStorageExplorer.Text" xml:space="preserve">
+    <value>Offline storage explorer</value>
+  </data>
+  <data name="SettingsPage_ShowArchivesInTree.Header" xml:space="preserve">
+    <value>Show archives in tree</value>
+  </data>
+  <data name="SettingsPage_ShowArchivesInTree.Description" xml:space="preserve">
+    <value>Show zip and 7z files in the tree view just like folders</value>
+  </data>
+  <data name="Settings_ExplorerFolderSortPriority_First.Content" xml:space="preserve">
+    <value>Folders before files</value>
+  </data>
+  <data name="Settings_ExplorerFolderSortPriority_Last.Content" xml:space="preserve">
+    <value>Folders after files</value>
+  </data>
+  <data name="Settings_ExplorerFolderSortPriority_Mixed.Content" xml:space="preserve">
+    <value>Folders mixed with files</value>
+  </data>
+  <data name="SettingsPage_ExplorerFolderSortPriority.Header" xml:space="preserve">
+    <value>Folder sort priority</value>
+  </data>
+  <data name="SettingsPage_ExplorerFolderSortPriority.Description" xml:space="preserve">
+    <value>Choose whether folders should be sorted before the files, with the files or after the files</value>
+  </data>
+  <data name="SettingsPage_ExplorerArchiveGrouping.Description" xml:space="preserve">
+    <value>Choose whether zip and 7z files are listed together with files or with folders</value>
+  </data>
+  <data name="SettingsPage_ExplorerArchiveGrouping.Header" xml:space="preserve">
+    <value>Archive file grouping</value>
+  </data>
+  <data name="Settings_ExplorerArchiveGrouping_WithFiles.Content" xml:space="preserve">
+    <value>Group with files</value>
+  </data>
+  <data name="Settings_ExplorerArchiveGrouping_WithFolders.Content" xml:space="preserve">
+    <value>Group with folders</value>
+  </data>
+  <data name="CreateOfflineStoragePage_RefreshDrivesButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="CreateOfflineStoragePage_RefreshDrivesButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Settings_Redump.Text" xml:space="preserve">
+    <value>Redump.org</value>
+  </data>
+  <data name="SettingsPage_RedumpUser.Header" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="SettingsPage_RedumpPassword.Header" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SettingsPage_RedumpUser.Description" xml:space="preserve">
+    <value>Enter your redump.org user name</value>
+  </data>
+  <data name="SettingsPage_RedumpPassword.Description" xml:space="preserve">
+    <value>Warning: The password is sent as clear text to redump.org (the site does not support https)</value>
+  </data>
+  <data name="SettingsPage_RedumpFolder.Header" xml:space="preserve">
+    <value>Artifacts folder</value>
+  </data>
+  <data name="SettingsPage_RedumpFolder.Description" xml:space="preserve">
+    <value>Folder where redump.org artifacts are downloaded</value>
+  </data>
+  <data name="SettingsPage_RedumpFolderRemoveMenuItem.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="SettingsPage_RedumpFolderDeleteContentsMenuItem.Text" xml:space="preserve">
+    <value>Delete all contents</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_SourceFolderRemoveMenuItem.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="SettingsPage_RedumpFolderSelectButton.Content" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_SourceFolderSelectButton.Content" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="SettingsPage_RedumpLogin.Header" xml:space="preserve">
+    <value>Credentials</value>
+  </data>
+  <data name="SettingsPage_RedumpLogin.Description" xml:space="preserve">
+    <value>Enter credentials of a user with dumper status to enable download of private artifacts from redump.org</value>
+  </data>
+  <data name="SettingsPage_RedumpCredentialsTestButton.Content" xml:space="preserve">
+    <value>Test credentials</value>
+  </data>
+  <data name="SettingsPage_RedumpDownloadButton.Content" xml:space="preserve">
+    <value>Download now</value>
+  </data>
+  <data name="SettingsPage_RedumpCancelDownloadButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SettingsPage_RedumpDownload.Header" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="SettingsPage_RedumpDownload.Description" xml:space="preserve">
+    <value>Start a download of redump artifacts</value>
+  </data>
+  <data name="Settings_Notifications.Text" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="SettingsPage_WindowsNotifications.Header" xml:space="preserve">
+    <value>Windows notifications</value>
+  </data>
+  <data name="SettingsPage_WindowsNotifications.Description" xml:space="preserve">
+    <value>Send a notification when an operation completes</value>
+  </data>
+  <data name="SettingsPage_SystemSounds.Header" xml:space="preserve">
+    <value>System sounds</value>
+  </data>
+  <data name="SettingsPage_SystemSounds.Description" xml:space="preserve">
+    <value>Play a system sound when an operation completes</value>
+  </data>
+  <data name="OfflineExplorerPage_NewButton.Content" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="OfflineExplorerPage_DiskLoading.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="OfflineExplorerPage_DisksLoading.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="OfflineExplorerPage_QueryTextBox.PlaceholderText" xml:space="preserve">
+    <value>Search recursively for file name, size or checksum</value>
+  </data>
+  <data name="DatabaseFileDetails_SelectorBarItemInfo.Text" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="DatabaseFileDetails_SelectorBarItemGames.Text" xml:space="preserve">
+    <value>Contents</value>
+  </data>
+  <data name="DatabaseFileDetails_SelectorBarItemScan.Text" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="DatabaseFileDetails_SelectorBarItemRebuild.Text" xml:space="preserve">
+    <value>Rebuild</value>
+  </data>
+  <data name="DatabaseFileDetails_SelectorBarItemScanSettings.Text" xml:space="preserve">
+    <value>Scan settings</value>
+  </data>
+  <data name="DatabaseFileDetails_SelectorBarItemRebuildSettings.Text" xml:space="preserve">
+    <value>Rebuild settings</value>
+  </data>
+  <data name="DatabaseFolderDetails_SelectorBarItemInfo.Text" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="DatabaseFolderDetails_SelectorBarItemScan.Text" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="DatabaseFolderDetails_SelectorBarItemScanSettings.Text" xml:space="preserve">
+    <value>Scan settings</value>
+  </data>
+  <data name="DatabaseFileInfo_DatabaseHeaderExpander.Header" xml:space="preserve">
+    <value>Database header</value>
+  </data>
+  <data name="DatabaseFileInfo_DatabaseHeaderExpander.Description" xml:space="preserve">
+    <value>Metadata stored in the database header section</value>
+  </data>
+  <data name="DatabaseFileInfo_DatabaseStatsExpander.Header" xml:space="preserve">
+    <value>Database statistics</value>
+  </data>
+  <data name="DatabaseFolderInfo_DatabaseStatsExpander.Header" xml:space="preserve">
+    <value>Databases statistics</value>
+  </data>
+  <data name="DatabaseFileInfo_DatabaseStatsExpander.Description" xml:space="preserve">
+    <value>Statistics for the containers and files listed in the database</value>
+  </data>
+  <data name="DatabaseFolderInfo_DatabaseStatsExpander.Description" xml:space="preserve">
+    <value>Statistics for the containers and files listed in the databases under this folder</value>
+  </data>
+  <data name="DatabaseFileInfo_CopyHeaderButton.Content" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="DatabaseFileInfo_CopyStatsButton.Content" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="DatabaseFolderInfo_CopyStatsButton.Content" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="DatabaseFileInfo_StatsContainerCount.Text" xml:space="preserve">
+    <value>Container count</value>
+  </data>
+  <data name="DatabaseFolderInfo_StatsContainerCount.Text" xml:space="preserve">
+    <value>Container count</value>
+  </data>
+  <data name="DatabaseFolderInfo_StatsContainerCountCalculating.Text" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="DatabaseFolderInfo_StatsDatabaseCount.Text" xml:space="preserve">
+    <value>Database count</value>
+  </data>
+  <data name="DatabaseFolderInfo_StatsDatabaseCountCalculating.Text" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="DatabaseFileInfo_StatsTotalSize.Text" xml:space="preserve">
+    <value>Total size</value>
+  </data>
+  <data name="DatabaseFolderInfo_StatsTotalSize.Text" xml:space="preserve">
+    <value>Total size</value>
+  </data>
+  <data name="DatabaseFolderInfo_StatsTotalSizeCalculating.Text" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="DatabaseFileInfo_StatsTotalFileCount.Text" xml:space="preserve">
+    <value>Total file count</value>
+  </data>
+  <data name="DatabaseFolderInfo_StatsTotalFileCount.Text" xml:space="preserve">
+    <value>Total file count</value>
+  </data>
+  <data name="DatabaseFolderInfo_StatsTotalFileCountCalculating.Text" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderHomepage.Text" xml:space="preserve">
+    <value>Homepage</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderEmail.Text" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderAuthor.Text" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="DatabaseFileInfo_DatabaseMetadata.Text" xml:space="preserve">
+    <value>Database metadata</value>
+  </data>
+  <data name="DatabaseFolderInfo_DatabaseMetadata.Text" xml:space="preserve">
+    <value>Database metadata</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderDate.Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderVersion.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderComment.Text" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderUrl.Text" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderCategory.Text" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="DatabaseFileInfo_HeaderDescription.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DatabaseFileScan_MatchedOpenInExplorerMenuItem.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameOpenInExplorerMenuItem.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="DatabaseFileScan_UnusedOpenInExplorerMenuItem.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="DatabaseFileScan_MatchedCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="DatabaseFileScan_MatchedCopyContainerNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Container Name</value>
+  </data>
+  <data name="DatabaseFileRebuild_MatchedCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="DatabaseFileRebuild_MatchedCopyContainerNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Container Name</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyActualNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Actual Name</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyActualContainerNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Actual Container Name</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyExpectedNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Expected Name</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyExpectedContainerNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Expected Container Name</value>
+  </data>
+  <data name="DatabaseFileScan_MissingCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="DatabaseFileScan_MissingCopyContainerNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Container Name</value>
+  </data>
+  <data name="DatabaseFileScan_UnusedCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="DatabaseFileScan_UnusedCopyContainerNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Container Name</value>
+  </data>
+  <data name="DatabaseFileRebuild_UnusedCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="DatabaseFileScan_MatchedCopyAllNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Names</value>
+  </data>
+  <data name="DatabaseFileScan_MatchedCopyAllContainerNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Container Names</value>
+  </data>
+  <data name="DatabaseFileRebuild_MatchedCopyAllNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Names</value>
+  </data>
+  <data name="DatabaseFileRebuild_MatchedCopyAllContainerNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Container Names</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyAllNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Names</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyAllExpectedNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Expected Names</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyAllExpectedContainerNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Expected Container Names</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyAllActualNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Actual Names</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyAllActualContainerNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Actual Container Names</value>
+  </data>
+  <data name="DatabaseFileScan_UnusedCopyAllNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Names</value>
+  </data>
+  <data name="DatabaseFileScan_UnusedCopyAllContainerNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Container Names</value>
+  </data>
+  <data name="DatabaseFileRebuild_UnusedCopyAllNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Names</value>
+  </data>
+  <data name="DatabaseFileScan_MissingCopyAllNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Names</value>
+  </data>
+  <data name="DatabaseFileScan_MissingCopyAllContainerNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Container Names</value>
+  </data>
+  <data name="DatabaseFileScan_MatchedCopyToClipboardMenuItem.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="DatabaseFileRebuild_MatchedCopyToClipboardMenuItem.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameCopyToClipboardMenuItem.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="DatabaseFileScan_MissingCopyToClipboardMenuItem.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="DatabaseFileRebuild_MissingCopyToClipboardMenuItem.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="DatabaseFileScan_UnusedCopyToClipboardMenuItem.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="DatabaseFileRebuild_UnusedCopyToClipboardMenuItem.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameActual.Text" xml:space="preserve">
+    <value>Actual</value>
+  </data>
+  <data name="DatabaseFileScan_IncorrectNameExpected.Text" xml:space="preserve">
+    <value>Expected</value>
+  </data>
+  <data name="DatabaseFileGames_GameCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="DatabaseFileGames_RomCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="DatabaseFileGames_RomCopySizeMenuItem.Text" xml:space="preserve">
+    <value>Copy Size</value>
+  </data>
+  <data name="DatabaseFileGames_RomCopySha256MenuItem.Text" xml:space="preserve">
+    <value>Copy SHA256</value>
+  </data>
+  <data name="DatabaseFileGames_RomCopySha1MenuItem.Text" xml:space="preserve">
+    <value>Copy SHA1</value>
+  </data>
+  <data name="DatabaseFileGames_RomCopyCrc32MenuItem.Text" xml:space="preserve">
+    <value>Copy CRC32</value>
+  </data>
+  <data name="DatabaseFileGames_RomCopyMd5MenuItem.Text" xml:space="preserve">
+    <value>Copy MD5</value>
+  </data>
+  <data name="DatabaseFileGames_RomName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="DatabaseFileGames_RomSize.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="DatabaseFileGames_RomCrc32.Text" xml:space="preserve">
+    <value>CRC32</value>
+  </data>
+  <data name="DatabaseFileGames_RomMd5.Text" xml:space="preserve">
+    <value>MD5</value>
+  </data>
+  <data name="DatabaseFileGames_RomSha1.Text" xml:space="preserve">
+    <value>SHA1</value>
+  </data>
+  <data name="DatabaseFileGames_RomSha256.Text" xml:space="preserve">
+    <value>SHA256</value>
+  </data>
+  <data name="DatabaseFileGames_ScanStatusFilterButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Scan Status Filter</value>
+  </data>
+  <data name="DatabaseFileGames_DumpStatusFilterButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Dump Status Filter</value>
+  </data>
+  <data name="DatabaseFileGames_ScanStatusFilterAllMenuItem.Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="DatabaseFileGames_DumpStatusFilterAllMenuItem.Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="DatabaseFileGames_DumpStatusFilterVerifiedMenuItem.Text" xml:space="preserve">
+    <value>Verified</value>
+  </data>
+  <data name="DatabaseFileGames_DumpStatusFilterNoDumpMenuItem.Text" xml:space="preserve">
+    <value>No Dump</value>
+  </data>
+  <data name="DatabaseFileGames_DumpStatusFilterGoodMenuItem.Text" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="DatabaseFileGames_DumpStatusFilterBadMenuItem.Text" xml:space="preserve">
+    <value>Bad</value>
+  </data>
+  <data name="DatabaseFileGames_ScanStatusFilterCompleteMenuItem.Text" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="DatabaseFileGames_ScanStatusFilterPartialMenuItem.Text" xml:space="preserve">
+    <value>Partial</value>
+  </data>
+  <data name="DatabaseFileGames_ScanStatusFilterMissingMenuItem.Text" xml:space="preserve">
+    <value>Missing</value>
+  </data>
+  <data name="DatabaseFileGames_ScanStatusFilterIncorrectNameMenuItem.Text" xml:space="preserve">
+    <value>Wrong Name</value>
+  </data>
+  <data name="DatabaseFileGames_Query.Text" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="DatabaseFileGames_FilterTextBox.PlaceholderText" xml:space="preserve">
+    <value>Search for name, size or checksum</value>
+  </data>
+  <data name="DatabaseLibraryPage_FilterTextBox.PlaceholderText" xml:space="preserve">
+    <value>Search for name</value>
+  </data>
+  <data name="DatabaseFileGames_FilterOfSeparator.Text" xml:space="preserve">
+    <value> of </value>
+  </data>
+  <data name="DatabaseFileSettings_LocalStorage.Text" xml:space="preserve">
+    <value>Local storage</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalStorage.Text" xml:space="preserve">
+    <value>Local storage</value>
+  </data>
+  <data name="DatabaseFileSettings_UseLocalStorageSettingsCard.Header" xml:space="preserve">
+    <value>Use local folder storage</value>
+  </data>
+  <data name="DatabaseFolderSettings_UseLocalStorageSettingsCard.Header" xml:space="preserve">
+    <value>Use local folder storage</value>
+  </data>
+  <data name="DatabaseFileSettings_UseLocalStorageSettingsCard.Description" xml:space="preserve">
+    <value>Scan will use the list of included local folders</value>
+  </data>
+  <data name="DatabaseFolderSettings_UseLocalStorageSettingsCard.Description" xml:space="preserve">
+    <value>Scan will use the list of included local folders</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFoldersSettingsExpander.Header" xml:space="preserve">
+    <value>Local folders</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFoldersSettingsExpander.Header" xml:space="preserve">
+    <value>Local folders</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFoldersSettingsExpander.Header" xml:space="preserve">
+    <value>Offline folders</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFoldersSettingsExpander.Header" xml:space="preserve">
+    <value>Offline folders</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFoldersSettingsExpander.Description" xml:space="preserve">
+    <value>Configure the offline folders to scan</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFoldersSettingsExpander.Description" xml:space="preserve">
+    <value>Configure the offline parent folders used to determine the folders to scan (path is joined with the database name)</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFoldersSettingsExpander.Description" xml:space="preserve">
+    <value>Configure the local folders to scan</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFoldersSettingsExpander.Description" xml:space="preserve">
+    <value>Configure the parent folders used to determine the folders to scan (path is joined with the database name)</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineStorage.Text" xml:space="preserve">
+    <value>Offline storage</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineStorage.Text" xml:space="preserve">
+    <value>Offline storage</value>
+  </data>
+  <data name="DatabaseFileSettings_UseOfflineStorageSettingsCard.Header" xml:space="preserve">
+    <value>Use offline folder storage</value>
+  </data>
+  <data name="DatabaseFolderSettings_UseOfflineStorageSettingsCard.Header" xml:space="preserve">
+    <value>Use offline folder storage</value>
+  </data>
+  <data name="DatabaseFileSettings_UseOfflineStorageSettingsCard.Description" xml:space="preserve">
+    <value>Scan will use the list of included offline folders</value>
+  </data>
+  <data name="DatabaseFolderSettings_UseOfflineStorageSettingsCard.Description" xml:space="preserve">
+    <value>Scan will use the list of included offline folders</value>
+  </data>
+  <data name="DatabaseFileSettings_ForceCalculateChecksumsSettingsCard.Header" xml:space="preserve">
+    <value>Force calculate all checksums</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_ForceCalculateChecksumsSettingsCard.Header" xml:space="preserve">
+    <value>Force calculate all checksums</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_FindMissingCueSettingsCard.Header" xml:space="preserve">
+    <value>Find missing .cue files</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetContainerTypeSettingsCard.Header" xml:space="preserve">
+    <value>Target container type</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_RemoveSourceSettingsCard.Header" xml:space="preserve">
+    <value>Remove matched files</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TorrentZipIncompleteSettingsCard.Header" xml:space="preserve">
+    <value>TorrentZip incomplete containers</value>
+  </data>
+  <data name="DatabaseFileSettings_ForceCalculateChecksumsSettingsCard.Description" xml:space="preserve">
+    <value>Extract the files from archives to calculate checksums instead of relying on the reported archive checksums</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_ForceCalculateChecksumsSettingsCard.Description" xml:space="preserve">
+    <value>Extract the files from archives to calculate checksums instead of relying on the reported archive checksums</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_FindMissingCueSettingsCard.Description" xml:space="preserve">
+    <value>When only cue file is missing, look for it in configured cue folder</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetContainerTypeSettingsCard.Description" xml:space="preserve">
+    <value>Choose whether the rebuilt files are stored in a regular folder or compressed into archives</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_RemoveSourceSettingsCard.Description" xml:space="preserve">
+    <value>Files are removed from the source folder when they are rebuilt (when container format allows it)</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TorrentZipIncompleteSettingsCard.Description" xml:space="preserve">
+    <value>Ensure that rebuilt containers are TorrentZip/Torrent7z even when incomplete</value>
+  </data>
+  <data name="DatabaseFileSettings_Checksums.Text" xml:space="preserve">
+    <value>Checksums</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_Target.Text" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetFolderEmptyError.Text" xml:space="preserve">
+    <value>Please select a folder</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_SourceFolderEmptyError.Text" xml:space="preserve">
+    <value>Please select a folder</value>
+  </data>
+  <data name="DatabaseFolderSettings_Checksums.Text" xml:space="preserve">
+    <value>Checksums</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFolderRemoveMenuItem.Text" xml:space="preserve">
+    <value>Remove folder</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFolderOpenMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFolderRemoveMenuItem.Text" xml:space="preserve">
+    <value>Remove folder</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFolderOpenMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderRemoveMenuItem.Text" xml:space="preserve">
+    <value>Remove folder</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderRemoveMenuItem.Text" xml:space="preserve">
+    <value>Remove folder</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFolderAddButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFolderAddButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderAddButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderAddButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderApplyButton.Content" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderApplyButton.Content" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderPopupFolder.Text" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderPopupFolder.Text" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderPopupDisk.Text" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderPopupDisk.Text" xml:space="preserve">
+    <value>Disk</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFolderToggleSwitch.OffContent" xml:space="preserve">
+    <value>Excluded</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFolderToggleSwitch.OffContent" xml:space="preserve">
+    <value>Excluded</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderToggleSwitch.OffContent" xml:space="preserve">
+    <value>Excluded</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderToggleSwitch.OffContent" xml:space="preserve">
+    <value>Excluded</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFolderToggleSwitch.OnContent" xml:space="preserve">
+    <value>Included</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFolderToggleSwitch.OnContent" xml:space="preserve">
+    <value>Included</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderToggleSwitch.OnContent" xml:space="preserve">
+    <value>Included</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderToggleSwitch.OnContent" xml:space="preserve">
+    <value>Included</value>
+  </data>
+  <data name="DatabaseLibraryPage_NoSelection.Text" xml:space="preserve">
+    <value>No selection</value>
+  </data>
+  <data name="DatabaseLibraryPage_FolderOpenInExplorerMenuItem.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="DatabaseLibraryPage_FolderCopyAllMissingMenuItem.Text" xml:space="preserve">
+    <value>Copy All Missing Container Names</value>
+  </data>
+  <data name="DatabaseLibraryPage_FileOpenInExplorerMenuItem.Text" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="DatabaseLibraryPage_NotLoadedPleaseWait.Text" xml:space="preserve">
+    <value>Please wait...</value>
+  </data>
+  <data name="HashCalculatorPage_SelectFileAppBarButton.Label" xml:space="preserve">
+    <value>Select File...</value>
+  </data>
+  <data name="HashCalculatorPage_ClearAppBarButton.Label" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="HashCalculatorPage_CollapseAllAppBarButton.Label" xml:space="preserve">
+    <value>Collapse All</value>
+  </data>
+  <data name="HashCalculatorPage_ResultCopyButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="HashCalculatorPage_ResultCopyButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="HashCalculatorPage_ResultOpenInExplorerButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="HashCalculatorPage_ResultOpenInExplorerButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="HashCalculatorPage_ResultName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="HashCalculatorPage_ResultSize.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="OfflineExplorerPage_Search.Text" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="OfflineExplorerPage_SearchItems.Text" xml:space="preserve">
+    <value> items</value>
+  </data>
+  <data name="OfflineExplorerPage_SearchResults.Text" xml:space="preserve">
+    <value> results</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsSize.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsCreated.Text" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsModified.Text" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsReportedCrc32.Text" xml:space="preserve">
+    <value>Reported CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsCrc32.Text" xml:space="preserve">
+    <value>CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsMd5.Text" xml:space="preserve">
+    <value>MD5</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsSha1.Text" xml:space="preserve">
+    <value>SHA1</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveDetailsSha256.Text" xml:space="preserve">
+    <value>SHA256</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsSize.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsCreated.Text" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsModified.Text" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsReportedCrc32.Text" xml:space="preserve">
+    <value>Reported CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsCrc32.Text" xml:space="preserve">
+    <value>CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsMd5.Text" xml:space="preserve">
+    <value>MD5</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsSha1.Text" xml:space="preserve">
+    <value>SHA1</value>
+  </data>
+  <data name="OfflineExplorerPage_FileDetailsSha256.Text" xml:space="preserve">
+    <value>SHA256</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsSize.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsCreated.Text" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsModified.Text" xml:space="preserve">
+    <value>Modified</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsReportedCrc32.Text" xml:space="preserve">
+    <value>Reported CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsCrc32.Text" xml:space="preserve">
+    <value>CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsMd5.Text" xml:space="preserve">
+    <value>MD5</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsSha1.Text" xml:space="preserve">
+    <value>SHA1</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderDetailsSha256.Text" xml:space="preserve">
+    <value>SHA256</value>
+  </data>
+  <data name="OfflineExplorerPage_ResultOpenContainingFolderMenuItem.Text" xml:space="preserve">
+    <value>Open containing folder</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderListCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderListCopyPathMenuItem.Text" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="OfflineExplorerPage_FileListCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="OfflineExplorerPage_FileListCopyPathMenuItem.Text" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="OfflineExplorerPage_FileListCopySha256MenuItem.Text" xml:space="preserve">
+    <value>Copy SHA256</value>
+  </data>
+  <data name="OfflineExplorerPage_FileListCopySha1MenuItem.Text" xml:space="preserve">
+    <value>Copy SHA1</value>
+  </data>
+  <data name="OfflineExplorerPage_FileListCopyMd5MenuItem.Text" xml:space="preserve">
+    <value>Copy MD5</value>
+  </data>
+  <data name="OfflineExplorerPage_FileListCopyCrc32MenuItem.Text" xml:space="preserve">
+    <value>Copy CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_FileListCopyReportedCrc32MenuItem.Text" xml:space="preserve">
+    <value>Copy Reported CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_FileListCopySizeMenuItem.Text" xml:space="preserve">
+    <value>Copy Size</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveListCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveListCopyPathMenuItem.Text" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveListCopySha256MenuItem.Text" xml:space="preserve">
+    <value>Copy SHA256</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveListCopySha1MenuItem.Text" xml:space="preserve">
+    <value>Copy SHA1</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveListCopyMd5MenuItem.Text" xml:space="preserve">
+    <value>Copy MD5</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveListCopyCrc32MenuItem.Text" xml:space="preserve">
+    <value>Copy CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveListCopyReportedCrc32MenuItem.Text" xml:space="preserve">
+    <value>Copy Reported CRC32</value>
+  </data>
+  <data name="OfflineExplorerPage_ArchiveListCopySizeMenuItem.Text" xml:space="preserve">
+    <value>Copy Size</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderTreeCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderTreeCopyPathMenuItem.Text" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderTreeCollapseAllMenuItem.Text" xml:space="preserve">
+    <value>Collapse All Descendants</value>
+  </data>
+  <data name="DatabaseLibraryPage_FolderTreeCollapseAllMenuItem.Text" xml:space="preserve">
+    <value>Collapse All Descendants</value>
+  </data>
+  <data name="OfflineExplorerPage_FolderTreeExpandAllMenuItem.Text" xml:space="preserve">
+    <value>Expand All Descendants</value>
+  </data>
+  <data name="DatabaseLibraryPage_FolderTreeExpandAllMenuItem.Text" xml:space="preserve">
+    <value>Expand All Descendants</value>
+  </data>
+  <data name="OfflineExplorerPage_DiskTemplateName.Text" xml:space="preserve">
+    <value>Name: </value>
+  </data>
+  <data name="OfflineExplorerPage_DiskTemplateLabel.Text" xml:space="preserve">
+    <value> - Label: </value>
+  </data>
+  <data name="OfflineExplorerPage_DiskTemplateVolumeSerial.Text" xml:space="preserve">
+    <value> - Volume Serial: </value>
+  </data>
+  <data name="SettingsPage_RedumpFolderOpenMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_SourceFolderOpenMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="SettingsPage_OpenOfflineFolderMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="SettingsPage_OpenCueFolderMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="SettingsPage_OpenDatabaseFolderMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="HashCalculatorPage_CancelAppBarButton.Label" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SettingsPage_AboutFramework.Text" xml:space="preserve">
+    <value>Framework</value>
+  </data>
+  <data name="SettingsPage_AboutProcessArchitecture.Text" xml:space="preserve">
+    <value>Process architecture</value>
+  </data>
+  <data name="SettingsPage_AboutRuntimeIdentifier.Text" xml:space="preserve">
+    <value>Runtime identifier</value>
+  </data>
+  <data name="SettingsPage_AboutOperatingSystem.Text" xml:space="preserve">
+    <value>Operating system</value>
+  </data>
+  <data name="DatabaseFileRebuild_TorrentZipIncomplete.Content" xml:space="preserve">
+    <value>Ensure that rebuilt containers are TorrentZip/Torrent7z even when incomplete</value>
+  </data>
+  <data name="DatabaseFileRebuild_TargetIncompleteFolder.Text" xml:space="preserve">
+    <value>Target incomplete folder</value>
+  </data>
+  <data name="DatabaseFileRebuild_BrowseTargetIncompleteFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_Source.Text" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetFolderExpander.Description" xml:space="preserve">
+    <value>Select the folder for rebuilt files</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetIncompleteFolderExpander.Description" xml:space="preserve">
+    <value>Incomplete rebuilt files are moved from the target folder to this folder</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetFolderExpander.Header" xml:space="preserve">
+    <value>Target folder</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetIncompleteFolderExpander.Header" xml:space="preserve">
+    <value>Target incomplete folder</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetFolderRemoveMenuItem.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetIncompleteFolderRemoveMenuItem.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetFolderSelectButton.Content" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetIncompleteFolderSelectButton.Content" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetFolderOpenMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetIncompleteFolderOpenMenuItem.Text" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="SettingsPage_RedumpSystems.Description" xml:space="preserve">
+    <value>Select the systems to download</value>
+  </data>
+  <data name="SettingsPage_RedumpSystems.Header" xml:space="preserve">
+    <value>Systems</value>
+  </data>
+  <data name="SettingsPage_SelectAllRedumpSystemsButton.Content" xml:space="preserve">
+    <value>Check all</value>
+  </data>
+  <data name="SettingsPage_UnselectAllRedumpSystemsButton.Content" xml:space="preserve">
+    <value>Uncheck all</value>
+  </data>
+  <data name="SettingsPage_CueFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="SettingsPage_CueFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="SettingsPage_DatabaseFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="SettingsPage_DatabaseFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="SettingsPage_OfflineFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="SettingsPage_OfflineFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="SettingsPage_RedumpFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="SettingsPage_RedumpFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_SourceFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_SourceFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetIncompleteFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_TargetIncompleteFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileSettings_LocalFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFolderSettings_LocalFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFolderSettings_OfflineFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileSettings_OfflineFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="DatabaseFileRebuild_Status.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="DatabaseFileScan_Status.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="DatabaseFolderScan_Status.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="CreateOfflineStoragePage_Status.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="CreateDatabasePage_Status.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="HashCalculatorPage_ResultCrc32.Text" xml:space="preserve">
+    <value>CRC32</value>
+  </data>
+  <data name="HashCalculatorPage_ResultMd5.Text" xml:space="preserve">
+    <value>MD5</value>
+  </data>
+  <data name="HashCalculatorPage_ResultSha1.Text" xml:space="preserve">
+    <value>SHA1</value>
+  </data>
+  <data name="HashCalculatorPage_ResultSha256.Text" xml:space="preserve">
+    <value>SHA256</value>
+  </data>
+  <data name="SettingsPage_AboutWindowsRuntime.Text" xml:space="preserve">
+    <value>Windows App Runtime</value>
+  </data>
+  <data name="SettingsPage_AboutWindowsSDK.Text" xml:space="preserve">
+    <value>Windows App SDK</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Checksum Matcher Description</value>
+  </data>
+  <data name="OfflineExplorerPage_DetailsNoSelection.Text" xml:space="preserve">
+    <value>No selection</value>
+  </data>
+  <data name="OfflineExplorerPage_SettingsButton.Content" xml:space="preserve">
+    <value>Configure offline storage folders</value>
+  </data>
+  <data name="DatabaseLibraryPage_SettingsButton.Content" xml:space="preserve">
+    <value>Configure database folders</value>
+  </data>
+  <data name="OfflineExplorerPage_NotConfigured.Text" xml:space="preserve">
+    <value>Get started with offline storage by configuring a folder to store disk snapshots</value>
+  </data>
+  <data name="OfflineExplorerPage_NoDisks.Text" xml:space="preserve">
+    <value>Create a new offline storage disk by clicking the New button</value>
+  </data>
+  <data name="DatabaseLibraryPage_NotConfigured.Text" xml:space="preserve">
+    <value>Get started by configuring database folders</value>
+  </data>
+</root>

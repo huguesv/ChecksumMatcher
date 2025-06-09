@@ -1,0 +1,242 @@
+﻿<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseLibraryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclbehaviors="using:Woohoo.ChecksumMatcher.WinUI.Behaviors"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:lclviews="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <!--  Put this Page attribute to remove the header  -->
+        <!--  behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"  -->
+        <DataTemplate x:Key="TreeNoSelectionTemplate" x:DataType="lclviewmodels:DatabaseTreeItemViewModel">
+            <Grid />
+        </DataTemplate>
+
+        <DataTemplate x:Key="TreeFolderTemplate" x:DataType="lclviewmodels:DatabaseFolderTreeItemViewModel">
+            <TreeViewItem
+                AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
+                IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                ItemsSource="{x:Bind FilteredChildren, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE8B7;" />
+                    <TextBlock
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind Name, Mode=OneWay}" />
+                </StackPanel>
+                <TreeViewItem.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="DatabaseLibraryPage_FolderTreeCollapseAllMenuItem"
+                            Command="{x:Bind CollapseAllDescendantsCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xF166;}" />
+                        <MenuFlyoutItem
+                            x:Uid="DatabaseLibraryPage_FolderTreeExpandAllMenuItem"
+                            Command="{x:Bind ExpandAllDescendantsCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xF164;}" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            x:Uid="DatabaseLibraryPage_FolderOpenInExplorerMenuItem"
+                            Command="{x:Bind OpenInExplorerCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            x:Uid="DatabaseLibraryPage_FolderCopyAllMissingMenuItem"
+                            Command="{x:Bind CopyAllMissingCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xF164;}" />
+                    </MenuFlyout>
+                </TreeViewItem.ContextFlyout>
+            </TreeViewItem>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TreeFileTemplate" x:DataType="lclviewmodels:DatabaseFileTreeItemViewModel">
+            <TreeViewItem AutomationProperties.Name="{x:Bind FileName, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE8A5;" />
+                    <TextBlock
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind FileName, Mode=OneWay}" />
+                    <InfoBadge
+                        Margin="{StaticResource XSmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource SuccessValueInfoBadgeStyle}"
+                        Visibility="{x:Bind MatchedFilesCount, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityConverter}}"
+                        Value="{x:Bind MatchedFilesCount, Mode=OneWay}" />
+                    <InfoBadge
+                        Margin="{StaticResource XSmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CriticalValueInfoBadgeStyle}"
+                        Visibility="{x:Bind MissingFilesCount, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityConverter}}"
+                        Value="{x:Bind MissingFilesCount, Mode=OneWay}" />
+                    <InfoBadge
+                        Margin="{StaticResource XSmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource AttentionValueInfoBadgeStyle}"
+                        Visibility="{x:Bind WrongNamedFilesCount, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityConverter}}"
+                        Value="{x:Bind WrongNamedFilesCount, Mode=OneWay}" />
+                    <InfoBadge
+                        Margin="{StaticResource XSmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource InformationalValueInfoBadgeStyle}"
+                        Visibility="{x:Bind UnusedFilesCount, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityConverter}}"
+                        Value="{x:Bind UnusedFilesCount, Mode=OneWay}" />
+                </StackPanel>
+                <TreeViewItem.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="DatabaseLibraryPage_FileOpenInExplorerMenuItem"
+                            Command="{x:Bind OpenInExplorerCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                    </MenuFlyout>
+                </TreeViewItem.ContextFlyout>
+            </TreeViewItem>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailsNoSelectionTemplate" x:DataType="lclviewmodels:DatabaseTreeItemViewModel">
+            <Grid>
+                <TextBlock
+                    x:Uid="DatabaseLibraryPage_NoSelection"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    TextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailsFolderTemplate" x:DataType="lclviewmodels:DatabaseFolderTreeItemViewModel">
+            <lclviews:DatabaseFolderDetailControl DatabaseFolder="{x:Bind FolderViewModel, Mode=OneWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailsTreeFileTemplate" x:DataType="lclviewmodels:DatabaseFileTreeItemViewModel">
+            <lclviews:DatabaseFileDetailControl Database="{x:Bind Database, Mode=OneWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DetailsTreeFileNotLoadedTemplate" x:DataType="lclviewmodels:DatabaseFileTreeItemViewModel">
+            <TextBlock
+                x:Uid="DatabaseLibraryPage_NotLoadedPleaseWait"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{ThemeResource SubtitleTextBlockStyle}" />
+        </DataTemplate>
+
+        <lclviews:DatabaseTreeItemTemplateSelector
+            x:Key="TreeItemTemplateSelector"
+            FileNotLoadedTemplate="{StaticResource TreeFileTemplate}"
+            FileTemplate="{StaticResource TreeFileTemplate}"
+            FolderTemplate="{StaticResource TreeFolderTemplate}" />
+
+        <lclviews:DatabaseTreeItemTemplateSelector
+            x:Key="DetailsItemTemplateSelector"
+            FileNotLoadedTemplate="{StaticResource DetailsTreeFileNotLoadedTemplate}"
+            FileTemplate="{StaticResource DetailsTreeFileTemplate}"
+            FolderTemplate="{StaticResource DetailsFolderTemplate}"
+            NoSelectionTemplate="{StaticResource DetailsNoSelectionTemplate}" />
+    </Page.Resources>
+
+    <Grid x:Name="ContentArea">
+        <Grid Visibility="{x:Bind ViewModel.IsConfigured, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <TextBlock x:Uid="DatabaseLibraryPage_NotConfigured" HorizontalAlignment="Center" />
+                <HyperlinkButton
+                    x:Uid="DatabaseLibraryPage_SettingsButton"
+                    Margin="{StaticResource SmallTopMargin}"
+                    HorizontalAlignment="Center"
+                    Command="{x:Bind ViewModel.OpenSettingsCommand, Mode=OneWay}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Visibility="{x:Bind ViewModel.IsConfigured, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="0,8,0,24">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBox
+                    x:Uid="DatabaseLibraryPage_FilterTextBox"
+                    Grid.Row="0"
+                    Text="{x:Bind ViewModel.FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <ScrollViewer
+                    Grid.Row="1"
+                    Margin="{StaticResource SmallTopMargin}"
+                    Padding="8"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Auto">
+                    <TreeView
+                        ItemTemplateSelector="{StaticResource TreeItemTemplateSelector}"
+                        ItemsSource="{x:Bind ViewModel.DataSource, Mode=OneWay}"
+                        SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}"
+                        SelectionMode="Single" />
+                </ScrollViewer>
+            </Grid>
+
+            <ctcontrols:GridSplitter Grid.Column="1" Margin="{StaticResource XSmallLeftRightMargin}" />
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Border
+                    Grid.Row="0"
+                    Margin="0,8,0,8"
+                    Padding="4,2,4,6"
+                    HorizontalAlignment="Stretch"
+                    Background="{ThemeResource ControlFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                    Visibility="{x:Bind ViewModel.Breadcrumbs.Count, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityConverter}}">
+                    <BreadcrumbBar ItemClicked="BreadcrumbBar_ItemClicked" ItemsSource="{x:Bind ViewModel.Breadcrumbs, Mode=OneWay}">
+                        <BreadcrumbBar.ItemTemplate>
+                            <DataTemplate x:DataType="lclviewmodels:DatabaseTreeItemBreadcrumbViewModel">
+                                <BreadcrumbBarItem AutomationProperties.Name="{Binding Name}" Content="{Binding}">
+                                    <BreadcrumbBarItem.ContentTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="5,-2,5,0" Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </BreadcrumbBarItem.ContentTemplate>
+                                </BreadcrumbBarItem>
+                            </DataTemplate>
+                        </BreadcrumbBar.ItemTemplate>
+                    </BreadcrumbBar>
+                </Border>
+
+                <ContentControl
+                    Grid.Row="1"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Content="{x:Bind ViewModel.Selected, Mode=OneWay}"
+                    ContentTemplateSelector="{StaticResource DetailsItemTemplateSelector}"
+                    DataContext="{x:Bind ViewModel.Selected, Mode=OneWay}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

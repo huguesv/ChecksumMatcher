@@ -1,0 +1,878 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AuditPageBrowse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="AuditPageNoDatabaseSelectedSubtitle" xml:space="preserve">
+    <value>Select a database to audit files</value>
+  </data>
+  <data name="AuditPageNoDatabaseSelectedTitle" xml:space="preserve">
+    <value>No database selected</value>
+  </data>
+  <data name="AuditPageSourceFolder" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="AuditPageStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="CreateDatabasePageAuthor" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="CreateDatabasePageBrowse" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateDatabasePageName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="CreateDatabasePageSourceFolder" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="CreateDatabasePageStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="CreateDatabasePageTargetDatabaseFile" xml:space="preserve">
+    <value>Database destination file</value>
+  </data>
+  <data name="CreateDatabasePageVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="DatabaseInfoPageNoDatabaseSelectedSubtitle" xml:space="preserve">
+    <value>Select a database to view its information</value>
+  </data>
+  <data name="DatabaseInfoPageNoDatabaseSelectedTitle" xml:space="preserve">
+    <value>No database selected</value>
+  </data>
+  <data name="DatabasePageCrc32" xml:space="preserve">
+    <value>CRC32:</value>
+  </data>
+  <data name="DatabasePageFile" xml:space="preserve">
+    <value>File:</value>
+  </data>
+  <data name="DatabasePageMd5" xml:space="preserve">
+    <value>MD5:</value>
+  </data>
+  <data name="DatabasePageMenuItemCopyCrc32" xml:space="preserve">
+    <value>Copy CRC32</value>
+  </data>
+  <data name="DatabasePageMenuItemCopyMd5" xml:space="preserve">
+    <value>Copy MD5</value>
+  </data>
+  <data name="DatabasePageMenuItemCopyName" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
+  <data name="DatabasePageMenuItemCopySha1" xml:space="preserve">
+    <value>Copy SHA1</value>
+  </data>
+  <data name="DatabasePageMenuItemCopySize" xml:space="preserve">
+    <value>Copy Size</value>
+  </data>
+  <data name="DatabasePageNoDatabaseSelectedSubtitle" xml:space="preserve">
+    <value>Select a database to view its contents</value>
+  </data>
+  <data name="DatabasePageNoDatabaseSelectedTitle" xml:space="preserve">
+    <value>No database selected</value>
+  </data>
+  <data name="DatabasePageSearchWatermark" xml:space="preserve">
+    <value>Search Database</value>
+  </data>
+  <data name="DatabasePageSha1" xml:space="preserve">
+    <value>SHA1:</value>
+  </data>
+  <data name="DatabasePageSize" xml:space="preserve">
+    <value>Size:</value>
+  </data>
+  <data name="DatabasesPageAuthor" xml:space="preserve">
+    <value>Author:</value>
+  </data>
+  <data name="DatabasesPageCount" xml:space="preserve">
+    <value>Count:</value>
+  </data>
+  <data name="DatabasesPageSearchWatermark" xml:space="preserve">
+    <value>Search Databases</value>
+  </data>
+  <data name="DatabasesPageSize" xml:space="preserve">
+    <value>Size:</value>
+  </data>
+  <data name="DatabasesPageVersion" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="FileFilterAll" xml:space="preserve">
+    <value>All Files</value>
+  </data>
+  <data name="FileFilterDatabase" xml:space="preserve">
+    <value>Database Files</value>
+  </data>
+  <data name="FileFilterMd5" xml:space="preserve">
+    <value>Md5 Files</value>
+  </data>
+  <data name="FileFilterSfv" xml:space="preserve">
+    <value>Sfv Files</value>
+  </data>
+  <data name="FileSizeInB" xml:space="preserve">
+    <value>{0} bytes</value>
+  </data>
+  <data name="FileSizeInGB" xml:space="preserve">
+    <value>{0} GB</value>
+  </data>
+  <data name="FileSizeInKB" xml:space="preserve">
+    <value>{0} KB</value>
+  </data>
+  <data name="FileSizeInMB" xml:space="preserve">
+    <value>{0} MB</value>
+  </data>
+  <data name="FileSizeInTB" xml:space="preserve">
+    <value>{0} TB</value>
+  </data>
+  <data name="HashCalculatorPageBrowse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="HashCalculatorPageCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="HashCalculatorPageFileCrc32" xml:space="preserve">
+    <value>CRC32</value>
+  </data>
+  <data name="HashCalculatorPageFileMd5" xml:space="preserve">
+    <value>MD5</value>
+  </data>
+  <data name="HashCalculatorPageFileName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="HashCalculatorPageFileSha1" xml:space="preserve">
+    <value>SHA1</value>
+  </data>
+  <data name="HashCalculatorPageFileSha256" xml:space="preserve">
+    <value>SHA256</value>
+  </data>
+  <data name="HashCalculatorPageFileSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="HashCalculatorPageResultCrc32" xml:space="preserve">
+    <value>CRC32: {0}</value>
+  </data>
+  <data name="HashCalculatorPageResultFileName" xml:space="preserve">
+    <value>File: {0}</value>
+  </data>
+  <data name="HashCalculatorPageResultFileSize" xml:space="preserve">
+    <value>Size: {0}</value>
+  </data>
+  <data name="HashCalculatorPageResultMd5" xml:space="preserve">
+    <value>MD5: {0}</value>
+  </data>
+  <data name="HashCalculatorPageResultSha1" xml:space="preserve">
+    <value>SHA1: {0}</value>
+  </data>
+  <data name="HashCalculatorPageResultSha256" xml:space="preserve">
+    <value>SHA256: {0}</value>
+  </data>
+  <data name="HashCalculatorPageSubtitle" xml:space="preserve">
+    <value>Select Browse or drag and drop a file to calculate its checksums</value>
+  </data>
+  <data name="HashCalculatorPageTitle" xml:space="preserve">
+    <value>Calculate file hash</value>
+  </data>
+  <data name="HeaderAuthor" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="HeaderCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="HeaderComment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="HeaderDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="HeaderDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="HeaderEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="HeaderHomepage" xml:space="preserve">
+    <value>Homepage</value>
+  </data>
+  <data name="HeaderName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="HeaderUrl" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="HeaderVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="HomePageAuditSubtitle" xml:space="preserve">
+    <value>Scan your files to see if they match the files in the database.</value>
+  </data>
+  <data name="HomePageAuditTitle" xml:space="preserve">
+    <value>Audit your files</value>
+  </data>
+  <data name="HomePageConfigureLibrarySubtitle" xml:space="preserve">
+    <value>Specify the location of the database files.</value>
+  </data>
+  <data name="HomePageConfigureLibraryTitle" xml:space="preserve">
+    <value>Configure your database folders</value>
+  </data>
+  <data name="HomePageCreateDatabaseSubtitle" xml:space="preserve">
+    <value>Create a database by scanning files in a folder.</value>
+  </data>
+  <data name="HomePageCreateDatabaseTitle" xml:space="preserve">
+    <value>Create a checksum database</value>
+  </data>
+  <data name="HomePageDownloadNoIntroDescription" xml:space="preserve">
+    <value>No-Intro is mainly a cart preservation database. It lists only the best available ROM; ideally this will be a full dump with no faults and changes to the file, basically just the ROMS that are the closest as possible to the original licensed cartridges.</value>
+  </data>
+  <data name="HomePageDownloadNoIntroSubtitle" xml:space="preserve">
+    <value>Best available game cartridges.</value>
+  </data>
+  <data name="HomePageDownloadNoIntroTitle" xml:space="preserve">
+    <value>No-Intro</value>
+  </data>
+  <data name="HomePageDownloadRedumpDescription" xml:space="preserve">
+    <value>Redump.org is a disc preservation database and community dedicated to collecting precise and accurate information about every video game ever released on optical media of any system.</value>
+  </data>
+  <data name="HomePageDownloadRedumpSubtitle" xml:space="preserve">
+    <value>Video game optical media.</value>
+  </data>
+  <data name="HomePageDownloadRedumpTitle" xml:space="preserve">
+    <value>Redump</value>
+  </data>
+  <data name="HomePageDownloadTosecDescription" xml:space="preserve">
+    <value>The Old School Emulation Center (TOSEC) is a retrocomputing initiative dedicated to the cataloging and preservation of software, firmware and resources for arcade machines, microcomputers, minicomputers and video game consoles. The main goal of the project is to catalog and audit various kinds of software and firmware images for these systems.</value>
+  </data>
+  <data name="HomePageDownloadTosecSubtitle" xml:space="preserve">
+    <value>Existing sets of old media.</value>
+  </data>
+  <data name="HomePageDownloadTosecTitle" xml:space="preserve">
+    <value>TOSEC</value>
+  </data>
+  <data name="HomePageGroupAudit" xml:space="preserve">
+    <value>Audit your files</value>
+  </data>
+  <data name="HomePageGroupCreateDatabase" xml:space="preserve">
+    <value>Create your own databases</value>
+  </data>
+  <data name="HomePageGroupDownload" xml:space="preserve">
+    <value>Download databases from online preservation groups</value>
+  </data>
+  <data name="HomePageGroupHashFile" xml:space="preserve">
+    <value>Hash files</value>
+  </data>
+  <data name="HomePageHashFileSubtitle" xml:space="preserve">
+    <value>Calculate and display an individual file's CRC32, MD5 and SHA1 checksums</value>
+  </data>
+  <data name="HomePageHashFileTitle" xml:space="preserve">
+    <value>Calculate file hash</value>
+  </data>
+  <data name="HomePageDownloadNoIntroUrl" xml:space="preserve">
+    <value>https://no-intro.org/</value>
+  </data>
+  <data name="HomePageSelectDatabaseSubtitle" xml:space="preserve">
+    <value>Choose the database you would like to view / use to audit your files.</value>
+  </data>
+  <data name="HomePageSelectDatabaseTitle" xml:space="preserve">
+    <value>Select a database</value>
+  </data>
+  <data name="HomePageValidateSubtitle" xml:space="preserve">
+    <value>Select a .sfv or .md5 file to validate its contents</value>
+  </data>
+  <data name="HomePageValidateTitle" xml:space="preserve">
+    <value>Validate using a checksum file</value>
+  </data>
+  <data name="MainWindowCaption" xml:space="preserve">
+    <value>Checksum Matcher</value>
+  </data>
+  <data name="MainWindowNavigationAudit" xml:space="preserve">
+    <value>Audit</value>
+  </data>
+  <data name="MainWindowNavigationCreate" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="MainWindowNavigationHash" xml:space="preserve">
+    <value>Hash</value>
+  </data>
+  <data name="MainWindowNavigationHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="MainWindowNavigationInfo" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="MainWindowNavigationLibrary" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="MainWindowNavigationQuery" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="MainWindowNavigationRebuild" xml:space="preserve">
+    <value>Rebuild</value>
+  </data>
+  <data name="MainWindowNavigationSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="MainWindowNavigationValidate" xml:space="preserve">
+    <value>Validate</value>
+  </data>
+  <data name="RebuildPageBrowse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="RebuildPageNoDatabaseSelectedSubtitle" xml:space="preserve">
+    <value>Select a database to rebuild files</value>
+  </data>
+  <data name="RebuildPageNoDatabaseSelectedTitle" xml:space="preserve">
+    <value>No database selected</value>
+  </data>
+  <data name="RebuildPageRemoveSource" xml:space="preserve">
+    <value>Remove source</value>
+  </data>
+  <data name="RebuildPageSourceFolder" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="RebuildPageStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="RebuildPageTargetFolder" xml:space="preserve">
+    <value>Target folder</value>
+  </data>
+  <data name="SettingsPageAboutCopyright" xml:space="preserve">
+    <value>© 2022 Hugues Valois. All rights reserved.</value>
+  </data>
+  <data name="SettingsPageAboutGitHubTitle" xml:space="preserve">
+    <value>Project on GitHub</value>
+  </data>
+  <data name="SettingsPageAboutGitHubUrl" xml:space="preserve">
+    <value>https://github.com/huguesv/checksumtools</value>
+  </data>
+  <data name="SettingsPageAboutGroup" xml:space="preserve">
+    <value>About this app</value>
+  </data>
+  <data name="SettingsPageAboutTitle" xml:space="preserve">
+    <value>Checksum Database Manager</value>
+  </data>
+  <data name="SettingsPageAboutVersion" xml:space="preserve">
+    <value>Version 2.0</value>
+  </data>
+  <data name="SettingsPageDatabaseFoldersAdd" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="SettingsPageDatabaseFoldersRemove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SettingsPageDatabaseFoldersSubtitle" xml:space="preserve">
+    <value>Change the folders that contain database files</value>
+  </data>
+  <data name="SettingsPageDatabaseFoldersTitle" xml:space="preserve">
+    <value>Database folders</value>
+  </data>
+  <data name="SettingsPageExtractFilesForChecksumSubtitle" xml:space="preserve">
+    <value>Extract files from archives to calculate checksums instead of using the crc32 stored in the archive</value>
+  </data>
+  <data name="SettingsPageExtractFilesForChecksumTitle" xml:space="preserve">
+    <value>Extract files to calculate checksums</value>
+  </data>
+  <data name="SettingsPageGroupAudit" xml:space="preserve">
+    <value>Audit</value>
+  </data>
+  <data name="SettingsPageGroupColors" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="SettingsPageGroupLibrary" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="SettingsPageThemeSubtitle" xml:space="preserve">
+    <value>Select which app theme to display</value>
+  </data>
+  <data name="SettingsPageThemeTitle" xml:space="preserve">
+    <value>App theme</value>
+  </data>
+  <data name="StatisticContainerCount" xml:space="preserve">
+    <value>Container count</value>
+  </data>
+  <data name="StatisticFileCount" xml:space="preserve">
+    <value>Total file count</value>
+  </data>
+  <data name="StatisticFileSizeTotal" xml:space="preserve">
+    <value>Total size</value>
+  </data>
+  <data name="ThemeDark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="ThemeLight" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="ThemeWindowsDefault" xml:space="preserve">
+    <value>Use system setting</value>
+  </data>
+  <data name="ToggleSwitchOff" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="ToggleSwitchOn" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="ValidateFileActualNotApplicable" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="ValidateFileFormatNotSupported" xml:space="preserve">
+    <value>The file extension '{0}' is not supported.</value>
+  </data>
+  <data name="ValidateFileStatusFail" xml:space="preserve">
+    <value>Fail</value>
+  </data>
+  <data name="ValidateFileStatusMiss" xml:space="preserve">
+    <value>Miss</value>
+  </data>
+  <data name="ValidateFileStatusPass" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="ValidatePageBrowse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="ValidatePageSubtitle" xml:space="preserve">
+    <value>Select a .sfv or .md5 file to validate its contents</value>
+  </data>
+  <data name="ValidatePageTitle" xml:space="preserve">
+    <value>Validate using a checksum file</value>
+  </data>
+  <data name="HomePageDownloadRedumpUrl" xml:space="preserve">
+    <value>http://www.redump.org</value>
+  </data>
+  <data name="HomePageDownloadTosecUrl" xml:space="preserve">
+    <value>https://www.tosecdev.org/</value>
+  </data>
+  <data name="StatisticDatabaseCount" xml:space="preserve">
+    <value>Database count</value>
+  </data>
+  <data name="ContainerTypeFolder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="ContainerTypeTorrentZip" xml:space="preserve">
+    <value>TorrentZip</value>
+  </data>
+  <data name="ContainerTypeTorrentSevenZip" xml:space="preserve">
+    <value>Torrent7z</value>
+  </data>
+  <data name="ScanResultMatchedWithCountLabel" xml:space="preserve">
+    <value>Matched ({0})</value>
+  </data>
+  <data name="RebuildResultMatchedWithCountLabel" xml:space="preserve">
+    <value>Matched ({0})</value>
+  </data>
+  <data name="ScanResultMissingWithCountLabel" xml:space="preserve">
+    <value>Missing ({0})</value>
+  </data>
+  <data name="ScanResultUnusedWithCountLabel" xml:space="preserve">
+    <value>Unused ({0})</value>
+  </data>
+  <data name="RebuildResultUnusedWithCountLabel" xml:space="preserve">
+    <value>Unused ({0})</value>
+  </data>
+  <data name="ScanResultUnusedNoCountLabel" xml:space="preserve">
+    <value>Unused</value>
+  </data>
+  <data name="RebuildResultUnusedNoCountLabel" xml:space="preserve">
+    <value>Unused</value>
+  </data>
+  <data name="ScanResultWrongNameWithCountLabel" xml:space="preserve">
+    <value>Wrong Name ({0})</value>
+  </data>
+  <data name="ScanResultWrongNameNoCountLabel" xml:space="preserve">
+    <value>Wrong Name</value>
+  </data>
+  <data name="ScanResultMatchedNoCountLabel" xml:space="preserve">
+    <value>Matched</value>
+  </data>
+  <data name="RebuildResultMatchedNoCountLabel" xml:space="preserve">
+    <value>Matched</value>
+  </data>
+  <data name="ScanResultMissingNoCountLabel" xml:space="preserve">
+    <value>Missing</value>
+  </data>
+  <data name="OfflineDiskProgressCreatingFormat" xml:space="preserve">
+    <value>Creating offline storage '{0}'</value>
+  </data>
+  <data name="OfflineDiskProgressCompleteFormatWithStats" xml:space="preserve">
+    <value>Creation of '{0}' complete ({1} folders, {2} files, {3} archive items)  {4:0.0} secs at {5}.</value>
+  </data>
+  <data name="OfflineDiskProgressCreatingFormatWithStats" xml:space="preserve">
+    <value>Creating offline storage '{0}' ({1} folders, {2} files, {3} archive items) in {4:0.0} secs.</value>
+  </data>
+  <data name="OfflineDiskProgressCompleteFormat" xml:space="preserve">
+    <value>Creation of '{0}' complete at {1}.</value>
+  </data>
+  <data name="OfflineDiskProgressCanceledFormat" xml:space="preserve">
+    <value>Creation of '{0}' canceled.</value>
+  </data>
+  <data name="OfflineDiskProgressErrorFormat" xml:space="preserve">
+    <value>Creation error: {0}</value>
+  </data>
+  <data name="DatabaseCreateProgressCompleteFormat" xml:space="preserve">
+    <value>Completed at {0}.</value>
+  </data>
+  <data name="DatabaseCreateProgressErrorFormat" xml:space="preserve">
+    <value>Creation error: {0}</value>
+  </data>
+  <data name="DatabaseCreateProgressCanceled" xml:space="preserve">
+    <value>Canceled.</value>
+  </data>
+  <data name="DatabaseCreateProgressScanning" xml:space="preserve">
+    <value>Scanning.</value>
+  </data>
+  <data name="DatabaseCreateProgressStarted" xml:space="preserve">
+    <value>Started.</value>
+  </data>
+  <data name="DatabaseCreateProgressHashingFormat" xml:space="preserve">
+    <value>Hashing '{0}'.</value>
+  </data>
+  <data name="DatabaseCreateProgressPending" xml:space="preserve">
+    <value>Pending.</value>
+  </data>
+  <data name="RedumpDownloadStatusInProgressFormat" xml:space="preserve">
+    <value>Downloading ({0} of {1}): {2} for {3}</value>
+  </data>
+  <data name="RedumpDownloadStatusCompleteFormat" xml:space="preserve">
+    <value>Download completed at {0}</value>
+  </data>
+  <data name="RedumpDownloadStatusStarted" xml:space="preserve">
+    <value>Download started</value>
+  </data>
+  <data name="RedumpDownloadStatusCanceled" xml:space="preserve">
+    <value>Download canceled</value>
+  </data>
+  <data name="RedumpDownloadStatusErrorFormat" xml:space="preserve">
+    <value>Download error: {0}</value>
+  </data>
+  <data name="RedumpCredentialsStatusInProgress" xml:space="preserve">
+    <value>Testing credentials...</value>
+  </data>
+  <data name="RedumpCredentialsStatusSuccess" xml:space="preserve">
+    <value>Login successful</value>
+  </data>
+  <data name="RedumpCredentialsStatusError" xml:space="preserve">
+    <value>Invalid credentials</value>
+  </data>
+  <data name="CreateDatabaseStatusFileExists" xml:space="preserve">
+    <value>File already exists and will be replaced</value>
+  </data>
+  <data name="OfflineDiskProgressFileExists" xml:space="preserve">
+    <value>File already exists and will be replaced</value>
+  </data>
+  <data name="OfflineDiskProgressFileExists1" xml:space="preserve">
+    <value>File already exists and will be replaced</value>
+  </data>
+  <data name="CreateDatabaseInsertDateTimeNoIntro" xml:space="preserve">
+    <value>Set Current UTC (yyyyMMdd-HHmmss)</value>
+  </data>
+  <data name="CreateDatabaseInsertDateTimeRedump" xml:space="preserve">
+    <value>Set Current UTC (yyyy-MM-dd HH-mm-ss)</value>
+  </data>
+  <data name="CreateDatabaseSuccessNotification" xml:space="preserve">
+    <value>Create database completed</value>
+  </data>
+  <data name="CreateDatabaseErrorNotification" xml:space="preserve">
+    <value>Create database failed</value>
+  </data>
+  <data name="CreateDatabaseCancelNotification" xml:space="preserve">
+    <value>Create database was cancelled</value>
+  </data>
+  <data name="OfflineDiskSuccessNotification" xml:space="preserve">
+    <value>Create offline storage completed</value>
+  </data>
+  <data name="OfflineDiskErrorNotification" xml:space="preserve">
+    <value>Create offline storage failed</value>
+  </data>
+  <data name="OfflineDiskCancelNotification" xml:space="preserve">
+    <value>Create offline storage was cancelled</value>
+  </data>
+  <data name="RebuildSuccessNotification" xml:space="preserve">
+    <value>Rebuild completed</value>
+  </data>
+  <data name="RebuildErrorNotification" xml:space="preserve">
+    <value>Rebuild failed</value>
+  </data>
+  <data name="RebuildCancelNotification" xml:space="preserve">
+    <value>Rebuild was cancelled</value>
+  </data>
+  <data name="ScanSuccessNotification" xml:space="preserve">
+    <value>Scan completed</value>
+  </data>
+  <data name="ScanErrorNotification" xml:space="preserve">
+    <value>Scan failed</value>
+  </data>
+  <data name="ScanCancelNotification" xml:space="preserve">
+    <value>Scan was cancelled</value>
+  </data>
+  <data name="DownloadSuccessNotification" xml:space="preserve">
+    <value>Download completed</value>
+  </data>
+  <data name="DownloadErrorNotification" xml:space="preserve">
+    <value>Download failed</value>
+  </data>
+  <data name="DownloadCancelNotification" xml:space="preserve">
+    <value>Download was cancelled</value>
+  </data>
+  <data name="ScanProgressCanceled" xml:space="preserve">
+    <value>Canceled.</value>
+  </data>
+  <data name="ScanProgressErrorFormat" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+  <data name="RebuildProgressCanceled" xml:space="preserve">
+    <value>Canceled.</value>
+  </data>
+  <data name="RebuildProgressCompletedFormat" xml:space="preserve">
+    <value>Completed at {0}.</value>
+  </data>
+  <data name="RebuildProgressErrorFormat" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+  <data name="ScanProgressPending" xml:space="preserve">
+    <value>Pending.</value>
+  </data>
+  <data name="ScanProgressStarted" xml:space="preserve">
+    <value>Started.</value>
+  </data>
+  <data name="ScanProgressScanning" xml:space="preserve">
+    <value>Scanning...</value>
+  </data>
+  <data name="ScanProgressHashingFormat" xml:space="preserve">
+    <value>Hashing {0} ...</value>
+  </data>
+  <data name="ScanProgressCompletedFormat" xml:space="preserve">
+    <value>Completed at {0}.</value>
+  </data>
+  <data name="RebuildProgressPending" xml:space="preserve">
+    <value>Pending...</value>
+  </data>
+  <data name="RebuildProgressStarted" xml:space="preserve">
+    <value>Started...</value>
+  </data>
+  <data name="RebuildProgressScanning" xml:space="preserve">
+    <value>Scanning...</value>
+  </data>
+  <data name="RebuildProgressHashingFormat" xml:space="preserve">
+    <value>Hashing {0} ...</value>
+  </data>
+  <data name="RebuildProgressBuildingFormat" xml:space="preserve">
+    <value>Building {0} ...</value>
+  </data>
+  <data name="DumpStatusFilterDescriptionBad" xml:space="preserve">
+    <value>Bad</value>
+  </data>
+  <data name="DumpStatusFilterDescriptionNoDump" xml:space="preserve">
+    <value>NoDump</value>
+  </data>
+  <data name="DumpStatusFilterDescriptionGood" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="DumpStatusFilterDescriptionVerified" xml:space="preserve">
+    <value>Verified</value>
+  </data>
+  <data name="DumpStatusFilterDescriptionAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="ScanStatusFilterAll" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="ScanStatusFilterMissing" xml:space="preserve">
+    <value>Missing</value>
+  </data>
+  <data name="ScanStatusFilterComplete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="ScanStatusFilterPartial" xml:space="preserve">
+    <value>Partial</value>
+  </data>
+  <data name="ScanStatusFilterWrongName" xml:space="preserve">
+    <value>Wrong Name</value>
+  </data>
+  <data name="ScanStatusFilterUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ScanFolderProgressScanningFormat" xml:space="preserve">
+    <value>Scanning {0} ...</value>
+  </data>
+  <data name="SettingsPageVersionFormat" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
+  <data name="AppNotificationOpenInExplorer" xml:space="preserve">
+    <value>Open in Explorer</value>
+  </data>
+  <data name="ContainerTypeZip" xml:space="preserve">
+    <value>Zip</value>
+  </data>
+  <data name="ContainerTypeSevenZipUncompressed" xml:space="preserve">
+    <value>7z (Uncompressed)</value>
+  </data>
+  <data name="OfflineStorageFolderSelectionDialogTitle" xml:space="preserve">
+    <value>Select Folder</value>
+  </data>
+  <data name="OfflineStorageFolderSelectionDialogOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="OfflineStorageFolderSelectionDialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="FolderDetailsFormat" xml:space="preserve">
+    <value>{0} folder(s), {1} file(s)</value>
+  </data>
+  <data name="FolderDetailsOneFolderOneFileFormat" xml:space="preserve">
+    <value>{0} folder, {1} file</value>
+  </data>
+  <data name="FolderDetailsMultipleFoldersMultipleFilesFormat" xml:space="preserve">
+    <value>{0} folders, {1} files</value>
+  </data>
+  <data name="FolderDetailsMultipleFoldersOneFileFormat" xml:space="preserve">
+    <value>{0} folders, {1} file</value>
+  </data>
+  <data name="FolderDetailsOneFolderMultipleFilesFormat" xml:space="preserve">
+    <value>{0} folder, {1} files</value>
+  </data>
+  <data name="FolderDetailsDoesNotExist" xml:space="preserve">
+    <value>Folder does not exist</value>
+  </data>
+  <data name="ConfirmationDialogOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ConfirmationDialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SettingsPageDeleteRedumpFolderContentsMessageFormat" xml:space="preserve">
+    <value>Are you sure you want to permanently delete the contents of '{0}'?
+
+All files and subfolders will be lost.</value>
+  </data>
+  <data name="CreateDatabaseSaveFilter" xml:space="preserve">
+    <value>Database Files (*.dat)</value>
+  </data>
+  <data name="RebuildSourceFolderNotExist" xml:space="preserve">
+    <value>Rebuild source folder does not exist.</value>
+  </data>
+  <data name="RebuildSourceFolderNotConfigured" xml:space="preserve">
+    <value>Rebuild source folder is not configured.</value>
+  </data>
+  <data name="RebuildFoldersMustBeDistinct" xml:space="preserve">
+    <value>Rebuild source, target and target incomplete folders must be distinct.</value>
+  </data>
+  <data name="RebuildTargetFolderNotConfigured" xml:space="preserve">
+    <value>Rebuild target folder does not exist.</value>
+  </data>
+  <data name="ScanResultMissingCountFormat" xml:space="preserve">
+    <value>Missing: {0}</value>
+  </data>
+</root>

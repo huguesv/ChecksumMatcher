@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseFileRebuildSettingsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:lclviews="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="RootControlElement"
+    mc:Ignorable="d">
+
+    <ScrollViewer Margin="0,0,-50,0">
+        <Grid>
+            <StackPanel Margin="0,0,50,20" Spacing="{StaticResource SettingsCardSpacing}">
+
+                <TextBlock x:Uid="DatabaseFileRebuildSettings_Source" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsExpander
+                    x:Uid="DatabaseFileRebuildSettings_SourceFolderExpander"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8B7;}"
+                    IsExpanded="True">
+                    <Button
+                        x:Uid="DatabaseFileRebuildSettings_SourceFolderSelectButton"
+                        MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        Command="{x:Bind ViewModel.BrowseRebuildSourceFolderCommand, Mode=OneWay}"
+                        Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                    <ctcontrols:SettingsExpander.Items>
+                        <ctcontrols:SettingsCard
+                            Description="{x:Bind ViewModel.RebuildSourceFolder.Details, Mode=OneWay}"
+                            Header="{x:Bind ViewModel.RebuildSourceFolder.Path, Mode=OneWay}"
+                            HeaderIcon="{ct:FontIcon Glyph=&#xE8B7;}"
+                            Visibility="{x:Bind ViewModel.RebuildSourceFolder.Path, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}">
+                            <StackPanel Margin="{StaticResource XSmallTopMargin}" Orientation="Horizontal">
+                                <Button
+                                    x:Uid="DatabaseFileRebuildSettings_SourceFolderOptionsButton"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}">
+                                    <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}" Text="&#xE712;" />
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                            <MenuFlyoutItem
+                                                x:Uid="DatabaseFileRebuildSettings_SourceFolderOpenMenuItem"
+                                                Command="{x:Bind ViewModel.RebuildSourceFolder.OpenInExplorerCommand, Mode=OneWay}"
+                                                CommandParameter="{x:Bind ViewModel.RebuildSourceFolder.Path, Mode=OneWay}"
+                                                Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                                            <MenuFlyoutItem
+                                                x:Uid="DatabaseFileRebuildSettings_SourceFolderRemoveMenuItem"
+                                                Command="{x:Bind ViewModel.RebuildSourceFolder.RemoveCommand, Mode=OneWay}"
+                                                Icon="{ct:FontIcon Glyph=&#xE738;}" />
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                        </ctcontrols:SettingsCard>
+                        <ctcontrols:SettingsCard ContentAlignment="Left" Visibility="{x:Bind ViewModel.RebuildSourceFolder.Path, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}, ConverterParameter=true}">
+                            <TextBlock
+                                x:Uid="DatabaseFileRebuildSettings_SourceFolderEmptyError"
+                                Margin="{StaticResource XSmallBottomMargin}"
+                                Foreground="{StaticResource StatusErrorColor}" />
+                        </ctcontrols:SettingsCard>
+                    </ctcontrols:SettingsExpander.Items>
+                </ctcontrols:SettingsExpander>
+
+                <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileRebuildSettings_ForceCalculateChecksumsSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8EF;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.RebuildForceCalculateChecksums, Mode=TwoWay}" />
+                </ctcontrols:SettingsCard>
+
+                <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileRebuildSettings_RemoveSourceSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE74D;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.RebuildRemoveSource, Mode=TwoWay}" />
+                </ctcontrols:SettingsCard>
+
+                <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileRebuildSettings_FindMissingCueSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8D6;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.RebuildFindMissingCueFiles, Mode=TwoWay}" />
+                </ctcontrols:SettingsCard>
+
+                <TextBlock x:Uid="DatabaseFileRebuildSettings_Target" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileRebuildSettings_TargetContainerTypeSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE7B8;}"
+                    IsEnabled="True">
+                    <ComboBox
+                        MinWidth="{StaticResource ComboBoxDefaultMinWidth}"
+                        ItemsSource="{x:Bind ViewModel.RebuildTargetContainerTypes, Mode=OneWay}"
+                        SelectedItem="{x:Bind ViewModel.RebuildTargetContainerType, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="lclviewmodels:DatabaseTargetContainerTypeViewModel">
+                                <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </ctcontrols:SettingsCard>
+
+                <ctcontrols:SettingsExpander
+                    x:Uid="DatabaseFileRebuildSettings_TargetFolderExpander"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8DE;}"
+                    IsExpanded="True">
+                    <Button
+                        x:Uid="DatabaseFileRebuildSettings_TargetFolderSelectButton"
+                        MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        Command="{x:Bind ViewModel.BrowseRebuildTargetFolderCommand, Mode=OneWay}"
+                        Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                    <ctcontrols:SettingsExpander.Items>
+                        <ctcontrols:SettingsCard
+                            Description="{x:Bind ViewModel.RebuildTargetFolder.Details, Mode=OneWay}"
+                            Header="{x:Bind ViewModel.RebuildTargetFolder.Path, Mode=OneWay}"
+                            HeaderIcon="{ct:FontIcon Glyph=&#xE8B7;}"
+                            Visibility="{x:Bind ViewModel.RebuildTargetFolder.Path, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}">
+                            <StackPanel Margin="{StaticResource XSmallTopMargin}" Orientation="Horizontal">
+                                <Button
+                                    x:Uid="DatabaseFileRebuildSettings_TargetFolderOptionsButton"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}">
+                                    <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}" Text="&#xE712;" />
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                            <MenuFlyoutItem
+                                                x:Uid="DatabaseFileRebuildSettings_TargetFolderOpenMenuItem"
+                                                Command="{x:Bind ViewModel.RebuildTargetFolder.OpenInExplorerCommand, Mode=OneWay}"
+                                                CommandParameter="{x:Bind ViewModel.RebuildTargetFolder.Path, Mode=OneWay}"
+                                                Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                                            <MenuFlyoutItem
+                                                x:Uid="DatabaseFileRebuildSettings_TargetFolderRemoveMenuItem"
+                                                Command="{x:Bind ViewModel.RebuildTargetFolder.RemoveCommand, Mode=OneWay}"
+                                                Icon="{ct:FontIcon Glyph=&#xE738;}" />
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                        </ctcontrols:SettingsCard>
+                        <ctcontrols:SettingsCard ContentAlignment="Left" Visibility="{x:Bind ViewModel.RebuildTargetFolder.Path, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}, ConverterParameter=true}">
+                            <TextBlock
+                                x:Uid="DatabaseFileRebuildSettings_TargetFolderEmptyError"
+                                Margin="{StaticResource XSmallBottomMargin}"
+                                Foreground="{StaticResource StatusErrorColor}" />
+                        </ctcontrols:SettingsCard>
+                    </ctcontrols:SettingsExpander.Items>
+                </ctcontrols:SettingsExpander>
+
+                <ctcontrols:SettingsExpander
+                    x:Uid="DatabaseFileRebuildSettings_TargetIncompleteFolderExpander"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8DE;}"
+                    IsExpanded="True">
+                    <Button
+                        x:Uid="DatabaseFileRebuildSettings_TargetIncompleteFolderSelectButton"
+                        MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                        Background="{ThemeResource AccentFillColorDefaultBrush}"
+                        Command="{x:Bind ViewModel.BrowseRebuildTargetIncompleteFolderCommand, Mode=OneWay}"
+                        Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                    <ctcontrols:SettingsExpander.Items>
+                        <ctcontrols:SettingsCard
+                            Description="{x:Bind ViewModel.RebuildTargetIncompleteFolder.Details, Mode=OneWay}"
+                            Header="{x:Bind ViewModel.RebuildTargetIncompleteFolder.Path, Mode=OneWay}"
+                            HeaderIcon="{ct:FontIcon Glyph=&#xE8B7;}"
+                            Visibility="{x:Bind ViewModel.RebuildTargetIncompleteFolder.Path, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}">
+                            <StackPanel Margin="{StaticResource XSmallTopMargin}" Orientation="Horizontal">
+                                <Button
+                                    x:Uid="DatabaseFileRebuildSettings_TargetIncompleteFolderOptionsButton"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}">
+                                    <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}" Text="&#xE712;" />
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                            <MenuFlyoutItem
+                                                x:Uid="DatabaseFileRebuildSettings_TargetIncompleteFolderOpenMenuItem"
+                                                Command="{x:Bind ViewModel.RebuildTargetIncompleteFolder.OpenInExplorerCommand, Mode=OneWay}"
+                                                CommandParameter="{x:Bind ViewModel.RebuildTargetIncompleteFolder.Path, Mode=OneWay}"
+                                                Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                                            <MenuFlyoutItem
+                                                x:Uid="DatabaseFileRebuildSettings_TargetIncompleteFolderRemoveMenuItem"
+                                                Command="{x:Bind ViewModel.RebuildTargetIncompleteFolder.RemoveCommand, Mode=OneWay}"
+                                                Icon="{ct:FontIcon Glyph=&#xE738;}" />
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+                        </ctcontrols:SettingsCard>
+                    </ctcontrols:SettingsExpander.Items>
+                </ctcontrols:SettingsExpander>
+
+                <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileRebuildSettings_TorrentZipIncompleteSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xF012;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.RebuildTorrentZipIncomplete, Mode=TwoWay}" />
+                </ctcontrols:SettingsCard>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

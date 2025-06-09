@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseFileInfoControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviews="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <Grid>
+            <StackPanel Margin="0,0,0,20" Spacing="{StaticResource SettingsCardSpacing}">
+
+                <TextBlock x:Uid="DatabaseFileInfo_DatabaseMetadata" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsExpander
+                    x:Uid="DatabaseFileInfo_DatabaseHeaderExpander"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE946;}"
+                    IsExpanded="True">
+                    <Button
+                        x:Uid="DatabaseFileInfo_CopyHeaderButton"
+                        MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                        Command="{x:Bind ViewModel.CopyHeaderInfoCommand, Mode=OneWay}" />
+                    <ctcontrols:SettingsExpander.Items>
+                        <ctcontrols:SettingsCard ContentAlignment="Left">
+                            <Grid ColumnSpacing="24">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderName"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderDescription"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderCategory"
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderVersion"
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderDate"
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderAuthor"
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderEmail"
+                                    Grid.Row="6"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderHomepage"
+                                    Grid.Row="7"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderUrl"
+                                    Grid.Row="8"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_HeaderComment"
+                                    Grid.Row="9"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Name, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Description, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Category, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Version, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Date, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="5"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Author, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Email, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="7"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Homepage, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="8"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Url, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="9"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Metadata.Comment, Mode=OneWay}" />
+                            </Grid>
+                        </ctcontrols:SettingsCard>
+                    </ctcontrols:SettingsExpander.Items>
+                </ctcontrols:SettingsExpander>
+                <ctcontrols:SettingsExpander
+                    x:Uid="DatabaseFileInfo_DatabaseStatsExpander"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE946;}"
+                    IsExpanded="True">
+                    <Button
+                        x:Uid="DatabaseFileInfo_CopyStatsButton"
+                        MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                        Command="{x:Bind ViewModel.CopyHeaderStatsCommand, Mode=OneWay}" />
+                    <ctcontrols:SettingsExpander.Items>
+                        <ctcontrols:SettingsCard ContentAlignment="Left">
+                            <Grid ColumnSpacing="24">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_StatsContainerCount"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_StatsTotalFileCount"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+                                <TextBlock
+                                    x:Uid="DatabaseFileInfo_StatsTotalSize"
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Style="{StaticResource SettingsCardInfoName}" />
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Stats.SummaryContainerCount, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Stats.SummaryFileCount, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Style="{StaticResource SettingsCardInfoValue}"
+                                    Text="{x:Bind ViewModel.Stats.SummarySize, Converter={StaticResource FileSizeConverter}, Mode=OneWay}" />
+                            </Grid>
+                        </ctcontrols:SettingsCard>
+                    </ctcontrols:SettingsExpander.Items>
+                </ctcontrols:SettingsExpander>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
