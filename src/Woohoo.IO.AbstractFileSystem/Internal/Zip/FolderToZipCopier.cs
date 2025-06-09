@@ -1,0 +1,96 @@
+﻿// Copyright (c) Hugues Valois. All rights reserved.
+// Licensed under the MIT license. See LICENSE in the project root for license information.
+
+namespace Woohoo.IO.AbstractFileSystem.Internal.Zip;
+
+using System.IO;
+using ICSharpCode.SharpZipLib.Zip;
+using Woohoo.IO.Compression.Zip;
+
+internal class FolderToZipCopier : IFileCopier
+{
+    protected virtual bool Compress => true;
+
+    public virtual int CanCopy(FileInformation file, string targetContainerType, string[] expectedTargetFiles)
+    {
+        Requires.NotNull(file);
+        Requires.NotNullOrEmpty(targetContainerType);
+
+        if (Directory.Exists(file.ContainerAbsolutePath))
+        {
+            if (targetContainerType == "zip")
+            {
+                return 5;
+            }
+        }
+
+        return 0;
+    }
+
+    public virtual bool Copy(FileInformation file, string targetFolderPath, bool removeSource, bool allowContainerMove, string containerName, string fileName, string[] expectedTargetFiles)
+    {
+        Requires.NotNull(file);
+        Requires.NotNullOrEmpty(targetFolderPath);
+        Requires.NotNullOrEmpty(containerName);
+        Requires.NotNullOrEmpty(fileName);
+        Requires.NotNull(expectedTargetFiles);
+
+        var targetArchiveFilePath = Path.Combine(targetFolderPath, containerName + ".zip");
+
+        if (File.Exists(targetArchiveFilePath))
+        {
+            using (var targetZipFile = new ZipFile(targetArchiveFilePath))
+            {
+                var entry = targetZipFile.GetEntry(fileName);
+                if (entry == null)
+                {
+                    this.CopyFromFileToZipArchive(Path.Combine(file.ContainerAbsolutePath, file.FileRelativePath), targetZipFile, fileName);
+                }
+                else
+                {
+                    // Target file already exists.  This may be because the same rom is shared by many games.
+                }
+            }
+        }
+        else
+        {
+            using (var targetZipFile = ZipFile.Create(targetArchiveFilePath))
+            {
+                this.CopyFromFileToZipArchive(Path.Combine(file.ContainerAbsolutePath, file.FileRelativePath), targetZipFile, fileName);
+            }
+        }
+
+        // if (!_cancel)
+        return this.PostProcess(targetArchiveFilePath, expectedTargetFiles);
+    }
+
+    public virtual string GetTargetContainerPath(string targetFolderPath, string containerName)
+    {
+        Requires.NotNullOrEmpty(targetFolderPath);
+        Requires.NotNullOrEmpty(containerName);
+
+        return Path.Combine(targetFolderPath, containerName + ".zip");
+    }
+
+    protected virtual bool PostProcess(string targetArchiveFilePath, string[] expectedTargetFiles)
+    {
+        Requires.NotNullOrEmpty(targetArchiveFilePath);
+        Requires.NotNull(expectedTargetFiles);
+
+        return SharpZipContainer.IsComplete(targetArchiveFilePath, expectedTargetFiles);
+    }
+
+    protected virtual void CopyFromFileToZipArchive(string sourceFilePath, ZipFile targetZipFile, string targetFile)
+    {
+        Requires.NotNullOrEmpty(sourceFilePath);
+        Requires.NotNull(targetZipFile);
+        Requires.NotNullOrEmpty(targetFile);
+
+        using (var sourceProvider = new ZipEntryFileStreamProvider(sourceFilePath))
+        {
+            targetZipFile.BeginUpdate();
+            targetZipFile.Add(sourceProvider, targetFile, this.Compress ? CompressionMethod.Deflated : CompressionMethod.Stored);
+            targetZipFile.CommitUpdate();
+        }
+    }
+}

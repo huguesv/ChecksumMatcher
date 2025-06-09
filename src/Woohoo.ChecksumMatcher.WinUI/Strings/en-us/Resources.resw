@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDisplayName" xml:space="preserve">
+    <value>Checksum Matcher</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Checksum Matcher Description</value>
+  </data>
+  <data name="Shell_Main.Content" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="ListDetails_NoSelection.Text" xml:space="preserve">
+    <value>Select an item from the list.</value>
+  </data>
+  <data name="Shell_Databases.Content" xml:space="preserve">
+    <value>Databases</value>
+  </data>
+  <data name="Shell_ContentGrid.Content" xml:space="preserve">
+    <value>Hash</value>
+  </data>
+  <data name="Settings_Appearance.Text" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Settings_Audit.Text" xml:space="preserve">
+    <value>Audit</value>
+  </data>
+  <data name="Settings_Databases.Text" xml:space="preserve">
+    <value>Databases</value>
+  </data>
+  <data name="SettingsPage_ThemeExpander.Description" xml:space="preserve">
+    <value>Select which app theme to display</value>
+  </data>
+  <data name="SettingsPage_ThemeExpander.Header" xml:space="preserve">
+    <value>App theme</value>
+  </data>
+  <data name="Settings_Theme_Light.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Settings_Theme_Default.Content" xml:space="preserve">
+    <value>Use system setting</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>TODO: Replace with your app description.</value>
+  </data>
+  <data name="SettingsPage_RemoveDatabaseFolderButton.Content" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SettingsPage_DatabaseFolderExpander.Description" xml:space="preserve">
+    <value>Configure the folders that contain database files</value>
+  </data>
+  <data name="SettingsPage_DatabaseFolderExpander.Header" xml:space="preserve">
+    <value>Database folders</value>
+  </data>
+  <data name="SettingsPage_AddDatabaseFolderButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="SettingsPage_ExtractCard.Description" xml:space="preserve">
+    <value>Extract files from archives to calculate checksums instead of using the crc32 stored in the archive</value>
+  </data>
+  <data name="SettingsPage_ExtractCard.Header" xml:space="preserve">
+    <value>Extract files to calculate checksums</value>
+  </data>
+  <data name="SettingsPage_AboutExpander.Description" xml:space="preserve">
+    <value>© 2008-2025 Hugues Valois. All rights reserved.</value>
+  </data>
+  <data name="SettingsPage_AboutExpander.Header" xml:space="preserve">
+    <value>Checksum Matcher</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/huguesv/ChecksumTools</value>
+  </data>
+  <data name="SettingsPage_LicenseTermsLink.Content" xml:space="preserve">
+    <value>License Terms</value>
+  </data>
+  <data name="SettingsPage_LicenseTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/huguesv/ChecksumTools/blob/main/LICENSE</value>
+  </data>
+  <data name="SettingsPage_SendFeedback.Content" xml:space="preserve">
+    <value>Send feedback</value>
+  </data>
+  <data name="SettingsPage_SendFeedback.NavigateUri" xml:space="preserve">
+    <value>https://github.com/huguesv/ChecksumTools/issues</value>
+  </data>
+  <data name="AppNotificationSamplePayload" xml:space="preserve">
+    <value>&lt;toast launch="action=ToastClick"&gt;
+  &lt;visual&gt;
+    &lt;binding template="ToastGeneric"&gt;
+      &lt;text&gt;App Notification&lt;/text&gt;
+      &lt;text&gt;&lt;/text&gt;
+      &lt;image placement="appLogoOverride" hint-crop="circle" src="{0}Assets/WindowIcon.ico"/&gt;
+    &lt;/binding&gt;
+  &lt;/visual&gt;
+  &lt;actions&gt;
+    &lt;action content="Settings" arguments="action=Settings"/&gt;
+  &lt;/actions&gt;
+&lt;/toast&gt;</value>
+  </data>
+  <data name="Shell_CreateDatabase.Content" xml:space="preserve">
+    <value>Create Database</value>
+  </data>
+  <data name="MainPage_ConfigureCard.Description" xml:space="preserve">
+    <value>Specify the location of the database files.</value>
+  </data>
+  <data name="MainPage_ConfigureCard.Header" xml:space="preserve">
+    <value>Configure your database folders</value>
+  </data>
+  <data name="MainPage_AuditCard.Header" xml:space="preserve">
+    <value>Audit your files</value>
+  </data>
+  <data name="MainPage_AuditCard.Description" xml:space="preserve">
+    <value>Scan your files to see if they match the files in the database.</value>
+  </data>
+  <data name="MainPage_HashFiles.Text" xml:space="preserve">
+    <value>Hash files</value>
+  </data>
+  <data name="MainPage_OfflineStorage.Text" xml:space="preserve">
+    <value>Offline storage</value>
+  </data>
+  <data name="MainPage_CreateDatabaseCard.Header" xml:space="preserve">
+    <value>Create a checksum database</value>
+  </data>
+  <data name="MainPage_CreateDatabaseCard.Description" xml:space="preserve">
+    <value>Create a database by scanning files in a folder.</value>
+  </data>
+  <data name="MainPage_CreateDatabase.Text" xml:space="preserve">
+    <value>Create your own databases</value>
+  </data>
+  <data name="MainPage_AuditFiles.Text" xml:space="preserve">
+    <value>Audit your files</value>
+  </data>
+  <data name="MainPage_HashCard.Header" xml:space="preserve">
+    <value>Calculate file hash</value>
+  </data>
+  <data name="MainPage_HashCard.Description" xml:space="preserve">
+    <value>Calculate and display an individual file's CRC32, MD5 and SHA1 checksums.</value>
+  </data>
+  <data name="MainPage_OfflineStorageView.Description" xml:space="preserve">
+    <value>Explore and search your offline storage</value>
+  </data>
+  <data name="MainPage_OfflineStorageCreate.Description" xml:space="preserve">
+    <value>Index the contents of your external hard drives to offline storage files</value>
+  </data>
+  <data name="MainPage_OfflineStorageCreate.Header" xml:space="preserve">
+    <value>Create an offline storage file</value>
+  </data>
+  <data name="MainPage_OfflineStorageView.Header" xml:space="preserve">
+    <value>View offline storage</value>
+  </data>
+  <data name="MainPage_DownloadDatabases.Text" xml:space="preserve">
+    <value>Download databases from online preservation groups</value>
+  </data>
+  <data name="MainPage_DownloadCard.ActionIconToolTip" xml:space="preserve">
+    <value>Open in web browser</value>
+  </data>
+  <data name="CreateDatabasePage_Name.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="CreateDatabasePage_Author.Text" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="CreateDatabasePage_Version.Text" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="CreateDatabasePage_Url.Text" xml:space="preserve">
+    <value>Url</value>
+  </data>
+  <data name="CreateDatabasePage_CreateButton.Content" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateDatabasePage_BrowseSourceFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateDatabasePage_BrowseDestinationFileButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateDatabasePage_BrowseSourceFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Source Folder</value>
+  </data>
+  <data name="CreateDatabasePage_BrowseDestinationFileButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Database Destination File</value>
+  </data>
+  <data name="CreateDatabasePage_DatabaseDestinationFile.Text" xml:space="preserve">
+    <value>Database destination file</value>
+  </data>
+  <data name="CreateDatabasePage_SourceFolder.Text" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_Name.Text" xml:space="preserve">
+    <value>File name</value>
+  </data>
+  <data name="CreateOfflineStoragePage_CreateButton.Content" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateOfflineStoragePage_CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseSourceFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseTargetFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseSourceFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Source Folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_BrowseTargetFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Target Folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_TargetFolder.Text" xml:space="preserve">
+    <value>Target folder</value>
+  </data>
+  <data name="CreateOfflineStoragePage_SourceFolder.Text" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="RebuildPage_SourceFolder.Text" xml:space="preserve">
+    <value>Source folder</value>
+  </data>
+  <data name="RebuildPage_BrowseSourceFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Source Folder</value>
+  </data>
+  <data name="RebuildPage_BrowseSourceFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="RebuildPage_TargetFolder.Text" xml:space="preserve">
+    <value>Target folder</value>
+  </data>
+  <data name="RebuildPage_BrowseTargetFolderButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Browse Target Folder</value>
+  </data>
+  <data name="RebuildPage_BrowseTargetFolderButton.Content" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="RebuildPage_RebuildButton.Content" xml:space="preserve">
+    <value>Rebuild</value>
+  </data>
+  <data name="ScanPage_ScanButton.Content" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="ScanPage_CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="RebuildPage_CancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ScanPage_ClearResultsButton.Content" xml:space="preserve">
+    <value>Clear Results</value>
+  </data>
+  <data name="RebuildPage_ClearResultsButton.Content" xml:space="preserve">
+    <value>Clear Results</value>
+  </data>
+  <data name="SettingsPage_RemoveIndexFolderButton.Content" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SettingsPage_AddIndexFolderButton.Content" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="SettingsPage_IndexFolderExpander.Header" xml:space="preserve">
+    <value>Offline storage folders</value>
+  </data>
+  <data name="SettingsPage_IndexFolderExpander.Description" xml:space="preserve">
+    <value>Configure the folders that contain offline storage index files</value>
+  </data>
+  <data name="Settings_Indexes.Text" xml:space="preserve">
+    <value>Offline storage</value>
+  </data>
+  <data name="Shell_CreateDisk.Content" xml:space="preserve">
+    <value>Create Offline Storage</value>
+  </data>
+  <data name="Shell_OfflineExplorer.Content" xml:space="preserve">
+    <value>Offline Storage Explorer</value>
+  </data>
+  <data name="ScanPage_SelectorBarItemMatched.Text" xml:space="preserve">
+    <value>Matched</value>
+  </data>
+  <data name="ScanPage_SelectorBarItemMissing.Text" xml:space="preserve">
+    <value>Missing</value>
+  </data>
+  <data name="ScanPage_SelectorBarItemUnused.Text" xml:space="preserve">
+    <value>Unused</value>
+  </data>
+  <data name="ScanPage_SelectorBarItemIncorrectName.Text" xml:space="preserve">
+    <value>Wrong Name</value>
+  </data>
+  <data name="RebuildPage_SelectorBarItemMatched.Text" xml:space="preserve">
+    <value>Matched</value>
+  </data>
+  <data name="RebuildPage_SelectorBarItemUnused.Text" xml:space="preserve">
+    <value>Unused</value>
+  </data>
+  <data name="RebuildPage_TargetContainerType.Text" xml:space="preserve">
+    <value>Target container type</value>
+  </data>
+  <data name="RebuildPage_RemoveSource.Content" xml:space="preserve">
+    <value>Remove matched source files</value>
+  </data>
+</root>

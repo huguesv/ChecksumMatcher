@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseRebuildControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converter="using:Woohoo.ChecksumMatcher.WinUI.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:vms="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converter:TextEqualsToVisibilityConverter x:Key="TextEqualsToVisibilityConverter" />
+
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="0,12,0,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            Orientation="Vertical">
+            <TextBlock x:Name="RebuildPage_SourceFolder" x:Uid="RebuildPage_SourceFolder" />
+            <Grid Margin="{StaticResource SmallTopMargin}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    MinWidth="{StaticResource TextBoxDefaultMinWidth}"
+                    HorizontalAlignment="Left"
+                    AutomationProperties.LabeledBy="{Binding ElementName=RebuildPage_SourceFolder}"
+                    Text="{x:Bind ViewModel.RebuildSourceFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    x:Uid="RebuildPage_BrowseSourceFolderButton"
+                    Grid.Column="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.BrowseRebuildSourceFolderCommand, Mode=OneWay}" />
+            </Grid>
+
+            <TextBlock
+                x:Name="RebuildPage_TargetFolder"
+                x:Uid="RebuildPage_TargetFolder"
+                Margin="{StaticResource MediumTopMargin}" />
+            <Grid Margin="{StaticResource SmallTopMargin}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    MinWidth="{StaticResource TextBoxDefaultMinWidth}"
+                    HorizontalAlignment="Left"
+                    AutomationProperties.LabeledBy="{Binding ElementName=RebuildPage_TargetFolder}"
+                    Text="{x:Bind ViewModel.RebuildTargetFolderPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    x:Uid="RebuildPage_BrowseTargetFolderButton"
+                    Grid.Column="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.BrowseRebuildTargetFolderCommand, Mode=OneWay}" />
+            </Grid>
+
+            <TextBlock
+                x:Name="RebuildPage_TargetContainerType"
+                x:Uid="RebuildPage_TargetContainerType"
+                Margin="{StaticResource MediumTopMargin}" />
+            <ComboBox
+                Margin="{StaticResource SmallTopMargin}"
+                AutomationProperties.LabeledBy="{Binding ElementName=RebuildPage_TargetContainerType}"
+                ItemsSource="{x:Bind ViewModel.RebuildTargetContainerTypes, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.RebuildTargetContainerType, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vms:RebuildTargetContainerTypeViewModel">
+                        <TextBlock Text="{x:Bind DisplayName}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <CheckBox
+                x:Uid="RebuildPage_RemoveSource"
+                Margin="{StaticResource MediumTopMargin}"
+                IsChecked="{x:Bind ViewModel.RebuildRemoveSource, Mode=TwoWay}" />
+
+            <StackPanel Margin="{StaticResource LargeTopMargin}" Orientation="Horizontal">
+                <Button x:Uid="RebuildPage_RebuildButton" Command="{x:Bind ViewModel.RebuildCommand, Mode=OneWay}" />
+                <Button
+                    x:Uid="RebuildPage_CancelButton"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.CancelRebuildCommand, Mode=OneWay}" />
+                <Button
+                    x:Uid="RebuildPage_ClearResultsButton"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.ClearRebuildResultsCommand, Mode=OneWay}" />
+
+                <TextBlock
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind ViewModel.RebuildStatus, Mode=OneWay}" />
+            </StackPanel>
+
+        </StackPanel>
+
+        <SelectorBar
+            x:Name="RebuildResultSelectorBar"
+            Grid.Row="1"
+            Margin="{StaticResource SmallTopBottomMargin}">
+            <SelectorBarItem
+                x:Name="RebuildPage_SelectorBarItemMatched"
+                x:Uid="RebuildPage_SelectorBarItemMatched"
+                Icon="{ui:FontIcon Glyph=&#xE930;}"
+                IsSelected="True" />
+            <SelectorBarItem
+                x:Name="RebuildPage_SelectorBarItemUnused"
+                x:Uid="RebuildPage_SelectorBarItemUnused"
+                Icon="{ui:FontIcon Glyph=&#xE9CE;}" />
+        </SelectorBar>
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.RebuildSortedMatchedFiles, Mode=OneWay}"
+            Visibility="{Binding ElementName=RebuildResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=RebuildPage_SelectorBarItemMatched}" />
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.RebuildSortedUnusedFiles, Mode=OneWay}"
+            Visibility="{Binding ElementName=RebuildResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=RebuildPage_SelectorBarItemUnused}" />
+    </Grid>
+</UserControl>

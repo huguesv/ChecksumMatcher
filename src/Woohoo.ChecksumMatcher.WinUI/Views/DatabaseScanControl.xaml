@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseScanControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converter="using:Woohoo.ChecksumMatcher.WinUI.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:vms="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    x:Name="RootControlElement"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converter:TextEqualsToVisibilityConverter x:Key="TextEqualsToVisibilityConverter" />
+
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="0,12,0,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button x:Uid="ScanPage_ScanButton" Command="{x:Bind ViewModel.ScanCommand, Mode=OneWay}" />
+            <Button
+                x:Uid="ScanPage_CancelButton"
+                Margin="{StaticResource SmallLeftMargin}"
+                Command="{x:Bind ViewModel.CancelScanCommand, Mode=OneWay}" />
+            <Button
+                x:Uid="ScanPage_ClearResultsButton"
+                Margin="{StaticResource SmallLeftMargin}"
+                Command="{x:Bind ViewModel.ClearScanResultsCommand, Mode=OneWay}" />
+            <TextBlock
+                Margin="{StaticResource SmallLeftMargin}"
+                VerticalAlignment="Center"
+                Text="{x:Bind ViewModel.ScanStatus, Mode=OneWay}" />
+        </StackPanel>
+
+        <SelectorBar
+            x:Name="ScanResultSelectorBar"
+            Grid.Row="1"
+            Margin="{StaticResource SmallTopBottomMargin}">
+            <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemMatched"
+                x:Uid="ScanPage_SelectorBarItemMatched"
+                Icon="{ui:FontIcon Glyph=&#xE930;}"
+                IsSelected="True" />
+            <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemUnused"
+                x:Uid="ScanPage_SelectorBarItemUnused"
+                Icon="{ui:FontIcon Glyph=&#xE9CE;}" />
+            <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemMissing"
+                x:Uid="ScanPage_SelectorBarItemMissing"
+                Icon="{ui:FontIcon Glyph=&#xEA39;}" />
+            <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemIncorrectName"
+                x:Uid="ScanPage_SelectorBarItemIncorrectName"
+                Icon="{ui:FontIcon Glyph=&#xE8AC;}" />
+        </SelectorBar>
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedMatchedFiles, Mode=OneWay}"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemMatched}" />
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedMissingFiles, Mode=OneWay}"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemMissing}" />
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedUnusedFiles, Mode=OneWay}"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemUnused}" />
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedIncorrectNameFiles, Mode=OneWay}"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemIncorrectName}" />
+    </Grid>
+
+</UserControl>

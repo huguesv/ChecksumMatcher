@@ -1,0 +1,68 @@
+﻿<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseFileDetailControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="using:Woohoo.ChecksumMatcher.WinUI.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:viewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:views="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    mc:Ignorable="d">
+
+    <!--  https://github.com/microsoft/WinUI-Gallery/blob/main/WinUIGallery/Samples/ControlPages/ListViewPage.xaml.cs  -->
+    <UserControl.Resources>
+        <converter:TextEqualsToVisibilityConverter x:Key="TextEqualsToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <SelectorBar x:Name="SelectorBar1" Grid.Row="0">
+            <SelectorBarItem
+                x:Name="SelectorBarItemInfo"
+                Icon="{ui:FontIcon Glyph=&#xE946;}"
+                Text="Info" />
+            <SelectorBarItem
+                x:Name="SelectorBarItemGames"
+                Icon="{ui:FontIcon Glyph=&#xE8FD;}"
+                IsSelected="True"
+                Text="Contents" />
+            <SelectorBarItem
+                x:Name="SelectorBarItemScan"
+                Icon="{ui:FontIcon Glyph=&#xF28B;}"
+                Text="Scan" />
+            <SelectorBarItem
+                x:Name="SelectorBarItemRebuild"
+                Icon="{ui:FontIcon Glyph=&#xEE6F;}"
+                Text="Rebuild" />
+            <SelectorBarItem
+                x:Name="SelectorBarItemSettings"
+                Icon="{ui:FontIcon Glyph=&#xE8F7;}"
+                Text="Settings" />
+        </SelectorBar>
+        <views:DatabaseInfoControl
+            Grid.Row="1"
+            ViewModel="{x:Bind Database, Mode=OneWay}"
+            Visibility="{Binding ElementName=SelectorBar1, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=SelectorBarItemInfo}" />
+        <views:DatabaseGamesControl
+            Grid.Row="1"
+            ViewModel="{x:Bind Database, Mode=OneWay}"
+            Visibility="{Binding ElementName=SelectorBar1, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=SelectorBarItemGames}" />
+        <views:DatabaseScanControl
+            Grid.Row="1"
+            ViewModel="{x:Bind Database, Mode=OneWay}"
+            Visibility="{Binding ElementName=SelectorBar1, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=SelectorBarItemScan}" />
+        <views:DatabaseRebuildControl
+            Grid.Row="1"
+            ViewModel="{x:Bind Database, Mode=OneWay}"
+            Visibility="{Binding ElementName=SelectorBar1, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=SelectorBarItemRebuild}" />
+        <views:DatabaseSettingsControl
+            Grid.Row="1"
+            ViewModel="{x:Bind Database, Mode=OneWay}"
+            Visibility="{Binding ElementName=SelectorBar1, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource TextEqualsToVisibilityConverter}, ConverterParameter=SelectorBarItemSettings}" />
+    </Grid>
+
+</UserControl>

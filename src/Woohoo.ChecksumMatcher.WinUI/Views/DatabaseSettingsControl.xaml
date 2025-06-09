@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseSettingsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converter="using:Woohoo.ChecksumMatcher.WinUI.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:vms="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    x:Name="RootControlElement"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converter:TextEqualsToVisibilityConverter x:Key="TextEqualsToVisibilityConverter" />
+
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer>
+        <Grid>
+            <StackPanel Margin="0,0,0,20" Spacing="{StaticResource SettingsCardSpacing}">
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Local storage" />
+
+                <controls:SettingsCard
+                    Description="Scan will use the list of included local folders."
+                    Header="Use local folder storage"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xF89A;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.UseOnlineStorage, Mode=TwoWay}" />
+                </controls:SettingsCard>
+
+                <controls:SettingsExpander
+                    Description="Configure the folders to scan"
+                    Header="Folders"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE8F4;}"
+                    IsExpanded="True"
+                    ItemsSource="{x:Bind ViewModel.ScanOnlineFolders, Mode=OneWay}">
+                    <controls:SettingsExpander.ItemTemplate>
+                        <DataTemplate x:DataType="vms:ScanOnlineFolderItemViewModel">
+                            <controls:SettingsCard Header="{x:Bind FolderPath}" HeaderIcon="{ui:FontIcon Glyph=&#xE8B7;}">
+                                <StackPanel Margin="{StaticResource XSmallTopMargin}" Orientation="Horizontal">
+                                    <ToggleSwitch
+                                        IsOn="{x:Bind IsIncluded, Mode=TwoWay}"
+                                        OffContent="Excluded"
+                                        OnContent="Included" />
+                                    <Button
+                                        Margin="{StaticResource MediumLeftMargin}"
+                                        Command="{x:Bind RemoveCommand, Mode=OneWay}"
+                                        Content="Remove Folder" />
+                                </StackPanel>
+                            </controls:SettingsCard>
+                        </DataTemplate>
+                    </controls:SettingsExpander.ItemTemplate>
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <Button Command="{x:Bind ViewModel.AddScanOnlineFolderCommand, Mode=OneWay}" Content="Add Folder" />
+                    </StackPanel>
+                </controls:SettingsExpander>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Offline storage" />
+
+                <controls:SettingsCard
+                    Description="Scan will use the list of included offline folders."
+                    Header="Use offline folder storage"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xF89A;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.UseOfflineStorage, Mode=TwoWay}" />
+                </controls:SettingsCard>
+
+                <controls:SettingsExpander
+                    Description="Configure the offline folders to scan"
+                    Header="Offline Folders"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE8F4;}"
+                    IsExpanded="True"
+                    ItemsSource="{x:Bind ViewModel.ScanOfflineFolders, Mode=OneWay}">
+                    <controls:SettingsExpander.ItemTemplate>
+                        <DataTemplate x:DataType="vms:ScanOfflineFolderItemViewModel">
+                            <controls:SettingsCard Header="{x:Bind DisplayName}" HeaderIcon="{ui:FontIcon Glyph=&#xE8B7;}">
+                                <StackPanel Margin="{StaticResource XSmallTopMargin}" Orientation="Horizontal">
+                                    <ToggleSwitch
+                                        IsOn="{x:Bind IsIncluded, Mode=TwoWay}"
+                                        OffContent="Excluded"
+                                        OnContent="Included" />
+                                    <Button
+                                        Margin="{StaticResource MediumLeftMargin}"
+                                        Command="{x:Bind RemoveCommand, Mode=OneWay}"
+                                        Content="Remove Folder" />
+                                </StackPanel>
+                            </controls:SettingsCard>
+                        </DataTemplate>
+                    </controls:SettingsExpander.ItemTemplate>
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <Button Content="Add Folder">
+                            <Button.Flyout>
+                                <Flyout x:Name="AddOfflineFolderFlyout" Placement="Bottom">
+                                    <StackPanel MinWidth="400" Orientation="Vertical">
+                                        <TextBlock
+                                            x:Name="OfflineDiskLabel"
+                                            Margin="{StaticResource SmallTopMargin}"
+                                            Text="Disk" />
+                                        <ComboBox
+                                            Margin="{StaticResource XSmallTopMargin}"
+                                            HorizontalAlignment="Stretch"
+                                            AutomationProperties.LabeledBy="{Binding ElementName=OfflineDiskLabel}"
+                                            ItemsSource="{x:Bind ViewModel.BrowseOfflineFolder.Disks, Mode=OneWay}"
+                                            SelectedItem="{x:Bind ViewModel.BrowseOfflineFolder.SelectedDisk, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate x:DataType="vms:SelectOfflineDiskItemViewModel">
+                                                    <TextBlock Text="{x:Bind Name}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBlock
+                                            x:Name="OfflineFolderLabel"
+                                            Margin="{StaticResource SmallTopMargin}"
+                                            Text="Folder" />
+                                        <ComboBox
+                                            Margin="{StaticResource XSmallTopMargin}"
+                                            HorizontalAlignment="Stretch"
+                                            AutomationProperties.LabeledBy="{Binding ElementName=OfflineFolderLabel}"
+                                            ItemsSource="{x:Bind ViewModel.BrowseOfflineFolder.SelectedDisk.Folders, Mode=OneWay}"
+                                            SelectedItem="{x:Bind ViewModel.BrowseOfflineFolder.SelectedDisk.SelectedFolder, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate x:DataType="vms:SelectOfflineFolderItemViewModel">
+                                                    <TextBlock Text="{x:Bind FolderPath}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button
+                                            x:Name="ApplyOfflineFolderButton"
+                                            Margin="{StaticResource SmallTopMargin}"
+                                            Command="{x:Bind ViewModel.BrowseOfflineFolder.ApplySelectionCommand, Mode=OneWay}"
+                                            Content="Select" />
+                                    </StackPanel>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
+                    </StackPanel>
+                </controls:SettingsExpander>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Checksums" />
+
+                <controls:SettingsCard
+                    Description="Extract the files from archives to calculate checksums instead of relying on the reported archive checksums."
+                    Header="Force calculate all checksums"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE8EF;}"
+                    IsEnabled="True">
+                    <ToggleSwitch />
+                </controls:SettingsCard>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

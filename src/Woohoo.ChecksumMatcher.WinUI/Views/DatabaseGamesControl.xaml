@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseGamesControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="using:Woohoo.ChecksumMatcher.WinUI.Converter"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converter:IntegerToFileSizeTextConverter x:Key="FileSizeConverter" />
+        <converter:GameStatusToVisibilityConverter x:Key="GameStatusToVisibilityConverter" />
+        <converter:GameStatusToTextConverter x:Key="GameStatusToTextConverter" />
+        <converter:RomStatusToVisibilityConverter x:Key="RomStatusToVisibilityConverter" />
+        <converter:RomStatusToTextConverter x:Key="RomStatusToTextConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <viewmodels:DatabaseGameStatus x:Key="GameStatusComplete">Complete</viewmodels:DatabaseGameStatus>
+        <viewmodels:DatabaseGameStatus x:Key="GameStatusMissing">Missing</viewmodels:DatabaseGameStatus>
+
+        <DataTemplate x:Key="GameListViewTemplate" x:DataType="viewmodels:DatabaseGameViewModel">
+            <Grid Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind CopyNameCommand, Mode=OneWay}" Text="Copy Name" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
+
+                <FontIcon
+                    Width="32"
+                    Height="32"
+                    Margin="8,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Glyph="&#xE8B7;" />
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind Name, Mode=OneWay}" />
+
+                <StackPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Border
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemFillColorSuccessBrush}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToVisibilityConverter}, ConverterParameter=Complete}">
+                        <TextBlock
+                            Margin="2"
+                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToTextConverter}}" />
+                    </Border>
+                    <Border
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemFillColorCriticalBrush}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToVisibilityConverter}, ConverterParameter=Missing|Partial}">
+                        <TextBlock
+                            Margin="2"
+                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToTextConverter}}" />
+                    </Border>
+                    <Border
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemFillColorCautionBrush}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToVisibilityConverter}, ConverterParameter=CompleteIncorrectName|PartialIncorrectName}">
+                        <TextBlock
+                            Margin="2"
+                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToTextConverter}}" />
+                    </Border>
+                    <InfoBadge
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource InformationalValueInfoBadgeStyle}"
+                        Value="{x:Bind Roms.Count, Mode=OneWay}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="RomListViewTemplate" x:DataType="viewmodels:DatabaseRomViewModel">
+            <Grid Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind CopyNameCommand, Mode=OneWay}" Text="Copy Name" />
+                        <MenuFlyoutItem Command="{x:Bind CopySizeCommand, Mode=OneWay}" Text="Copy Size" />
+                        <MenuFlyoutItem Command="{x:Bind CopyCRC32Command, Mode=OneWay}" Text="Copy CRC32" />
+                        <MenuFlyoutItem Command="{x:Bind CopyMD5Command, Mode=OneWay}" Text="Copy MD5" />
+                        <MenuFlyoutItem Command="{x:Bind CopySHA1Command, Mode=OneWay}" Text="Copy SHA1" />
+                        <MenuFlyoutItem Command="{x:Bind CopySHA256Command, Mode=OneWay}" Text="Copy SHA256" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
+
+                <FontIcon
+                    Width="32"
+                    Height="32"
+                    Margin="8,4"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Glyph="&#xE8A5;" />
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="8,4"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind Name, Mode=OneWay}"
+                    Visibility="Collapsed" />
+
+                <Grid
+                    Grid.Column="1"
+                    Margin="8"
+                    ColumnSpacing="12"
+                    RowSpacing="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="Name" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="Size" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="CRC32" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="MD5" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="SHA1" />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="SHA256" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind Name, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind Size, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind CRC32, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind MD5, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind SHA1, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind SHA256, Mode=OneWay}" />
+                </Grid>
+
+                <StackPanel
+                    Grid.Column="2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Border
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemFillColorSuccessBrush}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToVisibilityConverter}, ConverterParameter=Found}">
+                        <TextBlock
+                            Margin="2"
+                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToTextConverter}}" />
+                    </Border>
+                    <Border
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemFillColorCautionBrush}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToVisibilityConverter}, ConverterParameter=FoundWrongName}">
+                        <TextBlock
+                            Margin="2"
+                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToTextConverter}}" />
+                    </Border>
+                    <Border
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemFillColorCriticalBrush}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToVisibilityConverter}, ConverterParameter=NotFound}">
+                        <TextBlock
+                            Margin="2"
+                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToTextConverter}}" />
+                    </Border>
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Column="3"
+                    MinWidth="70"
+                    Margin="8,4"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    HorizontalTextAlignment="Right"
+                    Text="{x:Bind Size, Converter={StaticResource FileSizeConverter}, Mode=OneWay}" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="200" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Margin="{StaticResource SmallTopBottomMargin}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <DropDownButton
+                Grid.Column="0"
+                MinWidth="160"
+                Margin="{StaticResource SmallRightMargin}"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Left"
+                AutomationProperties.Name="{x:Bind ViewModel.FilterDescription, Mode=OneWay}"
+                ToolTipService.ToolTip="Scan Status Filter">
+                <DropDownButton.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon VerticalAlignment="Center" Glyph="&#xE71C;" />
+                        <TextBlock
+                            Margin="{StaticResource SmallLeftMargin}"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind ViewModel.FilterDescription, Mode=OneWay}" />
+                    </StackPanel>
+                </DropDownButton.Content>
+                <DropDownButton.Flyout>
+                    <MenuFlyout Placement="Bottom">
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.FilterAllCommand, Mode=OneWay}" Text="All">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8A9;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.FilterCompleteCommand, Mode=OneWay}" Text="Complete">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE930;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.FilterPartialCommand, Mode=OneWay}" Text="Partial">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE814;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.FilterMissingCommand, Mode=OneWay}" Text="Missing">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEA39;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{x:Bind ViewModel.FilterWrongNameCommand, Mode=OneWay}" Text="Wrong Name">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8AC;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </DropDownButton.Flyout>
+            </DropDownButton>
+            <DropDownButton
+                Grid.Column="1"
+                MinWidth="160"
+                Margin="{StaticResource SmallRightMargin}"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Left"
+                AutomationProperties.Name="{x:Bind ViewModel.RomFilterDescription, Mode=OneWay}"
+                ToolTipService.ToolTip="Dump Status Filter">
+                <DropDownButton.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon VerticalAlignment="Center" Glyph="&#xE71C;" />
+                        <TextBlock
+                            Margin="{StaticResource SmallLeftMargin}"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind ViewModel.RomFilterDescription, Mode=OneWay}" />
+                    </StackPanel>
+                </DropDownButton.Content>
+                <DropDownButton.Flyout>
+                    <MenuFlyout Placement="Bottom">
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.FilterRomStatusCommand, Mode=OneWay}"
+                            CommandParameter="all"
+                            Text="All">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8A9;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.FilterRomStatusCommand, Mode=OneWay}"
+                            CommandParameter="bad"
+                            Text="Bad">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE783;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.FilterRomStatusCommand, Mode=OneWay}"
+                            CommandParameter="good"
+                            Text="Good">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE930;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.FilterRomStatusCommand, Mode=OneWay}"
+                            CommandParameter="nodump"
+                            Text="No Dump">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xF140;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.FilterRomStatusCommand, Mode=OneWay}"
+                            CommandParameter="verified"
+                            Text="Verified">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xF0FB;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </DropDownButton.Flyout>
+            </DropDownButton>
+            <TextBlock
+                Grid.Column="2"
+                Margin="{StaticResource SmallLeftMargin}"
+                VerticalAlignment="Center"
+                Text="Query" />
+            <TextBox
+                Grid.Column="3"
+                Margin="{StaticResource SmallLeftMargin}"
+                VerticalAlignment="Center"
+                PlaceholderText="Search for name, size or checksum"
+                Text="{x:Bind ViewModel.FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Column="4"
+                MinWidth="90"
+                Margin="{StaticResource SmallLeftMargin}"
+                VerticalAlignment="Center"
+                HorizontalTextAlignment="Right">
+                <Run Text="{x:Bind ViewModel.FilteredGames.Count, Mode=OneWay}" />
+                <Run Text=" of " />
+                <Run Text="{x:Bind ViewModel.Games.Count, Mode=OneWay}" />
+            </TextBlock>
+        </Grid>
+        <ListView
+            Grid.Row="1"
+            Margin="0,0,0,12"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemTemplate="{StaticResource GameListViewTemplate}"
+            ItemsSource="{x:Bind ViewModel.FilteredGames, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedGame, Mode=TwoWay}"
+            SelectionMode="Single"
+            ShowsScrollingPlaceholders="True" />
+        <ListView
+            Grid.Row="2"
+            Margin="0,12"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemTemplate="{StaticResource RomListViewTemplate}"
+            ItemsSource="{x:Bind ViewModel.SelectedGame.Roms, Mode=OneWay}"
+            SelectedItem="{x:Bind ViewModel.SelectedGame.SelectedRom, Mode=TwoWay}"
+            SelectionMode="Single"
+            ShowsScrollingPlaceholders="True" />
+        <Button
+            Grid.Row="3"
+            Margin="{StaticResource MediumBottomMargin}"
+            Content="Show Details"
+            Visibility="Collapsed">
+            <Button.Flyout>
+                <Flyout>
+                    <Grid ColumnSpacing="12" RowSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="Name" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="Size" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="CRC32" />
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="MD5" />
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="SHA1" />
+                        <TextBlock
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource BaseTextBlockStyle}"
+                            Text="SHA256" />
+
+                        <TextBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.SelectedGame.SelectedRom.Name, Mode=OneWay}" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.SelectedGame.SelectedRom.Size, Mode=OneWay}" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.SelectedGame.SelectedRom.CRC32, Mode=OneWay}" />
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.SelectedGame.SelectedRom.MD5, Mode=OneWay}" />
+                        <TextBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.SelectedGame.SelectedRom.SHA1, Mode=OneWay}" />
+                        <TextBox
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.SelectedGame.SelectedRom.SHA256, Mode=OneWay}" />
+                    </Grid>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
+</UserControl>

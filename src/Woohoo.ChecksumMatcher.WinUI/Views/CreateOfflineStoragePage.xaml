@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.CreateOfflineStoragePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
+
+    <ScrollViewer x:Name="ContentArea">
+        <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+
+            <TextBlock x:Name="CreateOfflineStoragePage_SourceFolder" x:Uid="CreateOfflineStoragePage_SourceFolder" />
+            <Grid Margin="{StaticResource SmallTopMargin}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    MinWidth="{StaticResource TextBoxDefaultMinWidth}"
+                    HorizontalAlignment="Left"
+                    AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_SourceFolder}"
+                    Text="{x:Bind ViewModel.SourceFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    x:Uid="CreateOfflineStoragePage_BrowseSourceFolderButton"
+                    Grid.Column="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.BrowseSourceFolderCommand, Mode=OneWay}" />
+            </Grid>
+
+            <TextBlock
+                x:Name="CreateOfflineStoragePage_TargetFolder"
+                x:Uid="CreateOfflineStoragePage_TargetFolder"
+                Margin="{StaticResource MediumTopMargin}" />
+            <Grid Margin="{StaticResource SmallTopMargin}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    MinWidth="{StaticResource TextBoxDefaultMinWidth}"
+                    HorizontalAlignment="Left"
+                    AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_TargetFolder}"
+                    Text="{x:Bind ViewModel.TargetFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    x:Uid="CreateOfflineStoragePage_BrowseTargetFolderButton"
+                    Grid.Column="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.BrowseTargetFolderCommand, Mode=OneWay}" />
+            </Grid>
+
+            <TextBlock
+                x:Name="CreateOfflineStoragePage_Name"
+                x:Uid="CreateOfflineStoragePage_Name"
+                Margin="{StaticResource MediumTopMargin}" />
+            <TextBox
+                MinWidth="{StaticResource TextBoxDefaultMinWidth}"
+                Margin="{StaticResource SmallTopMargin}"
+                HorizontalAlignment="Left"
+                AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_Name}"
+                Text="{x:Bind ViewModel.DiskName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <StackPanel Margin="{StaticResource LargeTopMargin}" Orientation="Horizontal">
+                <Button x:Uid="CreateOfflineStoragePage_CreateButton" Command="{x:Bind ViewModel.CreateDiskCommand, Mode=OneWay}" />
+
+                <Button
+                    x:Uid="CreateOfflineStoragePage_CancelButton"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.CancelCommand, Mode=OneWay}" />
+            </StackPanel>
+
+            <TextBlock Margin="{StaticResource MediumTopMargin}" Text="{x:Bind ViewModel.Status, Mode=OneWay}" />
+
+            <ProgressBar
+                Margin="{StaticResource MediumTopMargin}"
+                HorizontalAlignment="Stretch"
+                IsIndeterminate="True"
+                ShowError="{x:Bind ViewModel.IsIndexingError, Mode=OneWay}"
+                ShowPaused="False"
+                Visibility="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <!--<ProgressRing
+                Margin="{StaticResource MediumTopMargin}"
+                Background="LightGray"
+                IsActive="{x:Bind ViewModel.IsIndexing, Mode=OneWay}" />-->
+        </StackPanel>
+    </ScrollViewer>
+</Page>

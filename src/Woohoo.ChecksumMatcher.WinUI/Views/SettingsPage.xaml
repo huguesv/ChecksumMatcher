@@ -1,0 +1,161 @@
+﻿<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converter="using:Woohoo.ChecksumMatcher.WinUI.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Woohoo.ChecksumMatcher.WinUI.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:xaml="using:Microsoft.UI.Xaml"
+    x:Name="RootPageElement"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <converter:ElementThemeToTextConverter x:Key="ElementThemeToTextConverter" />
+
+        <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
+
+        <!--  Spacing between cards  -->
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+
+        <!--  Style (inc. the correct spacing) of a section header  -->
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+    <ScrollViewer Margin="0,0,-50,0">
+        <Grid>
+
+            <StackPanel
+                x:Name="ContentArea"
+                Margin="0,0,50,20"
+                Spacing="{StaticResource SettingsCardSpacing}">
+
+                <TextBlock x:Uid="Settings_Appearance" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <controls:SettingsExpander x:Uid="SettingsPage_ThemeExpander" HeaderIcon="{ui:FontIcon Glyph=&#xE790;}">
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard ContentAlignment="Left">
+                            <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                                <RadioButton
+                                    x:Uid="Settings_Theme_Light"
+                                    Command="{x:Bind ViewModel.SwitchThemeCommand}"
+                                    FontSize="15"
+                                    GroupName="AppTheme"
+                                    IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Light</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="Settings_Theme_Dark"
+                                    Command="{x:Bind ViewModel.SwitchThemeCommand}"
+                                    FontSize="15"
+                                    GroupName="AppTheme"
+                                    IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton
+                                    x:Uid="Settings_Theme_Default"
+                                    Command="{x:Bind ViewModel.SwitchThemeCommand}"
+                                    FontSize="15"
+                                    GroupName="AppTheme"
+                                    IsChecked="{x:Bind ViewModel.ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}">
+                                    <RadioButton.CommandParameter>
+                                        <xaml:ElementTheme>Default</xaml:ElementTheme>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                            </StackPanel>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+                    <TextBlock Text="{x:Bind ViewModel.ElementTheme, Converter={StaticResource ElementThemeToTextConverter}, Mode=OneWay}" />
+                </controls:SettingsExpander>
+
+                <TextBlock x:Uid="Settings_Databases" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <controls:SettingsExpander
+                    x:Uid="SettingsPage_DatabaseFolderExpander"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE8F1;}"
+                    IsExpanded="True"
+                    ItemsSource="{x:Bind ViewModel.DatabaseFolders, Mode=OneWay}">
+                    <controls:SettingsExpander.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SettingsCard Header="{Binding}" HeaderIcon="{ui:FontIcon Glyph=&#xE8B7;}">
+                                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                                    <Button
+                                        x:Uid="SettingsPage_RemoveDatabaseFolderButton"
+                                        Command="{Binding ElementName=RootPageElement, Path=ViewModel.RemoveDatabaseFolderCommand}"
+                                        CommandParameter="{Binding}" />
+                                </StackPanel>
+                            </controls:SettingsCard>
+                        </DataTemplate>
+                    </controls:SettingsExpander.ItemTemplate>
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <Button x:Uid="SettingsPage_AddDatabaseFolderButton" Command="{x:Bind ViewModel.AddDatabaseFolderCommand}" />
+                    </StackPanel>
+                </controls:SettingsExpander>
+
+                <TextBlock x:Uid="Settings_Indexes" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <controls:SettingsExpander
+                    x:Uid="SettingsPage_IndexFolderExpander"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE8F1;}"
+                    IsExpanded="True"
+                    ItemsSource="{x:Bind ViewModel.IndexFolders, Mode=OneWay}">
+                    <controls:SettingsExpander.ItemTemplate>
+                        <DataTemplate>
+                            <controls:SettingsCard Header="{Binding}" HeaderIcon="{ui:FontIcon Glyph=&#xE8B7;}">
+                                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                                    <Button
+                                        x:Uid="SettingsPage_RemoveIndexFolderButton"
+                                        Command="{Binding ElementName=RootPageElement, Path=ViewModel.RemoveIndexFolderCommand}"
+                                        CommandParameter="{Binding}" />
+                                </StackPanel>
+                            </controls:SettingsCard>
+                        </DataTemplate>
+                    </controls:SettingsExpander.ItemTemplate>
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <Button x:Uid="SettingsPage_AddIndexFolderButton" Command="{x:Bind ViewModel.AddIndexFolderCommand}" />
+                    </StackPanel>
+                </controls:SettingsExpander>
+
+                <TextBlock x:Uid="Settings_Audit" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <controls:SettingsCard x:Uid="SettingsPage_ExtractCard" HeaderIcon="{ui:FontIcon Glyph=&#xE8EF;}">
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.ForceExtractOnScan, Mode=TwoWay}" />
+                    </StackPanel>
+                </controls:SettingsCard>
+
+                <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <controls:SettingsExpander x:Uid="SettingsPage_AboutExpander" HeaderIcon="{ui:FontIcon Glyph=&#xE946;}">
+
+                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ViewModel.Version, Mode=OneWay}" />
+
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard ContentAlignment="Left">
+                            <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                                <HyperlinkButton x:Uid="SettingsPage_LicenseTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+                                <HyperlinkButton x:Uid="SettingsPage_PrivacyTermsLink" Margin="{StaticResource SettingsPageHyperlinkButtonMargin}" />
+                            </StackPanel>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+
+                </controls:SettingsExpander>
+
+                <HyperlinkButton x:Uid="SettingsPage_SendFeedback" Margin="0,8,0,0" />
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

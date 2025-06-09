@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseInfoControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converter="using:Woohoo.ChecksumMatcher.WinUI.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,6" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="InfoName" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Medium" />
+        </Style>
+        <Style x:Key="InfoValue" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+            <Setter Property="TextWrapping" Value="WrapWholeWords" />
+        </Style>
+        <converter:IntegerToFileSizeTextConverter x:Key="FileSizeConverter" />
+    </UserControl.Resources>
+
+    <ScrollViewer>
+        <Grid>
+            <StackPanel Margin="0,0,0,20" Spacing="{StaticResource SettingsCardSpacing}">
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Database metadata" />
+
+                <controls:SettingsExpander
+                    Description="Metadata stored in the database header section"
+                    Header="Database header"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE946;}"
+                    IsExpanded="True">
+                    <Button Command="{x:Bind ViewModel.CopyHeaderInfoCommand, Mode=OneWay}" Content="Copy" />
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard ContentAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Name" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Description" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Category" />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Version" />
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Date" />
+                                <TextBlock
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Author" />
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Email" />
+                                <TextBlock
+                                    Grid.Row="7"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Homepage" />
+                                <TextBlock
+                                    Grid.Row="8"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Url" />
+                                <TextBlock
+                                    Grid.Row="9"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Comment" />
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Name, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Description, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Category, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Version, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Date, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="5"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Author, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Email, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="7"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Homepage, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="8"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Url, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="9"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.Comment, Mode=OneWay}" />
+                            </Grid>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+                </controls:SettingsExpander>
+                <controls:SettingsExpander
+                    Description="Statistics for the containers and files listed in the database"
+                    Header="Database statistics"
+                    HeaderIcon="{ui:FontIcon Glyph=&#xE946;}"
+                    IsExpanded="True">
+                    <Button Command="{x:Bind ViewModel.CopyHeaderStatsCommand, Mode=OneWay}" Content="Copy" />
+                    <controls:SettingsExpander.Items>
+                        <controls:SettingsCard ContentAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Container count" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Total file count" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Style="{StaticResource InfoName}"
+                                    Text="Total size" />
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.SummaryCount, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.SummaryFileCount, Mode=OneWay}" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="2"
+                                    Style="{StaticResource InfoValue}"
+                                    Text="{x:Bind ViewModel.SummarySize, Converter={StaticResource FileSizeConverter}, Mode=OneWay}" />
+                            </Grid>
+                        </controls:SettingsCard>
+                    </controls:SettingsExpander.Items>
+                </controls:SettingsExpander>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

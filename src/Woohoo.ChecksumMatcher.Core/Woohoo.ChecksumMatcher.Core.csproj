@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Woohoo.ChecksumMatcher.Core</RootNamespace>
+    <Platforms>x86;x64;arm64;AnyCPU</Platforms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Woohoo.ChecksumDatabase\Woohoo.ChecksumDatabase.csproj" />
+    <ProjectReference Include="..\Woohoo.IO.AbstractFileSystem\Woohoo.IO.AbstractFileSystem.csproj" />
+  </ItemGroup>
+</Project>
