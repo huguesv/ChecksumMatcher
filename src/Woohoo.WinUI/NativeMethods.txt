@@ -1,0 +1,7 @@
+﻿CoCreateInstance
+FileOpenDialog
+FileSaveDialog
+IFileOpenDialog
+IFileSaveDialog
+SHCreateItemFromParsingName
+SHGetKnownFolderPath

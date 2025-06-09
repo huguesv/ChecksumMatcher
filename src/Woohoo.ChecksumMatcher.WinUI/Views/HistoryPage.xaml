@@ -1,0 +1,73 @@
+﻿<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.HistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer Margin="0,0,-50,0">
+        <StackPanel Margin="0,0,50,20">
+            <ItemsRepeater HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Items}">
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="lclviewmodels:HistoryItemViewModel">
+                        <Border
+                            Margin="{StaticResource XSmallTopBottomMargin}"
+                            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{ThemeResource ControlCornerRadius}">
+                            <Grid Margin="{StaticResource XSmallLeftTopRightBottomMargin}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{x:Bind Title}" />
+                                <Button
+                                    Grid.Row="0"
+                                    MinWidth="{StaticResource SmallButtonDefaultMinWidth}"
+                                    Margin="{StaticResource SmallLeftMargin}"
+                                    HorizontalAlignment="Right"
+                                    Command="{x:Bind OpenDetailsCommand, Mode=OneWay}"
+                                    CommandParameter="{x:Bind}"
+                                    Content="View" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                    Text="{x:Bind Subtitle}" />
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Margin="{StaticResource XSmallTopMargin}"
+                                    Style="{StaticResource BodyTextBlockStyle}"
+                                    Text="{x:Bind Details}" />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Margin="{StaticResource XSmallTopMargin}"
+                                    Style="{StaticResource BodyTextBlockStyle}">
+                                    <Run FontWeight="Bold" Text="Started:" />
+                                    <Run Text="{x:Bind StartTime}" />
+                                    <Run FontWeight="Bold" Text="Ended:" />
+                                    <Run Text="{x:Bind EndTime}" />
+                                </TextBlock>
+                                <ProgressBar
+                                    Grid.Row="4"
+                                    Margin="{StaticResource XSmallTopMargin}"
+                                    HorizontalAlignment="Stretch"
+                                    IsIndeterminate="True"
+                                    Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource HistoryStatusToVisibilityConverter}}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

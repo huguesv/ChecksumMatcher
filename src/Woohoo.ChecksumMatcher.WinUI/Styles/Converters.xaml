@@ -1,0 +1,37 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI.Converters"
+    xmlns:lcl="using:Woohoo.ChecksumMatcher.WinUI.Converters">
+
+    <SolidColorBrush x:Key="StatusErrorColor" Color="{ThemeResource SystemErrorTextColor}" />
+    <SolidColorBrush x:Key="StatusInfoColor" Color="{ThemeResource TextFillColorPrimary}" />
+    <SolidColorBrush x:Key="StatusSuccessColor" Color="{ThemeResource SystemFillColorSuccess}" />
+
+    <ct:BoolNegationConverter x:Key="BoolNegationConverter" />
+    <ct:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+    <lcl:ElementThemeToTextConverter x:Key="ElementThemeToTextConverter" />
+    <lcl:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    <lcl:EqualsToVisibilityConverter x:Key="EqualsToVisibilityConverter" />
+    <lcl:IntEqualsToVisibilityConverter x:Key="IntEqualsToVisibilityConverter" />
+    <lcl:GameStatusToVisibilityConverter x:Key="GameStatusToVisibilityConverter" />
+    <lcl:GameStatusToTextConverter x:Key="GameStatusToTextConverter" />
+    <lcl:HistoryStatusToVisibilityConverter x:Key="HistoryStatusToVisibilityConverter" />
+    <lcl:IntegerToDoubleConverter x:Key="IntegerToDoubleConverter" />
+    <lcl:IntegerToFileSizeTextConverter x:Key="FileSizeConverter" />
+    <lcl:NonZeroToVisibilityConverter x:Key="NonZeroToVisibilityConverter" />
+    <lcl:OfflineExplorerArchiveGroupingToTextConverter x:Key="OfflineExplorerArchiveGroupingToTextConverter" />
+    <lcl:OfflineExplorerFolderSortPriorityToTextConverter x:Key="OfflineExplorerFolderSortPriorityToTextConverter" />
+    <lcl:RomStatusToVisibilityConverter x:Key="RomStatusToVisibilityConverter" />
+    <lcl:RomStatusToTextConverter x:Key="RomStatusToTextConverter" />
+    <lcl:StatusSeverityToBrushConverter
+        x:Key="StatusSeverityToBrushConverter"
+        ErrorBrush="{StaticResource StatusErrorColor}"
+        InfoBrush="{StaticResource StatusInfoColor}"
+        SuccessBrush="{StaticResource StatusSuccessColor}"
+        WarningBrush="{StaticResource StatusInfoColor}" />
+    <lcl:StatusSeverityToVisibilityConverter x:Key="StatusSeverityToVisibilityConverter" />
+    <lcl:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+
+</ResourceDictionary>

@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "Woohoo.ChecksumMatcher.WinUI (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "Woohoo.ChecksumMatcher.WinUI (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
