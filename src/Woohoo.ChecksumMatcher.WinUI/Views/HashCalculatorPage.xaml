@@ -1,0 +1,185 @@
+﻿<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.HashCalculatorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        Margin="0,0,-50,0"
+        AllowDrop="True"
+        DragOver="ScrollViewer_DragOver"
+        Drop="ScrollViewer_Drop">
+        <StackPanel Margin="0,0,50,20">
+            <CommandBar
+                HorizontalAlignment="Left"
+                DefaultLabelPosition="Right"
+                IsOpen="True">
+                <AppBarButton
+                    x:Uid="HashCalculatorPage_SelectFileAppBarButton"
+                    Command="{x:Bind ViewModel.SelectFileCommand, Mode=OneWay}"
+                    Icon="Add" />
+                <AppBarButton
+                    x:Uid="HashCalculatorPage_CancelAppBarButton"
+                    Command="{x:Bind ViewModel.CancelCalculatingCommand, Mode=OneWay}"
+                    Icon="Cancel" />
+                <AppBarButton
+                    x:Uid="HashCalculatorPage_CollapseAllAppBarButton"
+                    Command="{x:Bind ViewModel.CollapseAllCommand, Mode=OneWay}"
+                    Icon="{ct:FontIcon Glyph=&#xF165;}" />
+                <AppBarButton
+                    x:Uid="HashCalculatorPage_ClearAppBarButton"
+                    Command="{x:Bind ViewModel.ClearCommand, Mode=OneWay}"
+                    Icon="Remove" />
+            </CommandBar>
+            <ItemsRepeater HorizontalAlignment="Stretch" ItemsSource="{x:Bind ViewModel.Results}">
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="lclviewmodels:HashCalculatorFileViewModel">
+                        <Expander
+                            Margin="{StaticResource SmallTopMargin}"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}">
+                            <Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind FullPath, Mode=OneWay}"
+                                        TextWrapping="Wrap" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <Button
+                                            x:Uid="HashCalculatorPage_ResultCopyButton"
+                                            MinWidth="{StaticResource SmallButtonDefaultMinWidth}"
+                                            Command="{x:Bind CopyHashCommand, Mode=OneWay}">
+                                            <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}" Text="&#xE8C8;" />
+                                        </Button>
+                                        <Button
+                                            x:Uid="HashCalculatorPage_ResultOpenInExplorerButton"
+                                            MinWidth="{StaticResource SmallButtonDefaultMinWidth}"
+                                            Margin="{StaticResource XSmallLeftMargin}"
+                                            Command="{x:Bind OpenInExplorerCommand, Mode=OneWay}">
+                                            <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}" Text="&#xEC50;" />
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                                <Grid RowDefinitions="Auto,*">
+                                    <StackPanel Grid.Row="1">
+                                        <Grid ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" MinWidth="50" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                x:Uid="HashCalculatorPage_ResultName"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center" />
+                                            <TextBox
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                IsReadOnly="True"
+                                                Text="{x:Bind Name, Mode=OneWay}" />
+                                            <TextBlock
+                                                x:Uid="HashCalculatorPage_ResultSize"
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center" />
+                                            <TextBox
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center"
+                                                IsReadOnly="True"
+                                                Text="{x:Bind FileSize, Mode=OneWay}" />
+                                            <TextBlock
+                                                x:Uid="HashCalculatorPage_ResultCrc32"
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center" />
+                                            <TextBox
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center"
+                                                IsReadOnly="True"
+                                                Text="{x:Bind Crc32, Mode=OneWay}" />
+                                            <TextBlock
+                                                x:Uid="HashCalculatorPage_ResultMd5"
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center" />
+                                            <TextBox
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center"
+                                                IsReadOnly="True"
+                                                Text="{x:Bind Md5, Mode=OneWay}" />
+                                            <TextBlock
+                                                x:Uid="HashCalculatorPage_ResultSha1"
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center" />
+                                            <TextBox
+                                                Grid.Row="4"
+                                                Grid.Column="1"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center"
+                                                IsReadOnly="True"
+                                                Text="{x:Bind Sha1, Mode=OneWay}" />
+                                            <TextBlock
+                                                x:Uid="HashCalculatorPage_ResultSha256"
+                                                Grid.Row="5"
+                                                Grid.Column="0"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center" />
+                                            <TextBox
+                                                Grid.Row="5"
+                                                Grid.Column="1"
+                                                Margin="{StaticResource SmallTopMargin}"
+                                                VerticalAlignment="Center"
+                                                IsReadOnly="True"
+                                                Text="{x:Bind Sha256, Mode=OneWay}" />
+                                        </Grid>
+                                        <ProgressBar
+                                            Margin="{StaticResource MediumTopMargin}"
+                                            IsIndeterminate="False"
+                                            ShowError="{x:Bind IsCalculatingError, Mode=OneWay}"
+                                            Visibility="{x:Bind IsCalculating, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                                            Value="{x:Bind FileProgress, Mode=OneWay}" />
+                                    </StackPanel>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

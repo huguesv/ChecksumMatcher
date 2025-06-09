@@ -1,0 +1,95 @@
+﻿<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclconverters="using:Woohoo.ChecksumMatcher.WinUI.Converters"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer Margin="0,0,-50,0">
+
+        <Grid>
+            <StackPanel
+                x:Name="ContentArea"
+                Margin="0,0,50,20"
+                Spacing="{StaticResource SettingsCardSpacing}">
+
+                <TextBlock x:Uid="MainPage_DownloadDatabases" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.WebSites, Mode=OneWay}" TabFocusNavigation="Local">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="lclviewmodels:WebSiteViewModel">
+                            <ctcontrols:SettingsCard
+                                x:Uid="MainPage_DownloadCard"
+                                Width="250"
+                                ActionIcon="{ct:FontIcon Glyph=&#xE8A7;}"
+                                Command="{x:Bind OpenWebBrowserCommand, Mode=OneWay}"
+                                Description="{x:Bind Subtitle, Mode=OneWay}"
+                                Header="{x:Bind Title, Mode=OneWay}"
+                                HeaderIcon="{ct:FontIcon Glyph=&#xE774;}"
+                                IsClickEnabled="True"
+                                ToolTipService.Placement="Bottom"
+                                ToolTipService.ToolTip="{x:Bind Description, Mode=OneWay}" />
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                    <ItemsRepeater.Layout>
+                        <ctcontrols:WrapLayout
+                            HorizontalSpacing="{StaticResource SettingsCardSpacing}"
+                            Orientation="Horizontal"
+                            VerticalSpacing="{StaticResource SettingsCardSpacing}" />
+                    </ItemsRepeater.Layout>
+                </ItemsRepeater>
+
+                <TextBlock x:Uid="MainPage_CreateDatabase" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="MainPage_CreateDatabaseCard"
+                    Click="OnCreateDatabaseClicked"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xECC8;}"
+                    IsClickEnabled="True" />
+
+                <TextBlock x:Uid="MainPage_AuditFiles" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="MainPage_ConfigureCard"
+                    Click="OnConfigureClicked"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE713;}"
+                    IsClickEnabled="True" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="MainPage_AuditCard"
+                    Click="OnAuditClicked"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8F1;}"
+                    IsClickEnabled="True" />
+
+                <TextBlock x:Uid="MainPage_OfflineStorage" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="MainPage_OfflineStorageCreate"
+                    Click="OnOfflineStorageCreate"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xECC8;}"
+                    IsClickEnabled="True" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="MainPage_OfflineStorageView"
+                    Click="OnOfflineStorageView"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xEDA2;}"
+                    IsClickEnabled="True" />
+
+                <TextBlock x:Uid="MainPage_HashFiles" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+
+                <ctcontrols:SettingsCard
+                    x:Uid="MainPage_HashCard"
+                    Click="OnHashClicked"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE8EF;}"
+                    IsClickEnabled="True" />
+
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
+</Page>

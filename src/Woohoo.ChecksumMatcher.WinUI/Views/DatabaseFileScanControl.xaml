@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.DatabaseFileScanControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:lclviews="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="RootControlElement"
+    mc:Ignorable="d">
+
+    <Grid Margin="0,12,0,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    x:Uid="ScanPage_ScanButton"
+                    Grid.Column="0"
+                    MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                    Background="{ThemeResource AccentFillColorDefaultBrush}"
+                    Command="{x:Bind ViewModel.ScanCommand, Mode=OneWay}"
+                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+                <Button
+                    x:Uid="ScanPage_CancelButton"
+                    Grid.Column="1"
+                    MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.CancelScanCommand, Mode=OneWay}" />
+                <Button
+                    x:Uid="ScanPage_ClearResultsButton"
+                    Grid.Column="2"
+                    MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.ClearScanResultsCommand, Mode=OneWay}" />
+            </Grid>
+
+            <TextBlock x:Uid="DatabaseFileScan_Status" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+            <Border
+                MinHeight="60"
+                Margin="{StaticResource SmallTopMargin}"
+                Padding="8,4"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{ThemeResource ControlCornerRadius}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.LiveSetting="Assertive"
+                        Foreground="{x:Bind ViewModel.ScanStatus.Severity, Mode=OneWay, Converter={StaticResource StatusSeverityToBrushConverter}}"
+                        Text="{x:Bind ViewModel.ScanStatus.Text, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind ViewModel.ScanStatus.Severity, Mode=OneWay, Converter={StaticResource StatusSeverityToVisibilityConverter}}" />
+                    <ProgressBar
+                        Grid.Row="1"
+                        Margin="{StaticResource XSmallTopMargin}"
+                        HorizontalAlignment="Stretch"
+                        IsIndeterminate="True"
+                        Visibility="{x:Bind ViewModel.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <SelectorBar
+            x:Name="ScanResultSelectorBar"
+            Grid.Row="1"
+            Margin="{StaticResource SmallTopBottomMargin}">
+            <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemMatched"
+                Icon="{ct:FontIcon Glyph=&#xE930;}"
+                IsSelected="True"
+                Text="{x:Bind ViewModel.ScanMatchedFilesLabel, Mode=OneWay}" />
+            <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemMissing"
+                Icon="{ct:FontIcon Glyph=&#xEA39;}"
+                Text="{x:Bind ViewModel.ScanMissingLabel, Mode=OneWay}" />
+            <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemIncorrectName"
+                Icon="{ct:FontIcon Glyph=&#xE8AC;}"
+                Text="{x:Bind ViewModel.ScanIncorrectNameFilesLabel, Mode=OneWay}" />
+            <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemUnused"
+                Icon="{ct:FontIcon Glyph=&#xE9CE;}"
+                Text="{x:Bind ViewModel.ScanUnusedFilesLabel, Mode=OneWay}" />
+        </SelectorBar>
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            Padding="8"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedMatchedFiles, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollMode="Auto"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemMatched}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="lclviewmodels:DatabaseScanResultActualViewModel">
+                    <Grid>
+                        <TextBlock Margin="{StaticResource XSmallTopBottomMargin}" Text="{x:Bind ActualDisplayName}" />
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    x:Uid="DatabaseFileScan_MatchedOpenInExplorerMenuItem"
+                                    Command="{Binding ElementName=RootControlElement, Path=ViewModel.OpenScanActualInExplorerCommand, Mode=OneWay}"
+                                    CommandParameter="{x:Bind}"
+                                    Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                                <MenuFlyoutSubItem x:Uid="DatabaseFileScan_MatchedCopyToClipboardMenuItem">
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MatchedCopyContainerNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanMatchedContainerCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MatchedCopyNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanMatchedCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MatchedCopyAllContainerNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanMatchedContainerCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MatchedCopyAllNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanMatchedCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            Padding="8"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedMissingFiles, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollMode="Auto"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemMissing}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="lclviewmodels:DatabaseScanResultExpectedViewModel">
+                    <Grid>
+                        <TextBlock Margin="{StaticResource XSmallTopBottomMargin}" Text="{x:Bind ExpectedDisplayName, Mode=OneWay}" />
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutSubItem x:Uid="DatabaseFileScan_MissingCopyToClipboardMenuItem">
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MissingCopyContainerNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanMissingContainerCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MissingCopyNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanMissingCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MissingCopyAllContainerNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanMissingContainerCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MissingCopyAllNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanMissingCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            Padding="8"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedUnusedFiles, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollMode="Auto"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemUnused}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="lclviewmodels:DatabaseScanResultActualViewModel">
+                    <Grid>
+                        <TextBlock Margin="{StaticResource XSmallTopBottomMargin}" Text="{x:Bind ActualDisplayName, Mode=OneWay}" />
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    x:Uid="DatabaseFileScan_UnusedOpenInExplorerMenuItem"
+                                    Command="{Binding ElementName=RootControlElement, Path=ViewModel.OpenScanActualInExplorerCommand, Mode=OneWay}"
+                                    CommandParameter="{x:Bind}"
+                                    Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                                <MenuFlyoutSubItem x:Uid="DatabaseFileScan_UnusedCopyToClipboardMenuItem">
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_UnusedCopyContainerNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanUnusedContainerCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_UnusedCopyNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanUnusedCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_UnusedCopyAllContainerNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanUnusedContainerCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_UnusedCopyAllNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanUnusedCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView
+            x:Name="IncorrectNameListView"
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            Padding="8"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedIncorrectNameFiles, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollMode="Auto"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemIncorrectName}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="lclviewmodels:DatabaseScanResultWrongNameViewModel">
+                    <Grid
+                        Margin="{StaticResource XSmallTopBottomMargin}"
+                        ColumnSpacing="8"
+                        RowSpacing="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            x:Uid="DatabaseFileScan_IncorrectNameActual"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            FontWeight="Bold" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="{x:Bind ActualDisplayName, Mode=OneWay}" />
+                        <TextBlock
+                            x:Uid="DatabaseFileScan_IncorrectNameExpected"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            FontWeight="Bold" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="{x:Bind ExpectedDisplayName, Mode=OneWay}" />
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem
+                                    x:Uid="DatabaseFileScan_IncorrectNameOpenInExplorerMenuItem"
+                                    Command="{Binding ElementName=RootControlElement, Path=ViewModel.OpenScanWrongNamedInExplorerCommand, Mode=OneWay}"
+                                    CommandParameter="{x:Bind}"
+                                    Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                                <MenuFlyoutSubItem x:Uid="DatabaseFileScan_IncorrectNameCopyToClipboardMenuItem">
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyActualContainerNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanWrongNamedActualContainerCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyActualNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanWrongNamedActualCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyExpectedContainerNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanWrongNamedExpectedContainerCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyExpectedNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanWrongNamedExpectedCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyAllNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanWrongNamedCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyAllActualContainerNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanWrongNamedActualContainerCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyAllActualNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanWrongNamedActualCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyAllExpectedContainerNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanWrongNamedExpectedContainerCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_IncorrectNameCopyAllExpectedNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanWrongNamedExpectedCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+
+</UserControl>
