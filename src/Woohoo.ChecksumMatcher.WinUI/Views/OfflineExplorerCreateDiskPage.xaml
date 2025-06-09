@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.OfflineExplorerCreateDiskPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:lclviews="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Required"
+    mc:Ignorable="d">
+
+    <ScrollViewer x:Name="ContentArea" Margin="0,0,-50,0">
+        <StackPanel Margin="0,0,50,20">
+
+            <TextBlock x:Name="CreateOfflineStoragePage_SourceFolder" x:Uid="CreateOfflineStoragePage_SourceFolder" />
+            <StackPanel Margin="{StaticResource SmallTopMargin}" Orientation="Horizontal">
+                <ComboBox
+                    x:Name="CreateOfflineStoragePage_SourceDriveComboBox"
+                    MinWidth="{StaticResource PathTextBoxDefaultMinWidth}"
+                    VerticalAlignment="Stretch"
+                    AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_SourceFolder}"
+                    IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    ItemsSource="{x:Bind ViewModel.Drives, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.SelectedDrive, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="lclviewmodels:OfflineExplorerDriveViewModel">
+                            <TextBlock>
+                                <Run Text="{x:Bind Name, Mode=OneWay}" />
+                                <Run Text=" [" />
+                                <Run Text="{x:Bind Label, Mode=OneWay}" />
+                                <Run Text="]" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button
+                    x:Uid="CreateOfflineStoragePage_RefreshDrivesButton"
+                    MinWidth="{StaticResource SmallButtonDefaultMinWidth}"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Stretch"
+                    Command="{x:Bind ViewModel.RefreshDrivesCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
+                    <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}" Text="&#xE72C;" />
+                </Button>
+            </StackPanel>
+
+            <TextBlock
+                x:Name="CreateOfflineStoragePage_TargetFolder"
+                x:Uid="CreateOfflineStoragePage_TargetFolder"
+                Margin="{StaticResource MediumTopMargin}" />
+            <Grid Margin="{StaticResource SmallTopMargin}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Grid.Column="0"
+                    MinWidth="{StaticResource PathTextBoxDefaultMinWidth}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_TargetFolder}"
+                    IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    Text="{x:Bind ViewModel.TargetFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    x:Uid="CreateOfflineStoragePage_BrowseTargetFolderButton"
+                    Grid.Column="1"
+                    MinWidth="{StaticResource SmallButtonDefaultMinWidth}"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Stretch"
+                    Command="{x:Bind ViewModel.BrowseTargetFolderCommand, Mode=OneWay}"
+                    IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+            </Grid>
+
+            <TextBlock
+                x:Name="CreateOfflineStoragePage_Name"
+                x:Uid="CreateOfflineStoragePage_Name"
+                Margin="{StaticResource MediumTopMargin}" />
+            <TextBox
+                MinWidth="{StaticResource TextBoxDefaultMinWidth}"
+                Margin="{StaticResource SmallTopMargin}"
+                HorizontalAlignment="Left"
+                AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_Name}"
+                IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                Text="{x:Bind ViewModel.DiskName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <StackPanel Margin="{StaticResource LargeTopMargin}" Orientation="Horizontal">
+                <Button
+                    x:Uid="CreateOfflineStoragePage_CreateButton"
+                    MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                    Background="{ThemeResource AccentFillColorDefaultBrush}"
+                    Command="{x:Bind ViewModel.CreateDiskCommand, Mode=OneWay}"
+                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" />
+
+                <Button
+                    x:Uid="CreateOfflineStoragePage_CancelButton"
+                    MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.CancelCommand, Mode=OneWay}" />
+            </StackPanel>
+
+            <TextBlock x:Uid="CreateOfflineStoragePage_Status" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+            <Border
+                MinHeight="60"
+                Margin="{StaticResource SmallTopMargin}"
+                Padding="8,4"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="{ThemeResource ControlCornerRadius}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        VerticalAlignment="Top"
+                        AutomationProperties.LiveSetting="Assertive"
+                        Foreground="{x:Bind ViewModel.Status.Severity, Mode=OneWay, Converter={StaticResource StatusSeverityToBrushConverter}}"
+                        Text="{x:Bind ViewModel.Status.Text, Mode=OneWay}"
+                        TextWrapping="Wrap"
+                        Visibility="{x:Bind ViewModel.Status.Severity, Mode=OneWay, Converter={StaticResource StatusSeverityToVisibilityConverter}}" />
+                    <ProgressBar
+                        Grid.Row="1"
+                        Margin="{StaticResource XSmallTopMargin}"
+                        HorizontalAlignment="Stretch"
+                        IsIndeterminate="True"
+                        ShowError="{x:Bind ViewModel.IsIndexingError, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

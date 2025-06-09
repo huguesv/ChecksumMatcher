@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Woohoo.ChecksumMatcher.WinUI.Views.OfflineExplorerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lclviewmodels="using:Woohoo.ChecksumMatcher.WinUI.ViewModels"
+    xmlns:lclviews="using:Woohoo.ChecksumMatcher.WinUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <x:Int32 x:Key="ZeroInt32">0</x:Int32>
+
+        <Style x:Key="DetailsInfoName" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="DetailsInfoValue" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <DataTemplate x:Key="DiskTemplate" x:DataType="lclviewmodels:OfflineExplorerDiskViewModel">
+            <TextBlock>
+                <Run x:Uid="OfflineExplorerPage_DiskTemplateName" />
+                <Run Text="{x:Bind Name, Mode=OneWay}" />
+                <Run x:Uid="OfflineExplorerPage_DiskTemplateLabel" />
+                <Run Text="{x:Bind Label, Mode=OneWay}" />
+                <Run x:Uid="OfflineExplorerPage_DiskTemplateVolumeSerial" />
+                <Run Text="{x:Bind SerialNumber, Mode=OneWay}" />
+            </TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TreeNoSelectionTemplate" x:DataType="lclviewmodels:OfflineExplorerFolderViewModel">
+            <Grid />
+        </DataTemplate>
+
+        <DataTemplate x:Key="TreeFolderTemplate" x:DataType="lclviewmodels:OfflineExplorerFolderViewModel">
+            <TreeViewItem
+                AutomationProperties.Name="{x:Bind Name, Mode=OneWay}"
+                DoubleTapped="TreeViewItem_DoubleTapped"
+                IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                ItemsSource="{x:Bind SortedFolders, Mode=OneWay}"
+                KeyUp="TreeViewItem_KeyUp">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE8B7;" />
+                    <TextBlock
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind Name, Mode=OneWay}" />
+                </StackPanel>
+                <TreeViewItem.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FolderTreeCollapseAllMenuItem"
+                            Command="{x:Bind CollapseAllDescendantsCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xF166;}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FolderTreeExpandAllMenuItem"
+                            Command="{x:Bind ExpandAllDescendantsCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xF164;}" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FolderTreeCopyNameMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Name, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FolderTreeCopyPathMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Path, Mode=OneWay}" />
+                    </MenuFlyout>
+                </TreeViewItem.ContextFlyout>
+            </TreeViewItem>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TreeArchiveTemplate" x:DataType="lclviewmodels:OfflineExplorerFolderViewModel">
+            <TreeViewItem AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xF012;" />
+                    <TextBlock
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind Name, Mode=OneWay}" />
+                </StackPanel>
+            </TreeViewItem>
+        </DataTemplate>
+
+        <lclviews:OfflineExplorerItemTemplateSelector
+            x:Key="TreeTemplateSelector"
+            ArchiveTemplate="{StaticResource TreeArchiveTemplate}"
+            FolderTemplate="{StaticResource TreeFolderTemplate}" />
+
+        <DataTemplate x:Key="ArchiveListTemplate" x:DataType="lclviewmodels:OfflineExplorerFolderViewModel">
+            <Grid Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_ArchiveListCopyNameMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Name, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_ArchiveListCopyPathMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Path, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_ArchiveListCopySizeMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Size, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_ArchiveListCopyReportedCrc32MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind ReportedCRC32, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_ArchiveListCopyCrc32MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind CRC32, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_ArchiveListCopyMd5MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind MD5, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_ArchiveListCopySha1MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind SHA1, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_ArchiveListCopySha256MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind SHA256, Mode=OneWay}" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Text="&#xF012;" />
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind Name, Mode=OneWay}" />
+
+                <TextBlock
+                    Grid.Column="2"
+                    Margin="{StaticResource XSmallLeftRightMargin}"
+                    VerticalAlignment="Center"
+                    HorizontalTextAlignment="Right"
+                    Text="{x:Bind Size, Converter={StaticResource FileSizeConverter}, Mode=OneWay}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FileListTemplate" x:DataType="lclviewmodels:OfflineExplorerFileViewModel">
+            <Grid Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FileListCopyNameMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Name, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FileListCopyPathMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Path, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FileListCopySizeMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Size, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FileListCopyReportedCrc32MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind ReportedCRC32, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FileListCopyCrc32MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind CRC32, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FileListCopyMd5MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind MD5, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FileListCopySha1MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind SHA1, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FileListCopySha256MenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind SHA256, Mode=OneWay}" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Text="&#xE8A5;" />
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind Name, Mode=OneWay}" />
+
+                <TextBlock
+                    Grid.Column="2"
+                    Margin="{StaticResource XSmallLeftRightMargin}"
+                    VerticalAlignment="Center"
+                    HorizontalTextAlignment="Right"
+                    Text="{x:Bind Size, Converter={StaticResource FileSizeConverter}, Mode=OneWay}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FolderListTemplate" x:DataType="lclviewmodels:OfflineExplorerFolderViewModel">
+            <Grid Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FolderListCopyNameMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Name, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Uid="OfflineExplorerPage_FolderListCopyPathMenuItem"
+                            Command="{x:Bind CopyToClipboardCommand, Mode=OneWay}"
+                            CommandParameter="{x:Bind Path, Mode=OneWay}" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Text="&#xE8B7;" />
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind Name, Mode=OneWay}" />
+            </Grid>
+        </DataTemplate>
+
+        <lclviews:OfflineExplorerItemTemplateSelector
+            x:Key="ListTemplateSelector"
+            ArchiveTemplate="{StaticResource ArchiveListTemplate}"
+            FileTemplate="{StaticResource FileListTemplate}"
+            FolderTemplate="{StaticResource FolderListTemplate}" />
+
+        <DataTemplate x:Key="SearchResultListViewTemplate" x:DataType="lclviewmodels:OfflineExplorerSearchResultViewModel">
+            <Grid Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="OfflineExplorerPage_ResultOpenContainingFolderMenuItem" Command="{x:Bind OpenContainingFolderCommand, Mode=OneWay}" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
+
+                <TextBlock
+                    Grid.RowSpan="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Text="&#xE8A5;" />
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind Name, Mode=OneWay}" />
+
+                <TextBlock
+                    Grid.Column="2"
+                    Margin="{StaticResource XSmallLeftRightMargin}"
+                    VerticalAlignment="Center"
+                    HorizontalTextAlignment="Right"
+                    Text="{x:Bind Size, Mode=OneWay}" />
+
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="{StaticResource MediumLeftMargin}"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="{StaticResource XSmallLeftRightBottomMargin}"
+                        VerticalAlignment="Center"
+                        FontSize="{StaticResource CaptionTextBlockFontSize}"
+                        FontWeight="Light"
+                        Text="{x:Bind Container, Mode=OneWay}" />
+                </StackPanel>
+
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FolderDetailsTemplate" x:DataType="lclviewmodels:OfflineExplorerFolderViewModel">
+            <Grid
+                Margin="{StaticResource SmallLeftTopRightBottomMargin}"
+                ColumnSpacing="12"
+                RowSpacing="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="80" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsName"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsSize"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsCreated"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsModified"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsReportedCrc32"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsCrc32"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsMd5"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsSha1"
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FolderDetailsSha256"
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Name, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Size, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Created, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Modified, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="N/A" />
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="N/A" />
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="N/A" />
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="N/A" />
+                <TextBlock
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="N/A" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ArchiveDetailsTemplate" x:DataType="lclviewmodels:OfflineExplorerFolderViewModel">
+            <Grid
+                Margin="{StaticResource SmallLeftTopRightBottomMargin}"
+                ColumnSpacing="12"
+                RowSpacing="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="80" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsName"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsSize"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsCreated"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsModified"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsReportedCrc32"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsCrc32"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsMd5"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsSha1"
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_ArchiveDetailsSha256"
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Name, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Size, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Created, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Modified, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind ReportedCRC32, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind CRC32, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind MD5, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind SHA1, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind SHA256, Mode=OneWay}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FileDetailsTemplate" x:DataType="lclviewmodels:OfflineExplorerFileViewModel">
+            <Grid
+                Margin="{StaticResource SmallLeftTopRightBottomMargin}"
+                ColumnSpacing="12"
+                RowSpacing="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="80" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsName"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsSize"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsCreated"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsModified"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsReportedCrc32"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsCrc32"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsMd5"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsSha1"
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_FileDetailsSha256"
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Style="{StaticResource DetailsInfoName}" />
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Name, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Size, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Created, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind Modified, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind ReportedCRC32, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind CRC32, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind MD5, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind SHA1, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Style="{StaticResource DetailsInfoValue}"
+                    Text="{x:Bind SHA256, Mode=OneWay}" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NoDetailsTemplate">
+            <TextBlock
+                x:Uid="OfflineExplorerPage_DetailsNoSelection"
+                Margin="{StaticResource SmallLeftTopRightBottomMargin}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+        </DataTemplate>
+
+        <lclviews:OfflineExplorerItemTemplateSelector
+            x:Key="DetailsTemplateSelector"
+            ArchiveTemplate="{StaticResource ArchiveDetailsTemplate}"
+            FileTemplate="{StaticResource FileDetailsTemplate}"
+            FolderTemplate="{StaticResource FolderDetailsTemplate}"
+            NoSelectionTemplate="{StaticResource NoDetailsTemplate}" />
+
+    </Page.Resources>
+
+    <Grid>
+        <Grid>
+            <StackPanel
+                VerticalAlignment="Center"
+                Orientation="Vertical"
+                Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ProgressRing IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_DisksLoading"
+                    Margin="20"
+                    HorizontalTextAlignment="Center"
+                    Style="{ThemeResource TitleTextBlockStyle}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid
+            x:Name="ContentArea"
+            ColumnSpacing="12"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ItemTemplate="{StaticResource DiskTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Disks, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.SelectedDisk, Mode=TwoWay}" />
+
+                <Button
+                    x:Uid="OfflineExplorerPage_NewButton"
+                    Grid.Column="1"
+                    MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Stretch"
+                    Command="{x:Bind ViewModel.CreateNewDiskCommand, Mode=OneWay}" />
+            </Grid>
+
+            <StackPanel
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Orientation="Vertical"
+                Visibility="{x:Bind ViewModel.SelectedDisk.IsFullyLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}">
+                <ProgressRing IsActive="{x:Bind ViewModel.SelectedDisk.IsFullyLoading, Mode=OneWay}" />
+                <TextBlock
+                    x:Uid="OfflineExplorerPage_DiskLoading"
+                    Margin="20"
+                    HorizontalTextAlignment="Center"
+                    Style="{ThemeResource TitleTextBlockStyle}" />
+            </StackPanel>
+
+            <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsConfigured, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock x:Uid="OfflineExplorerPage_NotConfigured" HorizontalAlignment="Center" />
+                    <HyperlinkButton
+                        x:Uid="OfflineExplorerPage_SettingsButton"
+                        Margin="{StaticResource SmallTopMargin}"
+                        HorizontalAlignment="Center"
+                        Command="{x:Bind ViewModel.OpenSettingsCommand, Mode=OneWay}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.Disks.Count, Mode=OneWay, Converter={StaticResource IntEqualsToVisibilityConverter}, ConverterParameter=0}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <TextBlock x:Uid="OfflineExplorerPage_NoDisks" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                Margin="{StaticResource SmallTopBottomMargin}"
+                Visibility="{x:Bind ViewModel.SelectedDisk.IsFullyLoaded, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, FallbackValue=Collapsed}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ScrollViewer
+                    x:Name="SideContent"
+                    Grid.Column="0"
+                    Padding="8"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                    HorizontalScrollBarVisibility="Auto"
+                    VerticalScrollBarVisibility="Auto"
+                    Visibility="{x:Bind ViewModel.SelectedDisk.IsFullyLoaded, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TreeView
+                        ItemTemplateSelector="{StaticResource TreeTemplateSelector}"
+                        ItemsSource="{x:Bind ViewModel.SelectedDisk.RootFolders, Mode=OneWay}"
+                        SelectedItem="{x:Bind ViewModel.SelectedDisk.TreeSelectedFolder, Mode=TwoWay}"
+                        SelectionMode="Single" />
+                </ScrollViewer>
+
+                <ctcontrols:GridSplitter Grid.Column="1" Margin="{StaticResource XSmallLeftRightMargin}" />
+
+                <Grid Grid.Column="2" Visibility="{x:Bind ViewModel.SelectedDisk.IsFullyLoaded, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Breadcrumbs for the path  -->
+                    <Border
+                        Grid.Row="0"
+                        Padding="4,2,4,6"
+                        HorizontalAlignment="Stretch"
+                        Background="{ThemeResource ControlFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{ThemeResource ControlCornerRadius}">
+                        <BreadcrumbBar ItemClicked="BreadcrumbBar_ItemClicked" ItemsSource="{x:Bind ViewModel.SelectedDisk.SelectedFolder.Breadcrumbs, Mode=OneWay}">
+                            <BreadcrumbBar.ItemTemplate>
+                                <DataTemplate x:DataType="lclviewmodels:OfflineExplorerBreadcrumbViewModel">
+                                    <BreadcrumbBarItem AutomationProperties.Name="{Binding Name}" Content="{Binding}">
+                                        <BreadcrumbBarItem.ContentTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Margin="5,-2,5,0" Text="{Binding Name}" />
+                                            </DataTemplate>
+                                        </BreadcrumbBarItem.ContentTemplate>
+                                    </BreadcrumbBarItem>
+                                </DataTemplate>
+                            </BreadcrumbBar.ItemTemplate>
+                        </BreadcrumbBar>
+                    </Border>
+
+                    <!--  Search Bar  -->
+                    <Grid Grid.Row="1" Margin="{StaticResource SmallTopMargin}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Uid="OfflineExplorerPage_Search"
+                            Grid.Column="0"
+                            VerticalAlignment="Center" />
+                        <TextBox
+                            x:Uid="OfflineExplorerPage_QueryTextBox"
+                            Grid.Column="1"
+                            Margin="{StaticResource SmallLeftMargin}"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind ViewModel.SelectedDisk.SelectedFolder.FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock
+                            Grid.Column="2"
+                            MinWidth="90"
+                            Margin="{StaticResource SmallLeftMargin}"
+                            VerticalAlignment="Center"
+                            HorizontalTextAlignment="Right"
+                            Visibility="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SearchResultsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+                            <Run Text="{x:Bind ViewModel.SelectedDisk.SelectedFolder.FoldersAndFiles.Count, Mode=OneWay}" />
+                            <Run x:Uid="OfflineExplorerPage_SearchItems" />
+                        </TextBlock>
+                        <TextBlock
+                            Grid.Column="2"
+                            MinWidth="90"
+                            Margin="{StaticResource SmallLeftMargin}"
+                            VerticalAlignment="Center"
+                            HorizontalTextAlignment="Right"
+                            Visibility="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SearchResultsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Run Text="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SearchResults.Count, Mode=OneWay}" />
+                            <Run x:Uid="OfflineExplorerPage_SearchResults" />
+                        </TextBlock>
+                    </Grid>
+
+                    <ListView
+                        x:Name="FoldersAndFilesListView"
+                        Grid.Row="2"
+                        Margin="{StaticResource SmallTopMargin}"
+                        Padding="8"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        DoubleTapped="ListView_DoubleTapped"
+                        ItemTemplateSelector="{StaticResource ListTemplateSelector}"
+                        ItemsSource="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SortedFoldersAndFiles, Mode=OneWay}"
+                        KeyUp="FoldersAndFilesListView_KeyUp"
+                        SelectedItem="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SelectedFile, Mode=TwoWay}"
+                        SelectionChanged="FoldersAndFilesListView_SelectionChanged"
+                        SelectionMode="Single"
+                        ShowsScrollingPlaceholders="True"
+                        Visibility="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SearchResultsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+
+                    <ListView
+                        x:Name="SearchResultsListView"
+                        Grid.Row="2"
+                        Margin="{StaticResource SmallTopMargin}"
+                        Padding="8"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        ItemTemplate="{StaticResource SearchResultListViewTemplate}"
+                        ItemsSource="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SearchResults, Mode=OneWay}"
+                        SelectionMode="Single"
+                        ShowsScrollingPlaceholders="True"
+                        Visibility="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SearchResultsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                    <!--  Details pane  -->
+                    <Border
+                        Grid.Row="3"
+                        MinHeight="170"
+                        Margin="{StaticResource SmallTopMargin}"
+                        HorizontalAlignment="Stretch"
+                        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SearchResultsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+
+                        <ContentControl
+                            HorizontalAlignment="Stretch"
+                            Content="{x:Bind ViewModel.SelectedDisk.SelectedFolder.SelectedFile, Mode=OneWay}"
+                            ContentTemplateSelector="{StaticResource DetailsTemplateSelector}" />
+                    </Border>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Page>
