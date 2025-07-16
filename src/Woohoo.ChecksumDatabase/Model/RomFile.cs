@@ -3,8 +3,6 @@
 
 namespace Woohoo.ChecksumDatabase.Model;
 
-using System;
-
 public record class RomFile
 {
     public RomFile(RomGame parentGame)
@@ -13,10 +11,10 @@ public record class RomFile
 
         this.ParentGame = parentGame;
         this.Name = string.Empty;
-        this.CRC32 = Array.Empty<byte>();
-        this.MD5 = Array.Empty<byte>();
-        this.SHA1 = Array.Empty<byte>();
-        this.SHA256 = Array.Empty<byte>();
+        this.CRC32 = [];
+        this.MD5 = [];
+        this.SHA1 = [];
+        this.SHA256 = [];
         this.Date = string.Empty;
         this.Merge = string.Empty;
         this.Status = RomStatus.Good;

@@ -3,7 +3,7 @@
 
 namespace Woohoo.IO.AbstractFileSystem;
 
-using System.Collections.Generic;
+using System.Collections.Immutable;
 using Woohoo.IO.AbstractFileSystem.Internal;
 using Woohoo.IO.AbstractFileSystem.Internal.SevenZip;
 using Woohoo.IO.AbstractFileSystem.Internal.TorrentSevenZip;
@@ -12,7 +12,22 @@ using Woohoo.IO.AbstractFileSystem.Internal.Zip;
 
 public static class FileCopierExtensionProvider
 {
-    private static readonly CopierComposer Composer = new();
+    private static readonly ImmutableArray<IFileCopier> Copiers =
+    [
+        new ContainerToFolderCopier(),
+        new ContainerToZipCopier(),
+        new ContainerToSevenZipCopier(),
+        new FolderToZipCopier(),
+        new FolderToSevenZipCopier(),
+        new ZipToZipCopier(),
+        new ContainerToTorrentSevenZipCopier(),
+        new FolderSingleFileToTorrentSevenZipCopier(),
+        new FolderToTorrentSevenZipCopier(),
+        new ZipToTorrentSevenZipCopier(),
+        new ContainerToTorrentZipCopier(),
+        new FolderToTorrentZipCopier(),
+        new ZipToTorrentZipCopier(),
+    ];
 
     public static IFileCopier? GetCopier(FileInformation file, string targetContainerType, string[] expectedTargetFiles)
     {
@@ -22,7 +37,7 @@ public static class FileCopierExtensionProvider
         var priority = 0;
         IFileCopier? bestCopier = null;
 
-        foreach (var currentCopier in Composer.Copiers)
+        foreach (var currentCopier in Copiers)
         {
             var currentPriority = currentCopier.CanCopy(file, targetContainerType, expectedTargetFiles);
             if (currentPriority > priority)
@@ -33,25 +48,5 @@ public static class FileCopierExtensionProvider
         }
 
         return bestCopier;
-    }
-
-    internal class CopierComposer
-    {
-        public IEnumerable<IFileCopier> Copiers { get; } =
-        [
-            new ContainerToFolderCopier(),
-            new ContainerToZipCopier(),
-            new ContainerToSevenZipCopier(),
-            new FolderToZipCopier(),
-            new FolderToSevenZipCopier(),
-            new ZipToZipCopier(),
-            new ContainerToTorrentSevenZipCopier(),
-            new FolderSingleFileToTorrentSevenZipCopier(),
-            new FolderToTorrentSevenZipCopier(),
-            new ZipToTorrentSevenZipCopier(),
-            new ContainerToTorrentZipCopier(),
-            new FolderToTorrentZipCopier(),
-            new ZipToTorrentZipCopier(),
-        ];
     }
 }

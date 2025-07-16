@@ -24,8 +24,7 @@ public record class RomDatabase
         this.Comment = string.Empty;
         this.EmulatorName = string.Empty;
         this.EmulatorVersion = string.Empty;
-        this.Header = new RomHeader();
-        this.Games = new Collection<RomGame>();
+        this.Games = [];
     }
 
     public string Name { get; set; }
@@ -52,20 +51,11 @@ public record class RomDatabase
 
     public string EmulatorVersion { get; set; }
 
-    public RomHeader Header { get; }
-
     public Collection<RomGame> Games { get; }
 
     public RomFile[] GetAllRoms()
     {
-        var roms = new List<RomFile>();
-
-        foreach (var game in this.Games)
-        {
-            roms.AddRange(game.Roms);
-        }
-
-        return roms.ToArray();
+        return [.. this.Games.SelectMany(game => game.Roms)];
     }
 
     public void SortGames()

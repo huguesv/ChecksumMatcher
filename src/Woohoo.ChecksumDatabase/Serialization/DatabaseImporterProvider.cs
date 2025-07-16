@@ -12,14 +12,14 @@ public class DatabaseImporterProvider
 {
     private readonly IDatabaseImporter[] importers;
 
-    public DatabaseImporterProvider(IDatabaseHeaderLoader headerLoader)
+    public DatabaseImporterProvider()
     {
-        this.importers = new IDatabaseImporter[]
-        {
+        this.importers =
+        [
             new ClrMameXmlImporter(),
-            new ClrMameImporter(headerLoader),
+            new ClrMameImporter(),
             new MessSoftwareListImporter(),
-        };
+        ];
     }
 
     public bool CanLoad(string text, string workingFolderPath)
@@ -27,15 +27,7 @@ public class DatabaseImporterProvider
         Requires.NotNull(text);
         Requires.NotNull(workingFolderPath);
 
-        foreach (var importer in this.importers)
-        {
-            if (importer.CanImport(text))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return this.importers.Any(importer => importer.CanImport(text));
     }
 
     public RomDatabase Load(string text, string workingFolderPath)

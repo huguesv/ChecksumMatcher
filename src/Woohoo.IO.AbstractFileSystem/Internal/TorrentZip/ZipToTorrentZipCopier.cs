@@ -16,6 +16,7 @@ internal class ZipToTorrentZipCopier : ZipToZipCopier
     {
         ArgumentNullException.ThrowIfNull(file);
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         if (string.Compare(Path.GetExtension(file.ContainerAbsolutePath), ".zip", StringComparison.OrdinalIgnoreCase) == 0)
         {
@@ -30,6 +31,9 @@ internal class ZipToTorrentZipCopier : ZipToZipCopier
 
     protected override bool PostProcess(string targetArchiveFilePath, string[] expectedTargetFiles)
     {
+        ArgumentException.ThrowIfNullOrEmpty(targetArchiveFilePath);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
+
         return TorrentZipper.Torrentzip(targetArchiveFilePath, expectedTargetFiles, SharpZipContainer.IsComplete);
     }
 }

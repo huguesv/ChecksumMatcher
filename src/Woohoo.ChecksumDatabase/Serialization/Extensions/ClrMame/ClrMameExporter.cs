@@ -3,7 +3,6 @@
 
 namespace Woohoo.ChecksumDatabase.Serialization.Extensions.ClrMame;
 
-using System.Diagnostics;
 using System.Text;
 using Woohoo.ChecksumDatabase.Model;
 

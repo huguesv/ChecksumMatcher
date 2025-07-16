@@ -13,16 +13,24 @@ internal class OfflineEnumerator
 
     public OfflineEnumerator(OfflineConfiguration configuration)
     {
+        ArgumentNullException.ThrowIfNull(configuration);
+
         this.configuration = configuration;
     }
 
     public static bool IsPatternMatch(OfflineItem item, string pattern)
     {
+        ArgumentNullException.ThrowIfNull(item);
+        ArgumentNullException.ThrowIfNull(pattern);
+
         return IsPatternMatch(item.Name, pattern);
     }
 
     public static bool IsPatternMatch(string name, string pattern)
     {
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(pattern);
+
         if (string.IsNullOrEmpty(pattern))
         {
             return true; // No pattern means all paths match.
@@ -33,11 +41,16 @@ internal class OfflineEnumerator
 
     public static string ToPath(OfflineItem item)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         return item.Path;
     }
 
     public static IFileSystemInfo ToInfo(OfflineConfiguration configuration, OfflineItem item)
     {
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(item);
+
         return item.Kind switch
         {
             OfflineItemKind.Folder => ToDirectoryInfo(configuration, item),
@@ -48,17 +61,23 @@ internal class OfflineEnumerator
 
     public static IDirectoryInfo ToDirectoryInfo(OfflineConfiguration configuration, OfflineItem item)
     {
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(item);
+
         return new OfflineDirectoryInfo(configuration, item);
     }
 
     public static IFileInfo ToFileInfo(OfflineConfiguration configuration, OfflineItem item)
     {
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(item);
+
         return new OfflineFileInfo(configuration, item);
     }
 
     public IEnumerable<OfflineItem> EnumerateItems(string path, params IEnumerable<Func<OfflineItem, bool>> filters)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         var folder = this.configuration.GetItemByPath(path);
         if (folder is not null)
@@ -77,7 +96,7 @@ internal class OfflineEnumerator
 
     public IEnumerable<OfflineItem> EnumerateItems(string path, EnumerationOptions enumerationOptions, params IEnumerable<Func<OfflineItem, bool>> filters)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         // TODO
         throw new NotImplementedException();
@@ -85,7 +104,7 @@ internal class OfflineEnumerator
 
     public IEnumerable<OfflineItem> EnumerateItems(string path, SearchOption searchOption, params IEnumerable<Func<OfflineItem, bool>> filters)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         if (searchOption == SearchOption.TopDirectoryOnly)
         {

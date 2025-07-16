@@ -4,18 +4,21 @@
 namespace Woohoo.IO.AbstractFileSystem.Offline.Models;
 
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 public class OfflineConfiguration
 {
     public OfflineConfiguration(params IEnumerable<OfflineDisk> disks)
     {
-        this.Disks = disks.ToArray();
+        this.Disks = [.. disks];
     }
 
-    public IReadOnlyList<OfflineDisk> Disks { get; }
+    public ImmutableArray<OfflineDisk> Disks { get; }
 
     public OfflineItem? GetItemByPath(string path)
     {
+        ArgumentNullException.ThrowIfNull(path);
+
         foreach (var disk in this.Disks)
         {
             var item = disk.GetItemByPath(path);

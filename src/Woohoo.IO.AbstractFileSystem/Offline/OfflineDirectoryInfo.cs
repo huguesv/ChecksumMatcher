@@ -17,8 +17,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public OfflineDirectoryInfo(OfflineConfiguration configuration, OfflineItem item)
     {
-        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
-        ArgumentNullException.ThrowIfNull(item, nameof(item));
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(item);
 
         this.configuration = configuration;
         this.enumerator = new OfflineEnumerator(configuration);
@@ -33,8 +33,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public OfflineDirectoryInfo(OfflineConfiguration configuration, string path)
     {
-        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
-        ArgumentNullException.ThrowIfNull(path, nameof(path));
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         this.configuration = configuration;
         this.enumerator = new OfflineEnumerator(configuration);
@@ -69,7 +69,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
         }
     }
 
-    public IDirectoryInfo Root => new OfflineDirectoryInfo(this.configuration, Path.GetPathRoot(Path.GetFullPath(this.path)) ?? string.Empty);
+    public IDirectoryInfo Root
+        => new OfflineDirectoryInfo(this.configuration, Path.GetPathRoot(Path.GetFullPath(this.path)) ?? string.Empty);
 
     public DateTime CreationTime
     {
@@ -137,6 +138,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IDirectoryInfo> EnumerateDirectories(string searchPattern, SearchOption searchOption)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         return this.enumerator
             .EnumerateItems(this.path, searchOption, item => item.Kind == OfflineItemKind.Folder && OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(item => OfflineEnumerator.ToDirectoryInfo(this.configuration, item));
@@ -144,6 +147,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IDirectoryInfo> EnumerateDirectories(string searchPattern, EnumerationOptions enumerationOptions)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         return this.enumerator
             .EnumerateItems(this.path, enumerationOptions, item => item.Kind == OfflineItemKind.Folder && OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(item => OfflineEnumerator.ToDirectoryInfo(this.configuration, item));
@@ -151,6 +156,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IDirectoryInfo> EnumerateDirectories(string searchPattern)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         return this.enumerator
             .EnumerateItems(this.path, item => item.Kind == OfflineItemKind.Folder && OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(item => OfflineEnumerator.ToDirectoryInfo(this.configuration, item));
@@ -172,6 +179,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileInfo> EnumerateFiles(string searchPattern)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         return this.enumerator
             .EnumerateItems(this.path, item => (item.Kind == OfflineItemKind.File || item.Kind == OfflineItemKind.ArchiveFile) && OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(item => OfflineEnumerator.ToFileInfo(this.configuration, item));
@@ -179,6 +188,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileInfo> EnumerateFiles(string searchPattern, EnumerationOptions enumerationOptions)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         return this.enumerator
             .EnumerateItems(this.path, enumerationOptions, item => (item.Kind == OfflineItemKind.File || item.Kind == OfflineItemKind.ArchiveFile) && OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(item => OfflineEnumerator.ToFileInfo(this.configuration, item));
@@ -193,6 +204,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileSystemInfo> EnumerateFileSystemInfos(string searchPattern, SearchOption searchOption)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         return this.enumerator
             .EnumerateItems(this.path, searchOption, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(item => OfflineEnumerator.ToInfo(this.configuration, item));
@@ -207,6 +220,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileSystemInfo> EnumerateFileSystemInfos(string searchPattern)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         return this.enumerator
             .EnumerateItems(this.path, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(item => OfflineEnumerator.ToInfo(this.configuration, item));
@@ -214,6 +229,8 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileSystemInfo> EnumerateFileSystemInfos(string searchPattern, EnumerationOptions enumerationOptions)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         return this.enumerator
             .EnumerateItems(this.path, enumerationOptions, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(item => OfflineEnumerator.ToInfo(this.configuration, item));
@@ -221,62 +238,80 @@ public class OfflineDirectoryInfo : IDirectoryInfo
 
     public IDirectoryInfo[] GetDirectories()
     {
-        return this.EnumerateDirectories().ToArray();
+        return [.. this.EnumerateDirectories()];
     }
 
     public IDirectoryInfo[] GetDirectories(string searchPattern)
     {
-        return this.EnumerateDirectories(searchPattern).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateDirectories(searchPattern)];
     }
 
     public IDirectoryInfo[] GetDirectories(string searchPattern, EnumerationOptions enumerationOptions)
     {
-        return this.EnumerateDirectories(searchPattern, enumerationOptions).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateDirectories(searchPattern, enumerationOptions)];
     }
 
     public IDirectoryInfo[] GetDirectories(string searchPattern, SearchOption searchOption)
     {
-        return this.EnumerateDirectories(searchPattern, searchOption).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateDirectories(searchPattern, searchOption)];
     }
 
     public IFileInfo[] GetFiles(string searchPattern, EnumerationOptions enumerationOptions)
     {
-        return this.EnumerateFiles(searchPattern, enumerationOptions).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateFiles(searchPattern, enumerationOptions)];
     }
 
     public IFileInfo[] GetFiles(string searchPattern, SearchOption searchOption)
     {
-        return this.EnumerateFiles(searchPattern, searchOption).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateFiles(searchPattern, searchOption)];
     }
 
     public IFileInfo[] GetFiles()
     {
-        return this.EnumerateFiles().ToArray();
+        return [.. this.EnumerateFiles()];
     }
 
     public IFileInfo[] GetFiles(string searchPattern)
     {
-        return this.EnumerateFiles(searchPattern).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateFiles(searchPattern)];
     }
 
     public IFileSystemInfo[] GetFileSystemInfos()
     {
-        return this.EnumerateFileSystemInfos().ToArray();
+        return [.. this.EnumerateFileSystemInfos()];
     }
 
     public IFileSystemInfo[] GetFileSystemInfos(string searchPattern)
     {
-        return this.EnumerateFileSystemInfos(searchPattern).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateFileSystemInfos(searchPattern)];
     }
 
     public IFileSystemInfo[] GetFileSystemInfos(string searchPattern, EnumerationOptions enumerationOptions)
     {
-        return this.EnumerateFileSystemInfos(searchPattern, enumerationOptions).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateFileSystemInfos(searchPattern, enumerationOptions)];
     }
 
     public IFileSystemInfo[] GetFileSystemInfos(string searchPattern, SearchOption searchOption)
     {
-        return this.EnumerateFileSystemInfos(searchPattern, searchOption).ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.EnumerateFileSystemInfos(searchPattern, searchOption)];
     }
 
     public void MoveTo(string destDirName)

@@ -15,6 +15,9 @@ public class OfflineFileInfo : IFileInfo
 
     public OfflineFileInfo(OfflineConfiguration configuration, OfflineItem item)
     {
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(item);
+
         this.configuration = configuration;
         this.item = item;
         this.path = item.Path;
@@ -22,6 +25,9 @@ public class OfflineFileInfo : IFileInfo
 
     public OfflineFileInfo(OfflineConfiguration configuration, string path)
     {
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(path);
+
         this.configuration = configuration;
         this.path = path;
     }
@@ -51,9 +57,16 @@ public class OfflineFileInfo : IFileInfo
 
     public string? DirectoryName => Path.GetDirectoryName(this.path);
 
-    public bool IsReadOnly { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+    public bool IsReadOnly
+    {
+        get => throw new NotSupportedException();
+        set => throw new NotSupportedException();
+    }
 
-    public long Length => this.item is not null ? this.item.Size ?? 0 : throw new FileNotFoundException($"Could not find file '{this.path}'");
+    public long Length =>
+        this.item is not null
+        ? this.item.Size ?? 0
+        : throw new FileNotFoundException($"Could not find file '{this.path}'");
 
     public DateTime CreationTime
     {

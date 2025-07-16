@@ -15,12 +15,16 @@ internal class OnlineArchiveEngineSharpZip : IOnlineArchiveEngine
 
     public bool IsSupportedExtension(string extension)
     {
+        ArgumentNullException.ThrowIfNull(extension);
+
         return string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase) ||
             string.Equals(extension, "zip", StringComparison.OrdinalIgnoreCase);
     }
 
     public IEnumerable<IArchiveEntry> EnumerateEntries(string archiveFilePath)
     {
+        ArgumentException.ThrowIfNullOrEmpty(archiveFilePath);
+
         if (!File.Exists(archiveFilePath))
         {
             throw ArchiveNotFound(archiveFilePath);
@@ -57,6 +61,9 @@ internal class OnlineArchiveEngineSharpZip : IOnlineArchiveEngine
 
     public void Extract(OnlineArchiveEntry entry, string destinationPath)
     {
+        ArgumentNullException.ThrowIfNull(entry);
+        ArgumentException.ThrowIfNullOrEmpty(destinationPath);
+
         if (!File.Exists(entry.ArchiveFilePath))
         {
             throw ArchiveNotFound(entry);
@@ -70,6 +77,8 @@ internal class OnlineArchiveEngineSharpZip : IOnlineArchiveEngine
 
     public Stream OpenRead(OnlineArchiveEntry entry)
     {
+        ArgumentNullException.ThrowIfNull(entry);
+
         if (!File.Exists(entry.ArchiveFilePath))
         {
             throw ArchiveNotFound(entry);
@@ -87,6 +96,8 @@ internal class OnlineArchiveEngineSharpZip : IOnlineArchiveEngine
 
     public void Delete(OnlineArchiveEntry entry)
     {
+        ArgumentNullException.ThrowIfNull(entry);
+
         if (!File.Exists(entry.ArchiveFilePath))
         {
             throw ArchiveNotFound(entry);

@@ -8,30 +8,16 @@ using System.IO;
 
 public class FileInformation
 {
-    private string containerAbsolutePath;
-
-    private string fileRelativePath;
-
-    private byte[] reportedCrc32;
-
-    private byte[] crc32;
-
-    private byte[] md5;
-
-    private byte[] sha1;
-
-    private byte[] sha256;
-
     public FileInformation()
     {
         this.IsFromCache = false;
-        this.containerAbsolutePath = string.Empty;
-        this.fileRelativePath = string.Empty;
-        this.reportedCrc32 = new byte[0];
-        this.crc32 = new byte[0];
-        this.md5 = new byte[0];
-        this.sha1 = new byte[0];
-        this.sha256 = new byte[0];
+        this.ContainerAbsolutePath = string.Empty;
+        this.FileRelativePath = string.Empty;
+        this.ReportedCRC32 = [];
+        this.CRC32 = [];
+        this.MD5 = [];
+        this.SHA1 = [];
+        this.SHA256 = [];
     }
 
     public bool IsFromCache { get; set; }
@@ -50,73 +36,38 @@ public class FileInformation
     /// <summary>
     /// Gets or sets the full path to the container (may be an archive file or folder).
     /// </summary>
-    public string ContainerAbsolutePath
-    {
-        get => this.containerAbsolutePath;
-
-        set => this.containerAbsolutePath = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public string ContainerAbsolutePath { get; set; }
 
     /// <summary>
     /// Gets or sets the relative path to the file inside its container.
     /// </summary>
-    public string FileRelativePath
-    {
-        get => this.fileRelativePath;
-
-        set => this.fileRelativePath = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public string FileRelativePath { get; set; }
 
     /// <summary>
     /// Gets or sets the CRC32 that is reported by the archive. If the archive has been
     /// damaged since its creation, this may not be the actual CRC32.
     /// </summary>
-    public byte[] ReportedCRC32
-    {
-        get => this.reportedCrc32;
-
-        set => this.reportedCrc32 = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public byte[] ReportedCRC32 { get; set; }
 
     /// <summary>
     /// Gets or sets the CRC32 that was calculated.
     /// </summary>
-    public byte[] CRC32
-    {
-        get => this.crc32;
-
-        set => this.crc32 = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public byte[] CRC32 { get; set; }
 
     /// <summary>
     /// Gets or sets the MD5 that was calculated.
     /// </summary>
-    public byte[] MD5
-    {
-        get => this.md5;
-
-        set => this.md5 = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public byte[] MD5 { get; set; }
 
     /// <summary>
     /// Gets or sets the SHA1 that was calculated.
     /// </summary>
-    public byte[] SHA1
-    {
-        get => this.sha1;
-
-        set => this.sha1 = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public byte[] SHA1 { get; set; }
 
     /// <summary>
     /// Gets or sets the SHA256 that was calculated.
     /// </summary>
-    public byte[] SHA256
-    {
-        get => this.sha256;
-
-        set => this.sha256 = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public byte[] SHA256 { get; set; }
 
     /// <summary>
     /// Gets or sets the file size.

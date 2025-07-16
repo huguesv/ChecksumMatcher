@@ -23,6 +23,8 @@ public class OfflineArchive : IArchive
 
     public bool IsSupportedArchiveFile(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         var extension = Path.GetExtension(path);
         return string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase) ||
                string.Equals(extension, ".7z", StringComparison.OrdinalIgnoreCase);
@@ -30,7 +32,7 @@ public class OfflineArchive : IArchive
 
     public IEnumerable<IArchiveEntry> EnumerateEntries(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         var item = this.configuration.GetItemByPath(path);
         if (item is null)
@@ -64,6 +66,8 @@ public class OfflineArchive : IArchive
 
     public IArchiveEntry[] GetEntries(string path)
     {
-        return this.EnumerateEntries(path).ToArray();
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
+        return [.. this.EnumerateEntries(path)];
     }
 }

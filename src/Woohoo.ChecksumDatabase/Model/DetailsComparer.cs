@@ -8,8 +8,8 @@ using System.Collections.Generic;
 
 internal class DetailsComparer : IComparer<string>
 {
-    private static readonly string[] OrderedValues = new string[]
-    {
+    private static readonly string[] OrderedValues =
+    [
         KnownDetails.Name,
         KnownDetails.DlcName,
         KnownDetails.ExtraTag,
@@ -28,7 +28,7 @@ internal class DetailsComparer : IComparer<string>
         KnownDetails.Languages,
         KnownDetails.Keys,
         KnownDetails.Rap,
-    };
+    ];
 
     public int Compare(string? x, string? y)
     {

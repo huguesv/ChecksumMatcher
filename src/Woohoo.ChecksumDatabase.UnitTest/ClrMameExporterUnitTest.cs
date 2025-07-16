@@ -33,7 +33,7 @@ public class ClrMameExporterUnitTest
 
     private static void ImportExport(string expected)
     {
-        var db = new ClrMameImporter(null).Import(expected, string.Empty);
+        var db = new ClrMameImporter().Import(expected, string.Empty);
 
         var actual = new ClrMameExporter().Export(db);
         actual.Trim().Should().Be(expected.Trim());
@@ -41,12 +41,12 @@ public class ClrMameExporterUnitTest
 
     private static void ImportExportReimportReexport(string expected)
     {
-        var db = new ClrMameImporter(null).Import(expected, string.Empty);
+        var db = new ClrMameImporter().Import(expected, string.Empty);
 
         var actual = new ClrMameExporter().Export(db);
         actual.Trim().Should().Be(expected.Trim());
 
-        var db2 = new ClrMameImporter(null).Import(actual, string.Empty);
+        var db2 = new ClrMameImporter().Import(actual, string.Empty);
         var actual2 = new ClrMameExporter().Export(db2);
         actual2.Trim().Should().Be(expected.Trim());
     }

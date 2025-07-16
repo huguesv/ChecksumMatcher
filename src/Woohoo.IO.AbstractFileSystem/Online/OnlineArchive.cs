@@ -4,7 +4,6 @@
 namespace Woohoo.IO.AbstractFileSystem.Online;
 
 using System.Collections.Generic;
-using System.Linq;
 using Woohoo.IO.AbstractFileSystem.Online.Archiving;
 
 public class OnlineArchive : IArchive
@@ -18,5 +17,5 @@ public class OnlineArchive : IArchive
         => this.engineProvider.GetEngine(path)?.EnumerateEntries(path) ?? [];
 
     public IArchiveEntry[] GetEntries(string path)
-        => this.EnumerateEntries(path).ToArray();
+        => [.. this.EnumerateEntries(path)];
 }

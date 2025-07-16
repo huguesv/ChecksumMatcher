@@ -17,7 +17,7 @@ internal class OnlineArchiveEngineProvider
 
     public OnlineArchiveEngineProvider(params IEnumerable<IOnlineArchiveEngine> engines)
     {
-        this.engines = engines.ToArray();
+        this.engines = [.. engines];
     }
 
     public IOnlineArchiveEngine? GetEngine(string filePath)

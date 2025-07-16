@@ -70,7 +70,7 @@ internal sealed class SharpZipContainer : IContainer
         {
         }
 
-        return files.ToArray();
+        return [.. files];
     }
 
     void IContainer.CalculateChecksums(FileInformation file, CancellationToken ct)
@@ -173,6 +173,8 @@ internal sealed class SharpZipContainer : IContainer
 
     public void RemoveContainer(string containerFilePath)
     {
+        ArgumentException.ThrowIfNullOrEmpty(containerFilePath);
+
         FileUtility.SafeDelete(containerFilePath);
     }
 }

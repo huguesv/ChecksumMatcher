@@ -30,6 +30,9 @@ public class Indexer
 
     public OfflineDisk ScanDisk(string rootFolderPath, string name, CancellationToken cancellationToken)
     {
+        ArgumentException.ThrowIfNullOrEmpty(rootFolderPath);
+        ArgumentException.ThrowIfNullOrEmpty(name);
+
         this.stopwatch.Restart();
         this.cancellationToken = cancellationToken;
 
@@ -69,6 +72,8 @@ public class Indexer
 
     public void CalculateChecksums(OfflineDisk disk)
     {
+        ArgumentNullException.ThrowIfNull(disk);
+
         foreach (var item in disk.RootFolders)
         {
             this.CalculateChecksums(item);
@@ -77,6 +82,8 @@ public class Indexer
 
     public void CalculateChecksums(OfflineItem item)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         if (item.Kind == OfflineItemKind.File || item.Kind == OfflineItemKind.ArchiveFile)
         {
             var hashCalculator = new HashCalculator();

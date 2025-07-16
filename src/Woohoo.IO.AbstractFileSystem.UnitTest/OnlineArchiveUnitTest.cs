@@ -48,6 +48,7 @@ public partial class OnlineArchiveUnitTest
         data1Entry.Name.Should().Be("data1.txt");
         data1Entry.Size.Should().Be(3105);
         data1Entry.IsDirectory.Should().BeFalse();
+        data1Entry.ReportedCRC32.Should().NotBeNull();
         ByteArrayUtility.ByteArrayToHex(data1Entry.ReportedCRC32).Should().Be("bb60311b");
     }
 
@@ -72,12 +73,14 @@ public partial class OnlineArchiveUnitTest
         data1Entry.Name.Should().Be("data1.txt");
         data1Entry.Size.Should().Be(3105);
         data1Entry.IsDirectory.Should().BeFalse();
+        data1Entry.ReportedCRC32.Should().NotBeNull();
         ByteArrayUtility.ByteArrayToHex(data1Entry.ReportedCRC32).Should().Be("bb60311b");
 
         var data2Entry = actual.Single(e => e.Name == "data2.txt");
         data2Entry.Name.Should().Be("data2.txt");
         data2Entry.Size.Should().Be(4426);
         data2Entry.IsDirectory.Should().BeFalse();
+        data2Entry.ReportedCRC32.Should().NotBeNull();
         ByteArrayUtility.ByteArrayToHex(data2Entry.ReportedCRC32).Should().Be("49e1712a");
     }
 
@@ -102,12 +105,14 @@ public partial class OnlineArchiveUnitTest
         data1Entry.Name.Should().Be(@"folder1\data1.txt");
         data1Entry.Size.Should().Be(3105);
         data1Entry.IsDirectory.Should().BeFalse();
+        data1Entry.ReportedCRC32.Should().NotBeNull();
         ByteArrayUtility.ByteArrayToHex(data1Entry.ReportedCRC32).Should().Be("bb60311b");
 
         var data2Entry = actual.Single(e => e.Name == @"folder2\data2.txt");
         data2Entry.Name.Should().Be(@"folder2\data2.txt");
         data2Entry.Size.Should().Be(4426);
         data2Entry.IsDirectory.Should().BeFalse();
+        data2Entry.ReportedCRC32.Should().NotBeNull();
         ByteArrayUtility.ByteArrayToHex(data2Entry.ReportedCRC32).Should().Be("49e1712a");
 
         foreach (var expectedName in new[] { @"folder1", @"folder2", @"folder3" })
@@ -141,12 +146,14 @@ public partial class OnlineArchiveUnitTest
         data1Entry.Name.Should().Be(@"tree\sub1\subsub\data1.txt");
         data1Entry.Size.Should().Be(3105);
         data1Entry.IsDirectory.Should().BeFalse();
+        data1Entry.ReportedCRC32.Should().NotBeNull();
         ByteArrayUtility.ByteArrayToHex(data1Entry.ReportedCRC32).Should().Be("bb60311b");
 
         var data2Entry = actual.Single(e => e.Name == @"tree\sub2\data2.txt");
         data2Entry.Name.Should().Be(@"tree\sub2\data2.txt");
         data2Entry.Size.Should().Be(4426);
         data2Entry.IsDirectory.Should().BeFalse();
+        data2Entry.ReportedCRC32.Should().NotBeNull();
         ByteArrayUtility.ByteArrayToHex(data2Entry.ReportedCRC32).Should().Be("49e1712a");
 
         foreach (var expectedName in new[] { @"tree\sub1", @"tree\sub1\subsub", @"tree\sub2", "tree" })

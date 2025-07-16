@@ -36,6 +36,8 @@ public class OfflineDisk
 
     public static OfflineDisk Deserialize(string filePath)
     {
+        ArgumentException.ThrowIfNullOrEmpty(filePath);
+
         using (var zip = ZipFile.OpenRead(filePath))
         {
             var entry = zip.GetEntry("dir.json") ?? throw new FileNotFoundException($"Entry dir.json not found in {filePath}");
@@ -55,6 +57,8 @@ public class OfflineDisk
 
     public static OfflineHeader DeserializeHeader(string filePath)
     {
+        ArgumentException.ThrowIfNullOrEmpty(filePath);
+
         using (var zip = ZipFile.OpenRead(filePath))
         {
             var entry = zip.GetEntry("header.json") ?? throw new FileNotFoundException($"Entry header.json not found in {filePath}");
@@ -94,6 +98,8 @@ public class OfflineDisk
 
     public OfflineItem? GetItemByPath(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         string[] pathParts = path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
         if (pathParts.Length > 0)
         {
@@ -110,6 +116,8 @@ public class OfflineDisk
 
     public OfflineItem? GetItemByPath(string[] pathParts)
     {
+        ArgumentNullException.ThrowIfNull(pathParts);
+
         foreach (var item in this.RootFolders)
         {
             if (pathParts.Length == 0)
@@ -128,6 +136,8 @@ public class OfflineDisk
 
     public void TraverseItems(Action<OfflineItem> action)
     {
+        ArgumentNullException.ThrowIfNull(action);
+
         foreach (var item in this.RootFolders)
         {
             action(item);
@@ -137,6 +147,8 @@ public class OfflineDisk
 
     public IEnumerable<OfflineItem> SearchItems(string searchTerm)
     {
+        ArgumentNullException.ThrowIfNull(searchTerm);
+
         foreach (var item in this.RootFolders)
         {
             if (item.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
@@ -153,6 +165,8 @@ public class OfflineDisk
 
     public void Serialize(string filePath)
     {
+        ArgumentException.ThrowIfNullOrEmpty(filePath);
+
         string? folderPath = Path.GetDirectoryName(filePath) ?? throw new ArgumentException("Invalid file path.", nameof(filePath));
 
         Directory.CreateDirectory(folderPath);

@@ -9,6 +9,8 @@ internal static class OnlineInfoFactory
 {
     public static IFileSystemInfo CreateFileSystemInfo(FileSystemInfo innerInfo)
     {
+        ArgumentNullException.ThrowIfNull(innerInfo);
+
         return innerInfo switch
         {
             DirectoryInfo directoryInfo => new OnlineDirectoryInfo(directoryInfo),

@@ -14,6 +14,7 @@ internal class FolderSingleFileToTorrentSevenZipCopier : IFileCopier
     {
         ArgumentNullException.ThrowIfNull(file);
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         if (Directory.Exists(file.ContainerAbsolutePath))
         {
@@ -76,6 +77,9 @@ internal class FolderSingleFileToTorrentSevenZipCopier : IFileCopier
 
     public string GetTargetContainerPath(string targetFolderPath, string containerName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(targetFolderPath);
+        ArgumentException.ThrowIfNullOrEmpty(containerName);
+
         return Path.Combine(targetFolderPath, containerName + ".7z");
     }
 }

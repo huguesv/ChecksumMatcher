@@ -9,5 +9,5 @@ public interface IRedumpWebService
 {
     Task<bool?> ValidateCredentialsAsync(string username, string password, CancellationToken ct);
 
-    Task<bool> DownloadAllAsync(string outDir, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct);
+    Task<bool> DownloadAllAsync(string outputFolderPath, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct);
 }

@@ -14,13 +14,17 @@ internal class OnlineArchiveEngineSevenZip : IOnlineArchiveEngine
 
     public bool IsSupportedExtension(string extension)
     {
-        // TODO: this is only supported on Windows x86/x64
+        ArgumentNullException.ThrowIfNull(extension);
+
+        // TODO: this is only supported on Windows x86/x64/arm64
         return string.Equals(extension, ".7z", StringComparison.OrdinalIgnoreCase) ||
             string.Equals(extension, "7z", StringComparison.OrdinalIgnoreCase);
     }
 
     public IEnumerable<IArchiveEntry> EnumerateEntries(string archiveFilePath)
     {
+        ArgumentException.ThrowIfNullOrEmpty(archiveFilePath);
+
         if (!File.Exists(archiveFilePath))
         {
             throw ArchiveNotFound(archiveFilePath);
@@ -51,6 +55,9 @@ internal class OnlineArchiveEngineSevenZip : IOnlineArchiveEngine
 
     public void Extract(OnlineArchiveEntry entry, string destinationPath)
     {
+        ArgumentNullException.ThrowIfNull(entry);
+        ArgumentException.ThrowIfNullOrEmpty(destinationPath);
+
         if (!File.Exists(entry.ArchiveFilePath))
         {
             throw ArchiveNotFound(entry);

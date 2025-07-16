@@ -100,6 +100,8 @@ public class OfflineItem
 
     public IEnumerable<OfflineItem> SearchItems(string searchTerm)
     {
+        ArgumentNullException.ThrowIfNull(searchTerm);
+
         foreach (var item in this.Items)
         {
             if (item.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
@@ -116,6 +118,8 @@ public class OfflineItem
 
     public bool Match(string searchTerm, long? searchTermNumeric)
     {
+        ArgumentNullException.ThrowIfNull(searchTerm);
+
         return
             this.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
             (this.CRC32 is not null && this.CRC32.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ||
@@ -126,6 +130,8 @@ public class OfflineItem
 
     public void TraverseItems(Action<OfflineItem> action)
     {
+        ArgumentNullException.ThrowIfNull(action);
+
         action(this);
         foreach (var item in this.Items)
         {
@@ -135,6 +141,8 @@ public class OfflineItem
 
     public OfflineItem? GetItemByPath(string[] pathParts)
     {
+        ArgumentNullException.ThrowIfNull(pathParts);
+
         if (pathParts.Length == 0)
         {
             return this;

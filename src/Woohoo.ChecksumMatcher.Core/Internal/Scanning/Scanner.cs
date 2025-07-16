@@ -19,6 +19,11 @@ internal static class Scanner
 
     public static Task<DatabaseScanResults> ScanAsync(Action<ScanEventArgs> reportProgress, DatabaseFile file, RomDatabase db, bool forceCalculateChecksums, List<FileInformation> files, CancellationToken ct)
     {
+        ArgumentNullException.ThrowIfNull(reportProgress);
+        ArgumentNullException.ThrowIfNull(file);
+        ArgumentNullException.ThrowIfNull(db);
+        ArgumentNullException.ThrowIfNull(files);
+
         var usedButIncorrectName = new List<FileInformation>();
         var matched = new List<RomAndFileMoniker>();
         var wrongNamed = new List<RomAndFileMoniker>();
@@ -141,6 +146,12 @@ internal static class Scanner
 
     public static Task<DatabaseRebuildResults> RebuildAsync(Action<RebuildEventArgs> reportProgress, DatabaseFile file, RomDatabase db, RebuildSettings rebuildSettings, string[] cueFolders, CancellationToken ct)
     {
+        ArgumentNullException.ThrowIfNull(reportProgress);
+        ArgumentNullException.ThrowIfNull(file);
+        ArgumentNullException.ThrowIfNull(db);
+        ArgumentNullException.ThrowIfNull(rebuildSettings);
+        ArgumentNullException.ThrowIfNull(cueFolders);
+
         DatabaseRebuildResults rebuildResults = new();
 
         reportProgress(new RebuildEventArgs { DatabaseFile = file, ProgressPercentage = 0, Status = RebuildStatus.Started, Results = new DatabaseRebuildResults() });
@@ -308,6 +319,12 @@ internal static class Scanner
 
     public static Task CreateDatabaseAsync(Action<DatabaseCreateEventArgs> reportProgress, string sourceFolderPath, string targetFolderPath, string targetDatabaseFilePath, DatabaseCreateSettings settings, CancellationToken ct)
     {
+        ArgumentNullException.ThrowIfNull(reportProgress);
+        ArgumentException.ThrowIfNullOrEmpty(sourceFolderPath);
+        ArgumentException.ThrowIfNullOrEmpty(targetFolderPath);
+        ArgumentException.ThrowIfNullOrEmpty(targetDatabaseFilePath);
+        ArgumentNullException.ThrowIfNull(settings);
+
         var db = new RomDatabase
         {
             Name = settings.Name,

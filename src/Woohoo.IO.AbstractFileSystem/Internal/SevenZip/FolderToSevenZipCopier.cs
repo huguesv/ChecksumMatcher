@@ -57,6 +57,10 @@ internal class FolderToSevenZipCopier : IFileCopier
 
     internal static void BuildArchive(string sourceFilePath, string targetArchiveFilePath, string targetFile)
     {
+        ArgumentException.ThrowIfNullOrEmpty(sourceFilePath);
+        ArgumentException.ThrowIfNullOrEmpty(targetArchiveFilePath);
+        ArgumentException.ThrowIfNullOrEmpty(targetFile);
+
         var compressor = new SevenZipCompressor
         {
             CompressionMode = File.Exists(targetArchiveFilePath) ? CompressionMode.Append : CompressionMode.Create,

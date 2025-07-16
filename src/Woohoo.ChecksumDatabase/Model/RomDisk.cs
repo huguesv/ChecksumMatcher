@@ -3,8 +3,6 @@
 
 namespace Woohoo.ChecksumDatabase.Model;
 
-using System;
-
 public record class RomDisk
 {
     public RomDisk(RomGame parentGame)
@@ -13,8 +11,8 @@ public record class RomDisk
 
         this.ParentGame = parentGame;
         this.Name = string.Empty;
-        this.MD5 = Array.Empty<byte>();
-        this.SHA1 = Array.Empty<byte>();
+        this.MD5 = [];
+        this.SHA1 = [];
         this.Merge = string.Empty;
         this.Status = RomStatus.Good;
     }

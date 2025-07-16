@@ -15,7 +15,7 @@ public record class RomGame
 
         this.ParentDatabase = parentDatabase;
         this.Name = string.Empty;
-        this.Comments = new Collection<string>();
+        this.Comments = [];
         this.Description = string.Empty;
         this.Year = string.Empty;
         this.Manufacturer = string.Empty;
@@ -25,12 +25,12 @@ public record class RomGame
         this.SampleOf = string.Empty;
         this.Board = string.Empty;
         this.RebuildTo = string.Empty;
-        this.Releases = new Collection<RomRelease>();
-        this.BiosSets = new Collection<RomBiosSet>();
-        this.Roms = new Collection<RomFile>();
-        this.Disks = new Collection<RomDisk>();
-        this.Samples = new Collection<RomSample>();
-        this.Archives = new Collection<RomArchive>();
+        this.Releases = [];
+        this.BiosSets = [];
+        this.Roms = [];
+        this.Disks = [];
+        this.Samples = [];
+        this.Archives = [];
         this.Details = new SortedDictionary<string, string>(new DetailsComparer());
     }
 

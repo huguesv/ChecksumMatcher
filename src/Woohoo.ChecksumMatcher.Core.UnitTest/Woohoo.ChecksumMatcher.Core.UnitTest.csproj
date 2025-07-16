@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

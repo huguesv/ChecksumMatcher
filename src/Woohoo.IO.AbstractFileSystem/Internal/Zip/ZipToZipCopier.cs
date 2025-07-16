@@ -4,6 +4,7 @@
 namespace Woohoo.IO.AbstractFileSystem.Internal.Zip;
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using Woohoo.IO.Compression.Zip;
@@ -14,15 +15,9 @@ internal class ZipToZipCopier : IFileCopier
 
     public virtual int CanCopy(FileInformation file, string targetContainerType, string[] expectedTargetFiles)
     {
-        if (file == null)
-        {
-            throw new ArgumentNullException("file");
-        }
-
-        if (string.IsNullOrEmpty(targetContainerType))
-        {
-            throw new ArgumentNullException("targetContainerType");
-        }
+        ArgumentNullException.ThrowIfNull(file);
+        ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         if (string.Compare(Path.GetExtension(file.ContainerAbsolutePath), ".zip", StringComparison.OrdinalIgnoreCase) == 0)
         {
@@ -37,30 +32,11 @@ internal class ZipToZipCopier : IFileCopier
 
     public virtual bool Copy(FileInformation file, string targetFolderPath, bool removeSource, bool allowContainerMove, string containerName, string fileName, string[] expectedTargetFiles)
     {
-        if (file == null)
-        {
-            throw new ArgumentNullException("file");
-        }
-
-        if (string.IsNullOrEmpty(targetFolderPath))
-        {
-            throw new ArgumentNullException("targetFolderPath");
-        }
-
-        if (string.IsNullOrEmpty(containerName))
-        {
-            throw new ArgumentNullException("containerName");
-        }
-
-        if (string.IsNullOrEmpty(fileName))
-        {
-            throw new ArgumentNullException("fileName");
-        }
-
-        if (expectedTargetFiles == null)
-        {
-            throw new ArgumentNullException("expectedTargetFiles");
-        }
+        ArgumentNullException.ThrowIfNull(file);
+        ArgumentException.ThrowIfNullOrEmpty(targetFolderPath);
+        ArgumentException.ThrowIfNullOrEmpty(containerName);
+        ArgumentException.ThrowIfNullOrEmpty(fileName);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         var targetArchiveFilePath = Path.Combine(targetFolderPath, containerName + ".zip");
         if (File.Exists(targetArchiveFilePath))
@@ -117,35 +93,26 @@ internal class ZipToZipCopier : IFileCopier
 
     public virtual string GetTargetContainerPath(string targetFolderPath, string containerName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(targetFolderPath);
+        ArgumentException.ThrowIfNullOrEmpty(containerName);
+
         return Path.Combine(targetFolderPath, containerName + ".zip");
     }
 
     protected virtual bool PostProcess(string targetArchiveFilePath, string[] expectedTargetFiles)
     {
+        ArgumentException.ThrowIfNullOrEmpty(targetArchiveFilePath);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
+
         return SharpZipContainer.IsComplete(targetArchiveFilePath, expectedTargetFiles);
     }
 
     protected virtual void CopyFromZipArchiveToZipArchive(ZipFile sourceZipFile, string sourceFile, ZipFile targetZipFile, string targetFile)
     {
-        if (sourceZipFile == null)
-        {
-            throw new ArgumentNullException("sourceZipFile");
-        }
-
-        if (string.IsNullOrEmpty(sourceFile))
-        {
-            throw new ArgumentNullException("sourceFile");
-        }
-
-        if (targetZipFile == null)
-        {
-            throw new ArgumentNullException("targetZipFile");
-        }
-
-        if (string.IsNullOrEmpty(targetFile))
-        {
-            throw new ArgumentNullException("targetFile");
-        }
+        ArgumentNullException.ThrowIfNull(sourceZipFile);
+        ArgumentException.ThrowIfNullOrEmpty(sourceFile);
+        ArgumentNullException.ThrowIfNull(targetZipFile);
+        ArgumentException.ThrowIfNullOrEmpty(targetFile);
 
         var sourceEntry = sourceZipFile.GetEntry(sourceFile);
         if (sourceEntry != null)

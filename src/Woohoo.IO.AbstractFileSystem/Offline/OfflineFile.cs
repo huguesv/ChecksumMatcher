@@ -5,6 +5,7 @@ namespace Woohoo.IO.AbstractFileSystem.Offline;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -17,7 +18,7 @@ public class OfflineFile : IFile
 
     public OfflineFile(OfflineConfiguration configuration)
     {
-        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
+        ArgumentNullException.ThrowIfNull(configuration);
 
         this.configuration = configuration;
     }
@@ -152,7 +153,7 @@ public class OfflineFile : IFile
         throw new NotSupportedException();
     }
 
-    public bool Exists(string? path)
+    public bool Exists([NotNullWhen(true)] string? path)
     {
         if (string.IsNullOrEmpty(path))
         {
@@ -170,32 +171,44 @@ public class OfflineFile : IFile
 
     public DateTime GetCreationTime(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         return this.GetCreationTimeUtc(path).ToLocalTime();
     }
 
     public DateTime GetCreationTimeUtc(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         var item = this.configuration.GetItemByPath(path);
         return item?.Created ?? OfflineDates.NotFoundDateTimeUtc;
     }
 
     public DateTime GetLastAccessTime(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         return this.GetLastAccessTimeUtc(path).ToLocalTime();
     }
 
     public DateTime GetLastAccessTimeUtc(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         return OfflineDates.NotFoundDateTimeUtc; // Offline file system does not support last access time
     }
 
     public DateTime GetLastWriteTime(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         return this.GetLastWriteTimeUtc(path).ToLocalTime();
     }
 
     public DateTime GetLastWriteTimeUtc(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         var item = this.configuration.GetItemByPath(path);
         return item?.Modified ?? OfflineDates.NotFoundDateTimeUtc;
     }
@@ -295,12 +308,12 @@ public class OfflineFile : IFile
         throw new NotSupportedException();
     }
 
-    public void Replace(string sourceFileName, string destinationFileName, string destinationBackupFileName, bool ignoreMetadataErrors)
+    public void Replace(string sourceFileName, string destinationFileName, string? destinationBackupFileName, bool ignoreMetadataErrors)
     {
         throw new NotSupportedException();
     }
 
-    public void Replace(string sourceFileName, string destinationFileName, string destinationBackupFileName)
+    public void Replace(string sourceFileName, string destinationFileName, string? destinationBackupFileName)
     {
         throw new NotSupportedException();
     }

@@ -7,7 +7,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Globalization;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -235,7 +234,7 @@ public class DatabaseService : IDatabaseService
 
         static RomDatabase? LoadDatabase(DatabaseFile file)
         {
-            return new DatabaseLoader(new ClrMameHeaderLoader()).TryLoadFrom(Path.Combine(file.FullPath));
+            return new DatabaseLoader().TryLoadFrom(Path.Combine(file.FullPath));
         }
     }
 
@@ -306,11 +305,6 @@ public class DatabaseService : IDatabaseService
             if (db is null)
             {
                 throw new DatabaseImportException($"The database file '{file.FullPath}' could not be loaded.");
-            }
-
-            if (db.Header.Rules.Count > 0)
-            {
-                throw new NotSupportedException("Database contains headers, which are not supported.");
             }
 
             this.ScanProgress?.Invoke(this, new ScanEventArgs { DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Started, Results = new DatabaseScanResults() });
@@ -496,11 +490,6 @@ public class DatabaseService : IDatabaseService
             if (db is null)
             {
                 throw new DatabaseImportException($"The database file '{file.FullPath}' could not be loaded.");
-            }
-
-            if (db.Header.Rules.Count > 0)
-            {
-                throw new NotSupportedException("Database contains headers, which are not supported.");
             }
 
             var cueFolders = await this.GetCueFoldersAsync(ct);
@@ -768,9 +757,9 @@ public class DatabaseService : IDatabaseService
     {
         private readonly DatabaseImporterProvider importerProvider;
 
-        public DatabaseLoader(IDatabaseHeaderLoader headerLoader)
+        public DatabaseLoader()
         {
-            this.importerProvider = new DatabaseImporterProvider(headerLoader);
+            this.importerProvider = new DatabaseImporterProvider();
         }
 
         public RomDatabase? TryLoadFrom(string filePath)
@@ -808,17 +797,6 @@ public class DatabaseService : IDatabaseService
             {
                 return null;
             }
-        }
-    }
-
-    internal class ClrMameHeaderLoader : IDatabaseHeaderLoader
-    {
-        public string Load(string workingFolderPath, string headerFileName)
-        {
-            var headerFilePath = workingFolderPath.Length > 0 ? Path.Combine(workingFolderPath, headerFileName) : headerFileName;
-            return !File.Exists(headerFilePath)
-                ? throw new DatabaseImportException(string.Format(CultureInfo.CurrentCulture, "Header file not found: {0}", headerFilePath))
-                : File.ReadAllText(headerFilePath);
         }
     }
 

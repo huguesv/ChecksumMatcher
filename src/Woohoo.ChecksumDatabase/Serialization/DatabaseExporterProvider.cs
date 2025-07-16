@@ -3,7 +3,6 @@
 
 namespace Woohoo.ChecksumDatabase.Serialization;
 
-using System.Collections.Generic;
 using Woohoo.ChecksumDatabase.Model;
 using Woohoo.ChecksumDatabase.Serialization.Extensions.ClrMame;
 
@@ -13,23 +12,16 @@ public class DatabaseExporterProvider
 
     public DatabaseExporterProvider()
     {
-        this.exporters = new IDatabaseExporter[]
-        {
+        this.exporters =
+        [
             new ClrMameXmlExporter(),
             new ClrMameExporter(),
-        };
+        ];
     }
 
     public string[] GetFilters()
     {
-        var filters = new List<string>();
-
-        foreach (var exporter in this.exporters)
-        {
-            filters.Add(exporter.Filter);
-        }
-
-        return filters.ToArray();
+        return this.exporters.Select(x => x.Filter).ToArray();
     }
 
     public string Save(RomDatabase db, string filter)
@@ -37,14 +29,7 @@ public class DatabaseExporterProvider
         Requires.NotNull(db);
         Requires.NotNull(filter);
 
-        foreach (var exporter in this.exporters)
-        {
-            if (exporter.Filter == filter)
-            {
-                return exporter.Export(db);
-            }
-        }
-
-        return string.Empty;
+        var exporter = this.exporters.FirstOrDefault(x => x.Filter == filter);
+        return exporter?.Export(db) ?? string.Empty;
     }
 }

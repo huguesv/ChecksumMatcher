@@ -13,7 +13,7 @@ public class OfflineFileInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var fileItem = configuration.GetItemByPath(@"C:\Data\File1.txt");
+        var fileItem = configuration.GetItemByPath(@"C:\Data\File1.txt") ?? throw new Exception("Item not found.");
         var fileInfo = new OfflineFileInfo(configuration, fileItem);
 
         // Act
@@ -28,7 +28,7 @@ public class OfflineFileInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var fileItem = configuration.GetItemByPath(@"C:\Data\File1.txt");
+        var fileItem = configuration.GetItemByPath(@"C:\Data\File1.txt") ?? throw new Exception("Item not found.");
         var fileInfo = new OfflineFileInfo(configuration, fileItem);
 
         // Act
@@ -57,7 +57,7 @@ public class OfflineFileInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var fileItem = configuration.GetItemByPath(@"C:\Data\File1.txt");
+        var fileItem = configuration.GetItemByPath(@"C:\Data\File1.txt") ?? throw new Exception("Item not found.");
         var fileInfo = new OfflineFileInfo(configuration, fileItem);
 
         // Act

@@ -31,6 +31,6 @@ public class ClrMameImporterUnitTest
 
     private static RomDatabase Import(string expected)
     {
-        return new ClrMameImporter(null).Import(expected, string.Empty);
+        return new ClrMameImporter().Import(expected, string.Empty);
     }
 }

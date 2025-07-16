@@ -3,6 +3,8 @@
 
 namespace Woohoo.IO.AbstractFileSystem;
 
+using System.Diagnostics.CodeAnalysis;
+
 public interface IDirectory
 {
     IDirectoryInfo CreateDirectory(string path);
@@ -35,7 +37,7 @@ public interface IDirectory
 
     System.Collections.Generic.IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern, System.IO.SearchOption searchOption);
 
-    bool Exists(string path);
+    bool Exists([NotNullWhen(true)] string? path);
 
     System.DateTime GetCreationTime(string path);
 

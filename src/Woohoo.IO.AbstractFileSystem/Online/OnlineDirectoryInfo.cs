@@ -13,6 +13,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public OnlineDirectoryInfo(DirectoryInfo innerInfo)
     {
+        ArgumentNullException.ThrowIfNull(innerInfo);
+
         this.innerInfo = innerInfo;
     }
 
@@ -34,9 +36,17 @@ public class OnlineDirectoryInfo : IDirectoryInfo
         }
     }
 
-    public DateTime CreationTime { get => this.innerInfo.CreationTime; set => this.innerInfo.CreationTime = value; }
+    public DateTime CreationTime
+    {
+        get => this.innerInfo.CreationTime;
+        set => this.innerInfo.CreationTime = value;
+    }
 
-    public DateTime CreationTimeUtc { get => this.innerInfo.CreationTimeUtc; set => this.innerInfo.CreationTimeUtc = value; }
+    public DateTime CreationTimeUtc
+    {
+        get => this.innerInfo.CreationTimeUtc;
+        set => this.innerInfo.CreationTimeUtc = value;
+    }
 
     public bool Exists => this.innerInfo.Exists;
 
@@ -44,13 +54,29 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public string FullName => this.innerInfo.FullName;
 
-    public DateTime LastAccessTime { get => this.innerInfo.LastAccessTime; set => this.innerInfo.LastAccessTime = value; }
+    public DateTime LastAccessTime
+    {
+        get => this.innerInfo.LastAccessTime;
+        set => this.innerInfo.LastAccessTime = value;
+    }
 
-    public DateTime LastAccessTimeUtc { get => this.innerInfo.LastAccessTimeUtc; set => this.innerInfo.LastAccessTimeUtc = value; }
+    public DateTime LastAccessTimeUtc
+    {
+        get => this.innerInfo.LastAccessTimeUtc;
+        set => this.innerInfo.LastAccessTimeUtc = value;
+    }
 
-    public DateTime LastWriteTime { get => this.innerInfo.LastWriteTime; set => this.innerInfo.LastWriteTime = value; }
+    public DateTime LastWriteTime
+    {
+        get => this.innerInfo.LastWriteTime;
+        set => this.innerInfo.LastWriteTime = value;
+    }
 
-    public DateTime LastWriteTimeUtc { get => this.innerInfo.LastWriteTimeUtc; set => this.innerInfo.LastWriteTimeUtc = value; }
+    public DateTime LastWriteTimeUtc
+    {
+        get => this.innerInfo.LastWriteTimeUtc;
+        set => this.innerInfo.LastWriteTimeUtc = value;
+    }
 
     public string Name => this.innerInfo.Name;
 
@@ -61,6 +87,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IDirectoryInfo CreateSubdirectory(string path)
     {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
         var result = this.innerInfo.CreateSubdirectory(path);
         return new OnlineDirectoryInfo(result);
     }
@@ -77,6 +105,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IDirectoryInfo> EnumerateDirectories(string searchPattern, SearchOption searchOption)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         foreach (var dir in this.innerInfo.EnumerateDirectories(searchPattern, searchOption))
         {
             yield return new OnlineDirectoryInfo(dir);
@@ -85,6 +115,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IDirectoryInfo> EnumerateDirectories(string searchPattern, EnumerationOptions enumerationOptions)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         foreach (var dir in this.innerInfo.EnumerateDirectories(searchPattern, enumerationOptions))
         {
             yield return new OnlineDirectoryInfo(dir);
@@ -93,6 +125,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IDirectoryInfo> EnumerateDirectories(string searchPattern)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         foreach (var dir in this.innerInfo.EnumerateDirectories(searchPattern))
         {
             yield return new OnlineDirectoryInfo(dir);
@@ -117,6 +151,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileInfo> EnumerateFiles(string searchPattern)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         foreach (var file in this.innerInfo.EnumerateFiles(searchPattern))
         {
             yield return new OnlineFileInfo(file);
@@ -125,6 +161,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileInfo> EnumerateFiles(string searchPattern, EnumerationOptions enumerationOptions)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         foreach (var file in this.innerInfo.EnumerateFiles(searchPattern, enumerationOptions))
         {
             yield return new OnlineFileInfo(file);
@@ -133,6 +171,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileInfo> EnumerateFiles(string searchPattern, SearchOption searchOption)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         foreach (var file in this.innerInfo.EnumerateFiles(searchPattern, searchOption))
         {
             yield return new OnlineFileInfo(file);
@@ -141,6 +181,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileSystemInfo> EnumerateFileSystemInfos(string searchPattern, SearchOption searchOption)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         foreach (var info in this.innerInfo.EnumerateFileSystemInfos(searchPattern, searchOption))
         {
             yield return OnlineInfoFactory.CreateFileSystemInfo(info);
@@ -157,6 +199,8 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IEnumerable<IFileSystemInfo> EnumerateFileSystemInfos(string searchPattern)
     {
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
         foreach (var info in this.innerInfo.EnumerateFileSystemInfos(searchPattern))
         {
             yield return OnlineInfoFactory.CreateFileSystemInfo(info);
@@ -170,90 +214,86 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 
     public IDirectoryInfo[] GetDirectories()
     {
-        return this.innerInfo.GetDirectories()
-            .Select(info => new OnlineDirectoryInfo(info))
-            .ToArray();
+        return [.. this.innerInfo.GetDirectories().Select(info => new OnlineDirectoryInfo(info))];
     }
 
     public IDirectoryInfo[] GetDirectories(string searchPattern)
     {
-        return this.innerInfo.GetDirectories(searchPattern)
-            .Select(info => new OnlineDirectoryInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetDirectories(searchPattern).Select(info => new OnlineDirectoryInfo(info))];
     }
 
     public IDirectoryInfo[] GetDirectories(string searchPattern, EnumerationOptions enumerationOptions)
     {
-        return this.innerInfo.GetDirectories(searchPattern, enumerationOptions)
-            .Select(info => new OnlineDirectoryInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetDirectories(searchPattern, enumerationOptions).Select(info => new OnlineDirectoryInfo(info))];
     }
 
     public IDirectoryInfo[] GetDirectories(string searchPattern, SearchOption searchOption)
     {
-        return this.innerInfo.GetDirectories(searchPattern, searchOption)
-            .Select(info => new OnlineDirectoryInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetDirectories(searchPattern, searchOption).Select(info => new OnlineDirectoryInfo(info))];
     }
 
     public IFileInfo[] GetFiles(string searchPattern, EnumerationOptions enumerationOptions)
     {
-        return this.innerInfo.GetFiles(searchPattern, enumerationOptions)
-            .Select(info => new OnlineFileInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetFiles(searchPattern, enumerationOptions).Select(info => new OnlineFileInfo(info))];
     }
 
     public IFileInfo[] GetFiles(string searchPattern, SearchOption searchOption)
     {
-        return this.innerInfo.GetFiles(searchPattern, searchOption)
-            .Select(info => new OnlineFileInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetFiles(searchPattern, searchOption).Select(info => new OnlineFileInfo(info))];
     }
 
     public IFileInfo[] GetFiles()
     {
-        return this.innerInfo.GetFiles()
-            .Select(info => new OnlineFileInfo(info))
-            .ToArray();
+        return [.. this.innerInfo.GetFiles().Select(info => new OnlineFileInfo(info))];
     }
 
     public IFileInfo[] GetFiles(string searchPattern)
     {
-        return this.innerInfo.GetFiles(searchPattern)
-            .Select(info => new OnlineFileInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetFiles(searchPattern).Select(info => new OnlineFileInfo(info))];
     }
 
     public IFileSystemInfo[] GetFileSystemInfos()
     {
-        return this.innerInfo.GetFileSystemInfos()
-            .Select(info => OnlineInfoFactory.CreateFileSystemInfo(info))
-            .ToArray();
+        return [.. this.innerInfo.GetFileSystemInfos().Select(OnlineInfoFactory.CreateFileSystemInfo)];
     }
 
     public IFileSystemInfo[] GetFileSystemInfos(string searchPattern)
     {
-        return this.innerInfo.GetFileSystemInfos(searchPattern)
-            .Select(info => OnlineInfoFactory.CreateFileSystemInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetFileSystemInfos(searchPattern).Select(OnlineInfoFactory.CreateFileSystemInfo)];
     }
 
     public IFileSystemInfo[] GetFileSystemInfos(string searchPattern, EnumerationOptions enumerationOptions)
     {
-        return this.innerInfo.GetFileSystemInfos(searchPattern, enumerationOptions)
-            .Select(info => OnlineInfoFactory.CreateFileSystemInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetFileSystemInfos(searchPattern, enumerationOptions).Select(OnlineInfoFactory.CreateFileSystemInfo)];
     }
 
     public IFileSystemInfo[] GetFileSystemInfos(string searchPattern, SearchOption searchOption)
     {
-        return this.innerInfo.GetFileSystemInfos(searchPattern, searchOption)
-            .Select(info => OnlineInfoFactory.CreateFileSystemInfo(info))
-            .ToArray();
+        ArgumentNullException.ThrowIfNull(searchPattern);
+
+        return [.. this.innerInfo.GetFileSystemInfos(searchPattern, searchOption).Select(OnlineInfoFactory.CreateFileSystemInfo)];
     }
 
     public void MoveTo(string destDirName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(destDirName);
+
         this.innerInfo.MoveTo(destDirName);
     }
 

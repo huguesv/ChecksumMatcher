@@ -9,6 +9,8 @@ public static class DriveInfoEx
 {
     public static unsafe string GetVolumeSerial(string driveRoot)
     {
+        ArgumentException.ThrowIfNullOrEmpty(driveRoot);
+
         Span<char> volumeName = stackalloc char[1024];
         uint serial = 0;
         uint maxComponentLength = 0;

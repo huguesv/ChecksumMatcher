@@ -15,6 +15,7 @@ internal class FolderToZipCopier : IFileCopier
     {
         ArgumentNullException.ThrowIfNull(file);
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         if (Directory.Exists(file.ContainerAbsolutePath))
         {

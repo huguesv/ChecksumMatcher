@@ -15,6 +15,7 @@ internal class FolderToTorrentSevenZipCopier : FolderToZipCopier
     {
         ArgumentNullException.ThrowIfNull(file);
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         if (Directory.Exists(file.ContainerAbsolutePath))
         {
@@ -29,11 +30,17 @@ internal class FolderToTorrentSevenZipCopier : FolderToZipCopier
 
     public override string GetTargetContainerPath(string targetFolderPath, string containerName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(targetFolderPath);
+        ArgumentException.ThrowIfNullOrEmpty(containerName);
+
         return Path.Combine(targetFolderPath, containerName + ".7z");
     }
 
     protected override bool PostProcess(string targetArchiveFilePath, string[] expectedTargetFiles)
     {
+        ArgumentException.ThrowIfNullOrEmpty(targetArchiveFilePath);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
+
         return TorrentSevenZipper.Torrentzip(targetArchiveFilePath, expectedTargetFiles, SharpZipContainer.IsComplete);
     }
 }

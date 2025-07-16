@@ -5,6 +5,7 @@ namespace Woohoo.IO.AbstractFileSystem.Offline;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Woohoo.IO.AbstractFileSystem.Offline.Models;
 
@@ -15,7 +16,7 @@ public class OfflineDirectory : IDirectory
 
     public OfflineDirectory(OfflineConfiguration configuration)
     {
-        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
+        ArgumentNullException.ThrowIfNull(configuration);
 
         this.configuration = configuration;
         this.enumerator = new OfflineEnumerator(configuration);
@@ -38,7 +39,7 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateDirectories(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.enumerator
             .EnumerateItems(path, item => item.Kind == OfflineItemKind.Folder)
@@ -47,7 +48,8 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateDirectories(string path, string searchPattern)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, item => item.Kind == OfflineItemKind.Folder, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
@@ -56,7 +58,8 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, EnumerationOptions enumerationOptions)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, enumerationOptions, item => item.Kind == OfflineItemKind.Folder, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
@@ -65,7 +68,8 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateDirectories(string path, string searchPattern, SearchOption searchOption)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, searchOption, item => item.Kind == OfflineItemKind.Folder, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
@@ -74,7 +78,8 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, searchOption, item => item.Kind == OfflineItemKind.File || item.Kind == OfflineItemKind.ArchiveFile)
@@ -83,7 +88,8 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateFiles(string path, string searchPattern, EnumerationOptions enumerationOptions)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, enumerationOptions, item => item.Kind == OfflineItemKind.File || item.Kind == OfflineItemKind.ArchiveFile)
@@ -92,7 +98,7 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateFiles(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.enumerator
             .EnumerateItems(path, item => item.Kind == OfflineItemKind.File || item.Kind == OfflineItemKind.ArchiveFile)
@@ -101,7 +107,8 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateFiles(string path, string searchPattern)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, item => item.Kind == OfflineItemKind.File || item.Kind == OfflineItemKind.ArchiveFile, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
@@ -110,7 +117,7 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateFileSystemEntries(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.enumerator
             .EnumerateItems(path)
@@ -119,7 +126,8 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
@@ -128,7 +136,8 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern, EnumerationOptions enumerationOptions)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, enumerationOptions, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
@@ -137,14 +146,15 @@ public class OfflineDirectory : IDirectory
 
     public IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern, SearchOption searchOption)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.enumerator
             .EnumerateItems(path, searchOption, item => OfflineEnumerator.IsPatternMatch(item, searchPattern))
             .Select(OfflineEnumerator.ToPath);
     }
 
-    public bool Exists(string path)
+    public bool Exists([NotNullWhen(true)] string? path)
     {
         if (string.IsNullOrEmpty(path))
         {
@@ -157,14 +167,14 @@ public class OfflineDirectory : IDirectory
 
     public DateTime GetCreationTime(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.GetCreationTimeUtc(path).ToLocalTime();
     }
 
     public DateTime GetCreationTimeUtc(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         var folder = this.configuration.GetItemByPath(path);
         if (folder is not null && folder.Kind == OfflineItemKind.Folder)
@@ -182,35 +192,38 @@ public class OfflineDirectory : IDirectory
 
     public string[] GetDirectories(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.EnumerateDirectories(path).ToArray();
     }
 
     public string[] GetDirectories(string path, string searchPattern)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateDirectories(path, searchPattern).ToArray();
     }
 
     public string[] GetDirectories(string path, string searchPattern, System.IO.SearchOption searchOption)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateDirectories(path, searchPattern, searchOption).ToArray();
     }
 
     public string[] GetDirectories(string path, string searchPattern, System.IO.EnumerationOptions enumerationOptions)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateDirectories(path, searchPattern, enumerationOptions).ToArray();
     }
 
     public string GetDirectoryRoot(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         string fullPath = Path.GetFullPath(path);
         string root = Path.GetPathRoot(fullPath)!;
@@ -220,70 +233,76 @@ public class OfflineDirectory : IDirectory
 
     public string[] GetFiles(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.EnumerateFiles(path).ToArray();
     }
 
     public string[] GetFiles(string path, string searchPattern)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateFiles(path, searchPattern).ToArray();
     }
 
     public string[] GetFiles(string path, string searchPattern, System.IO.SearchOption searchOption)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateFiles(path, searchPattern, searchOption).ToArray();
     }
 
     public string[] GetFiles(string path, string searchPattern, System.IO.EnumerationOptions enumerationOptions)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateFiles(path, searchPattern, enumerationOptions).ToArray();
     }
 
     public string[] GetFileSystemEntries(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.EnumerateFileSystemEntries(path).ToArray();
     }
 
     public string[] GetFileSystemEntries(string path, string searchPattern)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateFileSystemEntries(path, searchPattern).ToArray();
     }
 
     public string[] GetFileSystemEntries(string path, string searchPattern, System.IO.SearchOption searchOption)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateFileSystemEntries(path, searchPattern, searchOption).ToArray();
     }
 
     public string[] GetFileSystemEntries(string path, string searchPattern, System.IO.EnumerationOptions enumerationOptions)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
+        ArgumentNullException.ThrowIfNull(searchPattern);
 
         return this.EnumerateFileSystemEntries(path, searchPattern, enumerationOptions).ToArray();
     }
 
     public DateTime GetLastAccessTime(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.GetLastAccessTimeUtc(path).ToLocalTime();
     }
 
     public DateTime GetLastAccessTimeUtc(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         // Not supported, but return a default value to avoid exceptions.
         return OfflineDates.NotFoundDateTimeUtc;
@@ -291,14 +310,14 @@ public class OfflineDirectory : IDirectory
 
     public DateTime GetLastWriteTime(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         return this.GetLastWriteTimeUtc(path).ToLocalTime();
     }
 
     public DateTime GetLastWriteTimeUtc(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         var folder = this.configuration.GetItemByPath(path);
         if (folder is not null && folder.Kind == OfflineItemKind.Folder)
@@ -317,7 +336,7 @@ public class OfflineDirectory : IDirectory
 
     public IDirectoryInfo? GetParent(string path)
     {
-        ArgumentException.ThrowIfNullOrEmpty(path, nameof(path));
+        ArgumentException.ThrowIfNullOrEmpty(path);
 
         string fullPath = Path.GetFullPath(path);
 

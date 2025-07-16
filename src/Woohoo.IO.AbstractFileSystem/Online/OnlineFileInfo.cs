@@ -11,6 +11,8 @@ public class OnlineFileInfo : IFileInfo
 
     public OnlineFileInfo(FileInfo innerInfo)
     {
+        ArgumentNullException.ThrowIfNull(innerInfo);
+
         this.innerInfo = innerInfo;
     }
 
@@ -25,13 +27,25 @@ public class OnlineFileInfo : IFileInfo
 
     public string? DirectoryName => this.innerInfo.DirectoryName;
 
-    public bool IsReadOnly { get => this.innerInfo.IsReadOnly; set => this.innerInfo.IsReadOnly = value; }
+    public bool IsReadOnly
+    {
+        get => this.innerInfo.IsReadOnly;
+        set => this.innerInfo.IsReadOnly = value;
+    }
 
     public long Length => this.innerInfo.Length;
 
-    public DateTime CreationTime { get => this.innerInfo.CreationTime; set => this.innerInfo.CreationTime = value; }
+    public DateTime CreationTime
+    {
+        get => this.innerInfo.CreationTime;
+        set => this.innerInfo.CreationTime = value;
+    }
 
-    public DateTime CreationTimeUtc { get => this.innerInfo.CreationTimeUtc; set => this.innerInfo.CreationTimeUtc = value; }
+    public DateTime CreationTimeUtc
+    {
+        get => this.innerInfo.CreationTimeUtc;
+        set => this.innerInfo.CreationTimeUtc = value;
+    }
 
     public bool Exists => this.innerInfo.Exists;
 
@@ -41,13 +55,29 @@ public class OnlineFileInfo : IFileInfo
 
     public string FullPath => this.innerInfo.FullName;
 
-    public DateTime LastAccessTime { get => this.innerInfo.LastAccessTime; set => this.innerInfo.LastAccessTime = value; }
+    public DateTime LastAccessTime
+    {
+        get => this.innerInfo.LastAccessTime;
+        set => this.innerInfo.LastAccessTime = value;
+    }
 
-    public DateTime LastAccessTimeUtc { get => this.innerInfo.LastAccessTimeUtc; set => this.innerInfo.LastAccessTimeUtc = value; }
+    public DateTime LastAccessTimeUtc
+    {
+        get => this.innerInfo.LastAccessTimeUtc;
+        set => this.innerInfo.LastAccessTimeUtc = value;
+    }
 
-    public DateTime LastWriteTime { get => this.innerInfo.LastWriteTime; set => this.innerInfo.LastWriteTime = value; }
+    public DateTime LastWriteTime
+    {
+        get => this.innerInfo.LastWriteTime;
+        set => this.innerInfo.LastWriteTime = value;
+    }
 
-    public DateTime LastWriteTimeUtc { get => this.innerInfo.LastWriteTimeUtc; set => this.innerInfo.LastWriteTimeUtc = value; }
+    public DateTime LastWriteTimeUtc
+    {
+        get => this.innerInfo.LastWriteTimeUtc;
+        set => this.innerInfo.LastWriteTimeUtc = value;
+    }
 
     public string Name => this.innerInfo.Name;
 
@@ -58,6 +88,8 @@ public class OnlineFileInfo : IFileInfo
 
     public IFileInfo CopyTo(string destFileName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(destFileName);
+
         return new OnlineFileInfo(this.innerInfo.CopyTo(destFileName));
     }
 
@@ -88,11 +120,15 @@ public class OnlineFileInfo : IFileInfo
 
     public void MoveTo(string destFileName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(destFileName);
+
         this.innerInfo.MoveTo(destFileName);
     }
 
     public void MoveTo(string destFileName, bool overwrite)
     {
+        ArgumentException.ThrowIfNullOrEmpty(destFileName);
+
         this.innerInfo.MoveTo(destFileName, overwrite);
     }
 
@@ -103,6 +139,8 @@ public class OnlineFileInfo : IFileInfo
 
     public Stream Open(FileStreamOptions options)
     {
+        ArgumentNullException.ThrowIfNull(options);
+
         return this.innerInfo.Open(options);
     }
 
@@ -138,11 +176,15 @@ public class OnlineFileInfo : IFileInfo
 
     public IFileInfo Replace(string destinationFileName, string? destinationBackupFileName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(destinationFileName);
+
         return new OnlineFileInfo(this.innerInfo.Replace(destinationFileName, destinationBackupFileName));
     }
 
     public IFileInfo Replace(string destinationFileName, string? destinationBackupFileName, bool ignoreMetadataErrors)
     {
+        ArgumentException.ThrowIfNullOrEmpty(destinationFileName);
+
         return new OnlineFileInfo(this.innerInfo.Replace(destinationFileName, destinationBackupFileName, ignoreMetadataErrors));
     }
 }

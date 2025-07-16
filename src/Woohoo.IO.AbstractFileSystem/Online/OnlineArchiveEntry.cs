@@ -13,7 +13,9 @@ internal class OnlineArchiveEntry : IArchiveEntry
 
     public OnlineArchiveEntry(IOnlineArchiveEngine engine)
     {
-        this.engine = engine ?? throw new ArgumentNullException(nameof(engine));
+        ArgumentNullException.ThrowIfNull(engine);
+
+        this.engine = engine;
     }
 
     public required string ArchiveFilePath { get; init; }
@@ -54,6 +56,8 @@ internal class OnlineArchiveEntry : IArchiveEntry
 
     public void Extract(string destinationPath)
     {
+        ArgumentException.ThrowIfNullOrEmpty(destinationPath);
+
         this.engine.Extract(this, destinationPath);
     }
 

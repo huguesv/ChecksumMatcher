@@ -4,8 +4,6 @@
 namespace Woohoo.IO.AbstractFileSystem.Internal.SevenZip;
 
 using System.IO;
-using System.Reflection;
-using global::SevenZip;
 using Woohoo.IO.Compression.SevenZip;
 
 internal class ContainerToSevenZipCopier : IFileCopier

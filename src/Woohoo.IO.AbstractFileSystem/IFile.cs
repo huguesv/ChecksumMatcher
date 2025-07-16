@@ -3,6 +3,8 @@
 
 namespace Woohoo.IO.AbstractFileSystem;
 
+using System.Diagnostics.CodeAnalysis;
+
 public interface IFile
 {
     void AppendAllBytes(string path, byte[] bytes);
@@ -57,7 +59,7 @@ public interface IFile
 
     void Encrypt(string path);
 
-    bool Exists(string? path);
+    bool Exists([NotNullWhen(true)] string? path);
 
     System.IO.FileAttributes GetAttributes(string path);
 
@@ -111,9 +113,9 @@ public interface IFile
 
     System.Threading.Tasks.Task<string> ReadAllTextAsync(string path, System.Text.Encoding encoding, System.Threading.CancellationToken cancellationToken = default);
 
-    void Replace(string sourceFileName, string destinationFileName, string destinationBackupFileName, bool ignoreMetadataErrors);
+    void Replace(string sourceFileName, string destinationFileName, string? destinationBackupFileName, bool ignoreMetadataErrors);
 
-    void Replace(string sourceFileName, string destinationFileName, string destinationBackupFileName);
+    void Replace(string sourceFileName, string destinationFileName, string? destinationBackupFileName);
 
     void SetAttributes(string path, System.IO.FileAttributes fileAttributes);
 

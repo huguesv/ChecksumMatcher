@@ -4,7 +4,7 @@
 namespace Woohoo.IO.AbstractFileSystem;
 
 using System;
-using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using Woohoo.IO.AbstractFileSystem.Internal;
 using Woohoo.IO.AbstractFileSystem.Internal.SevenZip;
@@ -14,7 +14,11 @@ public static class ContainerExtensionProvider
 {
     private static readonly FolderContainer FolderContainer = new();
 
-    private static readonly ContainerComposer Composer = new();
+    private static readonly ImmutableArray<IContainer> CompressedContainers =
+    [
+        new SharpZipContainer(),
+        new SevenZipContainer(),
+    ];
 
     public static IContainer GetFolderContainer()
     {
@@ -25,7 +29,7 @@ public static class ContainerExtensionProvider
     {
         ArgumentException.ThrowIfNullOrEmpty(absoluteFilePath);
 
-        var container = GetCompressedContainer(absoluteFilePath);
+        var container = CompressedContainers.FirstOrDefault(container => string.Equals(container.FileExtension, Path.GetExtension(absoluteFilePath), StringComparison.OrdinalIgnoreCase));
         if (container == null)
         {
             if (Directory.Exists(absoluteFilePath))
@@ -35,27 +39,5 @@ public static class ContainerExtensionProvider
         }
 
         return container;
-    }
-
-    internal static IContainer? GetCompressedContainer(string absoluteFilePath)
-    {
-        foreach (var container in Composer.CompressedContainers)
-        {
-            if (string.Compare(container.FileExtension, Path.GetExtension(absoluteFilePath), StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                return container;
-            }
-        }
-
-        return null;
-    }
-
-    internal class ContainerComposer
-    {
-        public IEnumerable<IContainer> CompressedContainers { get; } = new IContainer[]
-        {
-            new SharpZipContainer(),
-            new SevenZipContainer(),
-        };
     }
 }

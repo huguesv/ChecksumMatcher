@@ -14,12 +14,16 @@ internal class ContainerToTorrentZipCopier : ContainerToZipCopier
     {
         ArgumentNullException.ThrowIfNull(file);
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         return targetContainerType == "torrentzip" ? 1 : 0;
     }
 
     protected override bool PostProcess(string targetArchiveFilePath, string[] expectedTargetFiles)
     {
+        ArgumentException.ThrowIfNullOrEmpty(targetArchiveFilePath);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
+
         return TorrentZipper.Torrentzip(targetArchiveFilePath, expectedTargetFiles, SharpZipContainer.IsComplete);
     }
 }

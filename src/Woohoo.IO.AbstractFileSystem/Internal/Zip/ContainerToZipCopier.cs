@@ -15,6 +15,7 @@ internal class ContainerToZipCopier : IFileCopier
     {
         ArgumentNullException.ThrowIfNull(file);
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
+        ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         return targetContainerType == "zip" ? 1 : 0;
     }

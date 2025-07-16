@@ -10,11 +10,8 @@ using Woohoo.ChecksumDatabase.Model;
 
 public class ClrMameImporter : IDatabaseImporter
 {
-    private readonly IDatabaseHeaderLoader headerLoader;
-
-    public ClrMameImporter(IDatabaseHeaderLoader headerLoader)
+    public ClrMameImporter()
     {
-        this.headerLoader = headerLoader;
     }
 
     public bool CanImport(string text)
@@ -268,7 +265,7 @@ public class ClrMameImporter : IDatabaseImporter
                 var headerFileName = line[6..].Trim().Trim('"');
                 if (headerFileName.Length > 0)
                 {
-                    this.ReadXmlHeaderFile(db, workingFolderPath, headerFileName);
+                    // Unused
                 }
             }
 
@@ -276,12 +273,5 @@ public class ClrMameImporter : IDatabaseImporter
         }
 
         return lineIndex;
-    }
-
-    private void ReadXmlHeaderFile(RomDatabase db, string workingFolderPath, string headerFileName)
-    {
-        var headerText = this.headerLoader.Load(workingFolderPath, headerFileName);
-
-        ClrMameXmlHeaderImporter.Import(headerText, db.Header);
     }
 }

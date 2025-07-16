@@ -14,17 +14,17 @@ public class RedumpWebService : IRedumpWebService
         return Task.Run(() => RedumpClient.ValidateCredentialsAsync(username, password, ct), ct);
     }
 
-    public Task<bool> DownloadAllAsync(string outDir, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct)
+    public Task<bool> DownloadAllAsync(string outputFolderPath, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct)
     {
-        ArgumentException.ThrowIfNullOrEmpty(outDir);
+        ArgumentException.ThrowIfNullOrEmpty(outputFolderPath);
         ArgumentNullException.ThrowIfNull(progress);
 
         var redumpClient = new RedumpClient(TimeSpan.FromSeconds(60));
 
-        return Task.Run(() => this.DownloadAllAsync(redumpClient, outDir, useSubfolders, username, password, progress, ct), ct);
+        return Task.Run(() => this.DownloadAllAsync(redumpClient, outputFolderPath, useSubfolders, username, password, progress, ct), ct);
     }
 
-    private async Task<bool> DownloadAllAsync(RedumpClient redumpClient, string outDir, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct)
+    private async Task<bool> DownloadAllAsync(RedumpClient redumpClient, string outputFolderPath, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
@@ -43,7 +43,7 @@ public class RedumpWebService : IRedumpWebService
             }
 
             var systemProgress = (int count, string artifact) => progress(count, progressMax, system.Name, artifact);
-            currentProgress = await this.DownloadSystemAsync(redumpClient, system, outDir, useSubfolders, systemProgress, currentProgress, ct);
+            currentProgress = await this.DownloadSystemAsync(redumpClient, system, outputFolderPath, useSubfolders, systemProgress, currentProgress, ct);
         }
 
         // Final progress update to indicate completion

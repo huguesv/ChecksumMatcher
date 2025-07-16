@@ -13,7 +13,7 @@ public class OfflineDirectoryInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var directoryItem = configuration.GetItemByPath(@"C:\Data");
+        var directoryItem = configuration.GetItemByPath(@"C:\Data") ?? throw new Exception("Item not found.");
         var directoryInfo = new OfflineDirectoryInfo(configuration, directoryItem);
 
         // Act
@@ -29,7 +29,7 @@ public class OfflineDirectoryInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var directoryItem = configuration.GetItemByPath(@"C:\Data");
+        var directoryItem = configuration.GetItemByPath(@"C:\Data") ?? throw new Exception("Item not found.");
         var directoryInfo = new OfflineDirectoryInfo(configuration, directoryItem);
 
         // Act
@@ -46,7 +46,7 @@ public class OfflineDirectoryInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var directoryItem = configuration.GetItemByPath(@"C:\Data");
+        var directoryItem = configuration.GetItemByPath(@"C:\Data") ?? throw new Exception("Item not found.");
         var directoryInfo = new OfflineDirectoryInfo(configuration, directoryItem);
 
         // Act
@@ -62,7 +62,7 @@ public class OfflineDirectoryInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var directoryItem = configuration.GetItemByPath(@"C:\Data\SubFolder");
+        var directoryItem = configuration.GetItemByPath(@"C:\Data\SubFolder") ?? throw new Exception("Item not found.");
         var directoryInfo = new OfflineDirectoryInfo(configuration, directoryItem);
 
         // Act
@@ -77,7 +77,7 @@ public class OfflineDirectoryInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var directoryItem = configuration.GetItemByPath(@"C:\Data\SubFolder");
+        var directoryItem = configuration.GetItemByPath(@"C:\Data\SubFolder") ?? throw new Exception("Item not found.");
         var directoryInfo = new OfflineDirectoryInfo(configuration, directoryItem);
 
         // Act
@@ -106,7 +106,7 @@ public class OfflineDirectoryInfoUnitTest
     {
         // Arrange
         var configuration = new OfflineConfigurationBuilder().Build();
-        var directoryItem = configuration.GetItemByPath(@"C:\Data\SubFolder");
+        var directoryItem = configuration.GetItemByPath(@"C:\Data\SubFolder") ?? throw new Exception("Item not found.");
         var directoryInfo = new OfflineDirectoryInfo(configuration, directoryItem);
 
         // Act
