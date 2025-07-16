@@ -1,14 +1,15 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.Zip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
+using Woohoo.ChecksumMatcher.Core.Helpers;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers;
 using Woohoo.IO.AbstractFileSystem;
-using Woohoo.IO.AbstractFileSystem.Internal;
 using Woohoo.IO.Compression.Zip;
 
 internal sealed class SharpZipContainer : IContainer
@@ -59,7 +60,7 @@ internal sealed class SharpZipContainer : IContainer
 
                     if (entry.HasCrc)
                     {
-                        file.ReportedCRC32 = ByteArrayUtility.ByteArrayFromUInt32((uint)entry.Crc);
+                        file.ReportedCRC32 = ChecksumConversion.ToByteArray((uint)entry.Crc);
                     }
 
                     files.Add(file);

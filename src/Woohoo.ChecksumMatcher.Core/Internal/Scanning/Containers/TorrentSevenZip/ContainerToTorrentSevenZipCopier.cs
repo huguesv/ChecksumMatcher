@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.TorrentSevenZip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.TorrentSevenZip;
 
 using System.IO;
-using Woohoo.IO.AbstractFileSystem.Internal.Zip;
+using Woohoo.ChecksumMatcher.Core.Contracts.Models;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
 using Woohoo.IO.Compression.TorrentSevenZip;
 
 internal class ContainerToTorrentSevenZipCopier : ContainerToZipCopier
@@ -17,7 +18,7 @@ internal class ContainerToTorrentSevenZipCopier : ContainerToZipCopier
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
         ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
-        return targetContainerType == "torrent7z" ? 1 : 0;
+        return targetContainerType == KnownContainerTypes.TorrentSevenZip ? 1 : 0;
     }
 
     public override string GetTargetContainerPath(string targetFolderPath, string containerName)

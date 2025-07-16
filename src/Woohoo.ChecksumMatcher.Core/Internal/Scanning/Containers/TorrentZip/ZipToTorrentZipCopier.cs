@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.TorrentZip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.TorrentZip;
 
 using System;
 using System.IO;
-using Woohoo.IO.AbstractFileSystem.Internal.Zip;
+using Woohoo.ChecksumMatcher.Core.Contracts.Models;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
 using Woohoo.IO.Compression.TorrentZip;
 
 internal class ZipToTorrentZipCopier : ZipToZipCopier
@@ -20,7 +21,7 @@ internal class ZipToTorrentZipCopier : ZipToZipCopier
 
         if (string.Compare(Path.GetExtension(file.ContainerAbsolutePath), ".zip", StringComparison.OrdinalIgnoreCase) == 0)
         {
-            if (targetContainerType == "torrentzip")
+            if (targetContainerType == KnownContainerTypes.TorrentZip)
             {
                 return 10;
             }

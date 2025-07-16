@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.Zip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
 
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
+using Woohoo.ChecksumMatcher.Core.Contracts.Models;
 using Woohoo.IO.Compression.Zip;
 
 internal class FolderToZipCopier : IFileCopier
@@ -19,7 +20,7 @@ internal class FolderToZipCopier : IFileCopier
 
         if (Directory.Exists(file.ContainerAbsolutePath))
         {
-            if (targetContainerType == "zip")
+            if (targetContainerType == KnownContainerTypes.Zip)
             {
                 return 5;
             }

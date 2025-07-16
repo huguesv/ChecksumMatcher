@@ -1,18 +1,14 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.SevenZip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.SevenZip;
 
 using System.IO;
+using Woohoo.ChecksumMatcher.Core.Contracts.Models;
 using Woohoo.IO.Compression.SevenZip;
 
-internal class ContainerToSevenZipCopier : IFileCopier
+internal class FolderToSevenZipCopier : IFileCopier
 {
-    static ContainerToSevenZipCopier()
-    {
-        SevenZipLibrary.Initialize();
-    }
-
     protected virtual bool Compress => true;
 
     public virtual int CanCopy(FileInformation file, string targetContainerType, string[] expectedTargetFiles)
@@ -20,7 +16,15 @@ internal class ContainerToSevenZipCopier : IFileCopier
         ArgumentNullException.ThrowIfNull(file);
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
 
-        return targetContainerType == "7z" ? 1 : 0;
+        if (Directory.Exists(file.ContainerAbsolutePath))
+        {
+            if (targetContainerType == KnownContainerTypes.SevenZip)
+            {
+                return 5;
+            }
+        }
+
+        return 0;
     }
 
     public virtual bool Copy(FileInformation file, string targetFolderPath, bool removeSource, bool allowContainerMove, string containerName, string fileName, string[] expectedTargetFiles)
@@ -32,7 +36,7 @@ internal class ContainerToSevenZipCopier : IFileCopier
         ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
         var targetArchiveFilePath = Path.Combine(targetFolderPath, containerName + ".7z");
-        this.CopyFromContainerToSevenZipArchive(file, fileName, targetArchiveFilePath);
+        this.CopyFromFileToZipArchive(Path.Combine(file.ContainerAbsolutePath, file.FileRelativePath), targetArchiveFilePath, fileName);
 
         // if (!_cancel)
         return this.PostProcess(targetArchiveFilePath, expectedTargetFiles);
@@ -43,7 +47,7 @@ internal class ContainerToSevenZipCopier : IFileCopier
         ArgumentException.ThrowIfNullOrEmpty(targetFolderPath);
         ArgumentException.ThrowIfNullOrEmpty(containerName);
 
-        return Path.Combine(targetFolderPath, containerName + ".7z");
+        return Path.Combine(targetFolderPath, containerName + ".zip");
     }
 
     protected virtual bool PostProcess(string targetArchiveFilePath, string[] expectedTargetFiles)
@@ -54,28 +58,12 @@ internal class ContainerToSevenZipCopier : IFileCopier
         return SevenZipContainer.IsComplete(targetArchiveFilePath, expectedTargetFiles);
     }
 
-    protected virtual void CopyFromContainerToSevenZipArchive(FileInformation file, string targetFile, string targetArchiveFilePath)
+    protected virtual void CopyFromFileToZipArchive(string sourceFilePath, string targetArchiveFilePath, string targetFile)
     {
-        ArgumentNullException.ThrowIfNull(file);
+        ArgumentException.ThrowIfNullOrEmpty(sourceFilePath);
+        ArgumentException.ThrowIfNullOrEmpty(targetArchiveFilePath);
         ArgumentException.ThrowIfNullOrEmpty(targetFile);
-        ArgumentNullException.ThrowIfNull(targetArchiveFilePath);
 
-        var sourceContainer = ContainerExtensionProvider.GetContainer(file.ContainerAbsolutePath);
-        if (sourceContainer != null)
-        {
-            var tempFilePath = Path.GetTempFileName();
-            sourceContainer.Copy(file, tempFilePath);
-            try
-            {
-                FolderToSevenZipCopier.BuildArchive(tempFilePath, targetArchiveFilePath, targetFile);
-            }
-            finally
-            {
-                if (File.Exists(tempFilePath))
-                {
-                    File.Delete(tempFilePath);
-                }
-            }
-        }
+        SevenZipFile.CreateOrAppend(targetArchiveFilePath, sourceFilePath, targetFile);
     }
 }

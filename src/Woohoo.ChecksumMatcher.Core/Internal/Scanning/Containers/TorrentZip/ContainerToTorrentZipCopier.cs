@@ -1,9 +1,10 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.TorrentZip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.TorrentZip;
 
-using Woohoo.IO.AbstractFileSystem.Internal.Zip;
+using Woohoo.ChecksumMatcher.Core.Contracts.Models;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
 using Woohoo.IO.Compression.TorrentZip;
 
 internal class ContainerToTorrentZipCopier : ContainerToZipCopier
@@ -16,7 +17,7 @@ internal class ContainerToTorrentZipCopier : ContainerToZipCopier
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
         ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
-        return targetContainerType == "torrentzip" ? 1 : 0;
+        return targetContainerType == KnownContainerTypes.TorrentZip ? 1 : 0;
     }
 
     protected override bool PostProcess(string targetArchiveFilePath, string[] expectedTargetFiles)

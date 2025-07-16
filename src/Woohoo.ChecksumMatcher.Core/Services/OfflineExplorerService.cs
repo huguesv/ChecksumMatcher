@@ -21,7 +21,7 @@ public class OfflineExplorerService : IOfflineExplorerService
     private readonly ILocalSettingsService localSettingsService;
 
     private readonly List<string> folders = [];
-    private readonly object foldersLock = new();
+    private readonly Lock foldersLock = new();
     private readonly List<FileSystemWatcher> foldersWatchers = [];
 
     private readonly ConcurrentDictionary<string, OfflineHeader?> headerCache = new();

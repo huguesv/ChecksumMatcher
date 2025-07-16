@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.SevenZip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.SevenZip;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Woohoo.ChecksumMatcher.Core.Helpers;
+using Woohoo.IO.AbstractFileSystem;
 using Woohoo.IO.Compression.SevenZip;
 
 internal sealed class SevenZipContainer : IContainer
@@ -43,7 +45,7 @@ internal sealed class SevenZipContainer : IContainer
                     FileRelativePath = entry.Name,
                     Size = (long)entry.Size,
                     DataBlockSize = (long)entry.Size,
-                    ReportedCRC32 = ByteArrayUtility.ByteArrayFromUInt32((uint)entry.CRC32),
+                    ReportedCRC32 = ChecksumConversion.ToByteArray((uint)entry.CRC32),
                     LastWriteTime = entry.LastWriteTime,
                     CreationTime = entry.CreationTime,
                     IsDirectory = entry.IsDirectory,

@@ -29,6 +29,29 @@ public class SevenZipFile
 
     public Collection<SevenZipEntry> Entries { get; }
 
+    public static void CreateOrAppend(string archiveFilePath, string itemFilePath, string itemName)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(archiveFilePath);
+        ArgumentException.ThrowIfNullOrEmpty(itemFilePath);
+        ArgumentException.ThrowIfNullOrEmpty(itemName);
+
+        var compressor = new SevenZipCompressor
+        {
+            CompressionMode = File.Exists(archiveFilePath) ? CompressionMode.Append : CompressionMode.Create,
+            CompressionMethod = CompressionMethod.Copy,
+            ArchiveFormat = OutArchiveFormat.SevenZip,
+            DefaultItemName = itemName,
+        };
+
+        using var inStream = new FileStream(itemFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        var input = new Dictionary<string, Stream>
+        {
+            [itemName] = inStream,
+        };
+
+        compressor.CompressStreamDictionary(input, archiveFilePath);
+    }
+
     public SevenZipEntry? GetEntry(string name)
     {
         ArgumentNullException.ThrowIfNull(name);

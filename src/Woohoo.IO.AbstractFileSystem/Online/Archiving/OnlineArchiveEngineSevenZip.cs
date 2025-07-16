@@ -30,7 +30,20 @@ internal class OnlineArchiveEngineSevenZip : IOnlineArchiveEngine
             throw ArchiveNotFound(archiveFilePath);
         }
 
-        var archive = new SevenZipFile(archiveFilePath);
+        SevenZipFile? archive = null;
+        try
+        {
+            archive = new SevenZipFile(archiveFilePath);
+        }
+        catch
+        {
+        }
+
+        if (archive is null)
+        {
+            yield break;
+        }
+
         foreach (var entry in archive.Entries)
         {
             // Note: Example entry names:
@@ -48,7 +61,7 @@ internal class OnlineArchiveEngineSevenZip : IOnlineArchiveEngine
                 CompressionMethod = entry.Method,
                 IsDirectory = entry.IsDirectory,
                 LastModifiedUtc = entry.LastWriteTime, // TODO: check if this is UTC
-                ReportedCRC32 = entry.IsDirectory ? null : ByteArrayUtility.ByteArrayFromUInt32((uint)entry.CRC32),
+                ReportedCRC32 = entry.IsDirectory ? null : ChecksumConversion.ToByteArray((uint)entry.CRC32),
             };
         }
     }

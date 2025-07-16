@@ -345,25 +345,25 @@ public class ClrMameXmlImporter : IDatabaseImporter
         }
         else if (!string.IsNullOrEmpty(crc))
         {
-            rom.CRC32 = Hex.TextToByteArray(crc);
+            rom.CRC32 = ChecksumConversion.ToByteArray(crc);
         }
 
         var sha256 = reader.GetAttribute("sha256");
         if (!string.IsNullOrEmpty(sha256))
         {
-            rom.SHA256 = Hex.TextToByteArray(sha256);
+            rom.SHA256 = ChecksumConversion.ToByteArray(sha256);
         }
 
         var sha1 = reader.GetAttribute("sha1");
         if (!string.IsNullOrEmpty(sha1))
         {
-            rom.SHA1 = Hex.TextToByteArray(sha1);
+            rom.SHA1 = ChecksumConversion.ToByteArray(sha1);
         }
 
         var md5 = reader.GetAttribute("md5");
         if (!string.IsNullOrEmpty(md5))
         {
-            rom.MD5 = Hex.TextToByteArray(md5);
+            rom.MD5 = ChecksumConversion.ToByteArray(md5);
         }
 
         var merge = reader.GetAttribute("merge");
@@ -407,13 +407,13 @@ public class ClrMameXmlImporter : IDatabaseImporter
         var sha1 = reader.GetAttribute("sha1");
         if (!string.IsNullOrEmpty(sha1))
         {
-            disk.SHA1 = Hex.TextToByteArray(sha1);
+            disk.SHA1 = ChecksumConversion.ToByteArray(sha1);
         }
 
         var md5 = reader.GetAttribute("md5");
         if (!string.IsNullOrEmpty(md5))
         {
-            disk.MD5 = Hex.TextToByteArray(md5);
+            disk.MD5 = ChecksumConversion.ToByteArray(md5);
         }
 
         var merge = reader.GetAttribute("merge");

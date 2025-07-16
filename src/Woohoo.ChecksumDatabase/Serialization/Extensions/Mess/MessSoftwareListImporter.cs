@@ -218,19 +218,19 @@ public class MessSoftwareListImporter : IDatabaseImporter
         var crc = reader.GetAttribute("crc");
         if (!string.IsNullOrEmpty(crc))
         {
-            rom.CRC32 = Hex.TextToByteArray(crc);
+            rom.CRC32 = ChecksumConversion.ToByteArray(crc);
         }
 
         var sha1 = reader.GetAttribute("sha1");
         if (!string.IsNullOrEmpty(sha1))
         {
-            rom.SHA1 = Hex.TextToByteArray(sha1);
+            rom.SHA1 = ChecksumConversion.ToByteArray(sha1);
         }
 
         var md5 = reader.GetAttribute("md5");
         if (!string.IsNullOrEmpty(md5))
         {
-            rom.MD5 = Hex.TextToByteArray(md5);
+            rom.MD5 = ChecksumConversion.ToByteArray(md5);
         }
 
         var offset = reader.GetAttribute("offset");

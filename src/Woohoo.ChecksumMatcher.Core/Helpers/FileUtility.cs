@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal;
+namespace Woohoo.ChecksumMatcher.Core.Helpers;
 
 using System.IO;
 

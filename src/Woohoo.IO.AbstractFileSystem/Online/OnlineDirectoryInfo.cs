@@ -11,6 +11,13 @@ public class OnlineDirectoryInfo : IDirectoryInfo
 {
     private readonly DirectoryInfo innerInfo;
 
+    public OnlineDirectoryInfo(string path)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
+        this.innerInfo = new DirectoryInfo(path);
+    }
+
     public OnlineDirectoryInfo(DirectoryInfo innerInfo)
     {
         ArgumentNullException.ThrowIfNull(innerInfo);

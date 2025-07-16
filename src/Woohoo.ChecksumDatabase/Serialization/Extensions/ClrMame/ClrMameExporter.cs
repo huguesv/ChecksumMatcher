@@ -81,17 +81,17 @@ public class ClrMameExporter : IDatabaseExporter
 
         if (rom.CRC32.Length > 0)
         {
-            _ = text.AppendFormat("crc {0} ", Hex.ByteArrayToText(rom.CRC32));
+            _ = text.AppendFormat("crc {0} ", ChecksumConversion.ToHex(rom.CRC32));
         }
 
         if (rom.MD5.Length > 0)
         {
-            _ = text.AppendFormat("md5 {0} ", Hex.ByteArrayToText(rom.MD5));
+            _ = text.AppendFormat("md5 {0} ", ChecksumConversion.ToHex(rom.MD5));
         }
 
         if (rom.SHA1.Length > 0)
         {
-            _ = text.AppendFormat("sha1 {0} ", Hex.ByteArrayToText(rom.SHA1));
+            _ = text.AppendFormat("sha1 {0} ", ChecksumConversion.ToHex(rom.SHA1));
         }
 
         _ = text.AppendLine(")");

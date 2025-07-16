@@ -1,13 +1,14 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.TorrentZip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.TorrentSevenZip;
 
 using System.IO;
-using Woohoo.IO.AbstractFileSystem.Internal.Zip;
-using Woohoo.IO.Compression.TorrentZip;
+using Woohoo.ChecksumMatcher.Core.Contracts.Models;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
+using Woohoo.IO.Compression.TorrentSevenZip;
 
-internal class FolderToTorrentZipCopier : FolderToZipCopier
+internal class FolderToTorrentSevenZipCopier : FolderToZipCopier
 {
     protected override bool Compress => false;
 
@@ -19,7 +20,7 @@ internal class FolderToTorrentZipCopier : FolderToZipCopier
 
         if (Directory.Exists(file.ContainerAbsolutePath))
         {
-            if (targetContainerType == "torrentzip")
+            if (targetContainerType == KnownContainerTypes.TorrentSevenZip)
             {
                 return 5;
             }
@@ -28,11 +29,19 @@ internal class FolderToTorrentZipCopier : FolderToZipCopier
         return 0;
     }
 
+    public override string GetTargetContainerPath(string targetFolderPath, string containerName)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(targetFolderPath);
+        ArgumentException.ThrowIfNullOrEmpty(containerName);
+
+        return Path.Combine(targetFolderPath, containerName + ".7z");
+    }
+
     protected override bool PostProcess(string targetArchiveFilePath, string[] expectedTargetFiles)
     {
         ArgumentException.ThrowIfNullOrEmpty(targetArchiveFilePath);
         ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
-        return TorrentZipper.Torrentzip(targetArchiveFilePath, expectedTargetFiles, SharpZipContainer.IsComplete);
+        return TorrentSevenZipper.Torrentzip(targetArchiveFilePath, expectedTargetFiles, SharpZipContainer.IsComplete);
     }
 }

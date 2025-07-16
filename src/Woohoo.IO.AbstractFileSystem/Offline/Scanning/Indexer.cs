@@ -9,12 +9,14 @@ using System.IO;
 using System.Linq;
 using Woohoo.IO.AbstractFileSystem;
 using Woohoo.IO.AbstractFileSystem.Offline.Models;
+using Woohoo.IO.AbstractFileSystem.Online;
 using Woohoo.Security.Cryptography;
 
 public class Indexer
 {
     private readonly IndexerOptions options;
     private readonly Stopwatch stopwatch = new();
+    private readonly OnlineArchive onlineArchive = new();
 
     private CancellationToken cancellationToken;
     private long folderCount;
@@ -187,8 +189,7 @@ public class Indexer
     {
         this.cancellationToken.ThrowIfCancellationRequested();
 
-        var container = ContainerExtensionProvider.GetContainer(fileInfo.FullName);
-        if (container is not null)
+        if (this.onlineArchive.IsSupportedArchiveFile(fileInfo.FullName))
         {
             var archiveItem = new OfflineItem
             {
@@ -204,10 +205,10 @@ public class Indexer
 
             if (this.options.IndexArchiveContent)
             {
-                // TODO: for now items are all in a flat list, but we should create a tree structure
-                container.GetAllFiles(fileInfo.FullName, SearchOption.AllDirectories, this.cancellationToken)
-                    .Where(info => !info.IsDirectory)
-                    .Select(info => this.CreateArchiveChild(info, archiveItem, parentDisk))
+                this.onlineArchive
+                    .EnumerateEntries(fileInfo.FullName)
+                    .Where(entry => !entry.IsDirectory)
+                    .Select(entry => this.CreateArchiveChild(entry, archiveItem, parentDisk))
                     .ToList()
                     .ForEach(archiveItem.Items.Add);
 
@@ -234,19 +235,19 @@ public class Indexer
         }
     }
 
-    private OfflineItem CreateArchiveChild(FileInformation info, OfflineItem? parentItem, OfflineDisk parentDisk)
+    private OfflineItem CreateArchiveChild(IArchiveEntry entry, OfflineItem? parentItem, OfflineDisk parentDisk)
     {
         this.cancellationToken.ThrowIfCancellationRequested();
 
         return new OfflineItem
         {
             Kind = OfflineItemKind.File,
-            Name = info.FileRelativePath,
-            Path = info.FileRelativePath,
-            Created = info.CreationTime,
-            Modified = info.LastWriteTime,
-            Size = info.Size,
-            ReportedCRC32 = info.ReportedCRC32.Length > 0 ? HashCalculator.HexToString(info.ReportedCRC32) : null,
+            Name = entry.Name,
+            Path = entry.Name,
+            Created = entry.LastModifiedUtc,
+            Modified = entry.LastModifiedUtc,
+            Size = entry.Size,
+            ReportedCRC32 = entry.ReportedCRC32 is not null ? HashCalculator.HexToString(entry.ReportedCRC32) : null,
             ParentItem = parentItem,
             ParentDisk = parentDisk,
         };

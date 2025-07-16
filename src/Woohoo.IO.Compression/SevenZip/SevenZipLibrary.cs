@@ -6,11 +6,12 @@ namespace Woohoo.IO.Compression.SevenZip;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using global::SevenZip;
 
 public static class SevenZipLibrary
 {
-    private static readonly object IsInitializedLock = new();
+    private static readonly Lock IsInitializedLock = new();
 
     private static bool isInitialized;
 

@@ -1,14 +1,16 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers;
 
 using System;
 using System.Collections.Immutable;
 using System.IO;
-using Woohoo.IO.AbstractFileSystem.Internal;
-using Woohoo.IO.AbstractFileSystem.Internal.SevenZip;
-using Woohoo.IO.AbstractFileSystem.Internal.Zip;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Folder;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Offline;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.SevenZip;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
+using Woohoo.IO.AbstractFileSystem.Offline.Models;
 
 public static class ContainerExtensionProvider
 {
@@ -22,7 +24,12 @@ public static class ContainerExtensionProvider
 
     public static IContainer GetFolderContainer()
     {
-        return new FolderContainer();
+        return FolderContainer;
+    }
+
+    public static IContainer GetOfflineFolderContainer(OfflineDisk offlineDisk)
+    {
+        return new OfflineFolderContainer(offlineDisk);
     }
 
     public static IContainer? GetContainer(string absoluteFilePath)

@@ -1,15 +1,14 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.Zip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
 
-using System;
-using System.Diagnostics;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
+using Woohoo.ChecksumMatcher.Core.Contracts.Models;
 using Woohoo.IO.Compression.Zip;
 
-internal class ZipToZipCopier : IFileCopier
+internal class ContainerToZipCopier : IFileCopier
 {
     protected virtual bool Compress => true;
 
@@ -19,15 +18,7 @@ internal class ZipToZipCopier : IFileCopier
         ArgumentException.ThrowIfNullOrEmpty(targetContainerType);
         ArgumentNullException.ThrowIfNull(expectedTargetFiles);
 
-        if (string.Compare(Path.GetExtension(file.ContainerAbsolutePath), ".zip", StringComparison.OrdinalIgnoreCase) == 0)
-        {
-            if (targetContainerType == "zip")
-            {
-                return 10;
-            }
-        }
-
-        return 0;
+        return targetContainerType == KnownContainerTypes.Zip ? 1 : 0;
     }
 
     public virtual bool Copy(FileInformation file, string targetFolderPath, bool removeSource, bool allowContainerMove, string containerName, string fileName, string[] expectedTargetFiles)
@@ -43,47 +34,14 @@ internal class ZipToZipCopier : IFileCopier
         {
             using (var targetZipFile = new ZipFile(targetArchiveFilePath))
             {
-                using (var sourceZipFile = new ZipFile(file.ContainerAbsolutePath))
-                {
-                    this.CopyFromZipArchiveToZipArchive(sourceZipFile, file.FileRelativePath, targetZipFile, fileName);
-                }
+                this.CopyFromContainerToZipArchive(file, fileName, targetZipFile);
             }
         }
         else
         {
-            var shouldCopyArchive = false;
-            if (file.ContainerName == containerName &&
-                file.FileRelativePath == fileName)
+            using (var targetZipFile = ZipFile.Create(targetArchiveFilePath))
             {
-                using (var sourceZipFile = new ZipFile(file.ContainerAbsolutePath))
-                {
-                    if (sourceZipFile.Count == 1)
-                    {
-                        shouldCopyArchive = true;
-                    }
-                }
-            }
-
-            if (shouldCopyArchive)
-            {
-                if (removeSource && allowContainerMove)
-                {
-                    File.Move(file.ContainerAbsolutePath, targetArchiveFilePath);
-                }
-                else
-                {
-                    File.Copy(file.ContainerAbsolutePath, targetArchiveFilePath);
-                }
-            }
-            else
-            {
-                using (var targetZipFile = ZipFile.Create(targetArchiveFilePath))
-                {
-                    using (var sourceZipFile = new ZipFile(file.ContainerAbsolutePath))
-                    {
-                        this.CopyFromZipArchiveToZipArchive(sourceZipFile, file.FileRelativePath, targetZipFile, fileName);
-                    }
-                }
+                this.CopyFromContainerToZipArchive(file, fileName, targetZipFile);
             }
         }
 
@@ -107,18 +65,39 @@ internal class ZipToZipCopier : IFileCopier
         return SharpZipContainer.IsComplete(targetArchiveFilePath, expectedTargetFiles);
     }
 
-    protected virtual void CopyFromZipArchiveToZipArchive(ZipFile sourceZipFile, string sourceFile, ZipFile targetZipFile, string targetFile)
+    protected virtual void CopyFromContainerToZipArchive(FileInformation file, string targetFile, ZipFile targetZipFile)
     {
-        ArgumentNullException.ThrowIfNull(sourceZipFile);
-        ArgumentException.ThrowIfNullOrEmpty(sourceFile);
+        ArgumentNullException.ThrowIfNull(file);
+        ArgumentException.ThrowIfNullOrEmpty(targetFile);
+        ArgumentNullException.ThrowIfNull(targetZipFile);
+
+        var sourceContainer = ContainerExtensionProvider.GetContainer(file.ContainerAbsolutePath);
+        if (sourceContainer != null)
+        {
+            var tempFilePath = Path.GetTempFileName();
+            sourceContainer.Copy(file, tempFilePath);
+            try
+            {
+                this.CopyFromFileToZipArchive(tempFilePath, targetZipFile, targetFile);
+            }
+            finally
+            {
+                if (File.Exists(tempFilePath))
+                {
+                    File.Delete(tempFilePath);
+                }
+            }
+        }
+    }
+
+    protected virtual void CopyFromFileToZipArchive(string sourceFilePath, ZipFile targetZipFile, string targetFile)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(sourceFilePath);
         ArgumentNullException.ThrowIfNull(targetZipFile);
         ArgumentException.ThrowIfNullOrEmpty(targetFile);
 
-        var sourceEntry = sourceZipFile.GetEntry(sourceFile);
-        if (sourceEntry != null)
+        using (var sourceProvider = new ZipEntryFileStreamProvider(sourceFilePath))
         {
-            var sourceProvider = new ZipEntryZipStreamProvider(sourceZipFile, sourceEntry);
-
             targetZipFile.BeginUpdate();
             targetZipFile.Add(sourceProvider, targetFile, this.Compress ? CompressionMethod.Deflated : CompressionMethod.Stored);
             targetZipFile.CommitUpdate();

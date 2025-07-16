@@ -224,12 +224,12 @@ public class ClrMameXmlExporter : IDatabaseExporter
 
         if (disk.SHA1.Length > 0)
         {
-            writer.WriteAttributeString("sha1", Hex.ByteArrayToText(disk.SHA1));
+            writer.WriteAttributeString("sha1", ChecksumConversion.ToHex(disk.SHA1));
         }
 
         if (disk.MD5.Length > 0)
         {
-            writer.WriteAttributeString("md5", Hex.ByteArrayToText(disk.MD5));
+            writer.WriteAttributeString("md5", ChecksumConversion.ToHex(disk.MD5));
         }
 
         if (disk.Merge.Length > 0)
@@ -294,17 +294,17 @@ public class ClrMameXmlExporter : IDatabaseExporter
 
         if (rom.CRC32.Length > 0)
         {
-            writer.WriteAttributeString("crc", Hex.ByteArrayToText(rom.CRC32));
+            writer.WriteAttributeString("crc", ChecksumConversion.ToHex(rom.CRC32));
         }
 
         if (rom.SHA1.Length > 0)
         {
-            writer.WriteAttributeString("sha1", Hex.ByteArrayToText(rom.SHA1));
+            writer.WriteAttributeString("sha1", ChecksumConversion.ToHex(rom.SHA1));
         }
 
         if (rom.MD5.Length > 0)
         {
-            writer.WriteAttributeString("md5", Hex.ByteArrayToText(rom.MD5));
+            writer.WriteAttributeString("md5", ChecksumConversion.ToHex(rom.MD5));
         }
 
         if (rom.Merge.Length > 0)

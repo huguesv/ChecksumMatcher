@@ -9,6 +9,13 @@ public class OnlineFileInfo : IFileInfo
 {
     private readonly FileInfo innerInfo;
 
+    public OnlineFileInfo(string path)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(path);
+
+        this.innerInfo = new FileInfo(path);
+    }
+
     public OnlineFileInfo(FileInfo innerInfo)
     {
         ArgumentNullException.ThrowIfNull(innerInfo);

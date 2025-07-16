@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers;
 
 using System;
 using System.IO;

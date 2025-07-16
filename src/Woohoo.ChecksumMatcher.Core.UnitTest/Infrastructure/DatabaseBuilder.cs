@@ -56,10 +56,10 @@ internal class DatabaseBuilder
             {
                 Name = name,
                 Size = size,
-                CRC32 = ByteArrayUtility.HexToByteArray(crc32),
-                MD5 = ByteArrayUtility.HexToByteArray(md5),
-                SHA1 = ByteArrayUtility.HexToByteArray(sha1),
-                SHA256 = ByteArrayUtility.HexToByteArray(sha256),
+                CRC32 = ChecksumConversion.ToByteArray(crc32),
+                MD5 = ChecksumConversion.ToByteArray(md5),
+                SHA1 = ChecksumConversion.ToByteArray(sha1),
+                SHA256 = ChecksumConversion.ToByteArray(sha256),
             };
 
             this.game.Roms.Add(rom);

@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers;
 
 using System.Collections.Immutable;
-using Woohoo.IO.AbstractFileSystem.Internal;
-using Woohoo.IO.AbstractFileSystem.Internal.SevenZip;
-using Woohoo.IO.AbstractFileSystem.Internal.TorrentSevenZip;
-using Woohoo.IO.AbstractFileSystem.Internal.TorrentZip;
-using Woohoo.IO.AbstractFileSystem.Internal.Zip;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Folder;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.SevenZip;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.TorrentSevenZip;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.TorrentZip;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Zip;
 
 public static class FileCopierExtensionProvider
 {

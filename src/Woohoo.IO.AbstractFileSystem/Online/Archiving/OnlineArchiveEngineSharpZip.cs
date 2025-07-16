@@ -30,32 +30,47 @@ internal class OnlineArchiveEngineSharpZip : IOnlineArchiveEngine
             throw ArchiveNotFound(archiveFilePath);
         }
 
-        using var archive = new ZipFile(archiveFilePath);
-
-        foreach (ZipEntry entry in archive)
+        ZipFile? archive = null;
+        try
         {
-            // Note: Example entry names:
-            // folder/
-            // folder/file.ext
-            var name = entry.Name.Replace('/', '\\');
-            if (name.EndsWith('\\'))
-            {
-                name = name[..^1]; // Remove trailing backslash for directories
-            }
+            archive = new ZipFile(archiveFilePath);
+        }
+        catch
+        {
+        }
 
-            yield return new OnlineArchiveEntry(this)
+        if (archive is null)
+        {
+            yield break;
+        }
+
+        using (archive)
+        {
+            foreach (ZipEntry entry in archive)
             {
-                ArchiveFilePath = archiveFilePath,
-                Name = name,
-                OriginalPath = entry.Name,
-                Capabilities = ArchiveEntryCapabilities.CanListContents | ArchiveEntryCapabilities.CanRead | ArchiveEntryCapabilities.CanExtract | ArchiveEntryCapabilities.CanDelete,
-                Size = entry.Size,
-                CompressedSize = entry.CompressedSize,
-                CompressionMethod = entry.CompressionMethod.ToString(),
-                IsDirectory = entry.IsDirectory,
-                LastModifiedUtc = entry.DateTime, // TODO: check if this is UTC
-                ReportedCRC32 = entry.IsDirectory ? null : ByteArrayUtility.ByteArrayFromUInt32((uint)entry.Crc),
-            };
+                // Note: Example entry names:
+                // folder/
+                // folder/file.ext
+                var name = entry.Name.Replace('/', '\\');
+                if (name.EndsWith('\\'))
+                {
+                    name = name[..^1]; // Remove trailing backslash for directories
+                }
+
+                yield return new OnlineArchiveEntry(this)
+                {
+                    ArchiveFilePath = archiveFilePath,
+                    Name = name,
+                    OriginalPath = entry.Name,
+                    Capabilities = ArchiveEntryCapabilities.CanListContents | ArchiveEntryCapabilities.CanRead | ArchiveEntryCapabilities.CanExtract | ArchiveEntryCapabilities.CanDelete,
+                    Size = entry.Size,
+                    CompressedSize = entry.CompressedSize,
+                    CompressionMethod = entry.CompressionMethod.ToString(),
+                    IsDirectory = entry.IsDirectory,
+                    LastModifiedUtc = entry.DateTime, // TODO: check if this is UTC
+                    ReportedCRC32 = entry.IsDirectory ? null : ChecksumConversion.ToByteArray((uint)entry.Crc),
+                };
+            }
         }
     }
 

@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal.TorrentSevenZip;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.TorrentSevenZip;
 
 using System;
 using System.IO;
-using Woohoo.IO.AbstractFileSystem.Internal;
+using Woohoo.ChecksumMatcher.Core.Contracts.Models;
+using Woohoo.ChecksumMatcher.Core.Helpers;
 using Woohoo.IO.Compression.TorrentSevenZip;
 
 internal class FolderSingleFileToTorrentSevenZipCopier : IFileCopier
@@ -18,7 +19,7 @@ internal class FolderSingleFileToTorrentSevenZipCopier : IFileCopier
 
         if (Directory.Exists(file.ContainerAbsolutePath))
         {
-            if (targetContainerType == "torrent7z")
+            if (targetContainerType == KnownContainerTypes.TorrentSevenZip)
             {
                 if (expectedTargetFiles.Length == 1)
                 {

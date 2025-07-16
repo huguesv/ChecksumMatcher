@@ -12,14 +12,13 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Woohoo.ChecksumDatabase.Model;
 using Woohoo.ChecksumDatabase.Serialization;
 using Woohoo.ChecksumMatcher.Core.Contracts.Models;
 using Woohoo.ChecksumMatcher.Core.Contracts.Services;
 using Woohoo.ChecksumMatcher.Core.Helpers;
 using Woohoo.ChecksumMatcher.Core.Internal.Scanning;
-using Woohoo.IO.AbstractFileSystem;
-using Woohoo.IO.AbstractFileSystem.Offline.Models;
 
 public class DatabaseService : IDatabaseService
 {
@@ -31,16 +30,14 @@ public class DatabaseService : IDatabaseService
         "Disc Keys"
     ];
 
-    private static readonly IContainer FolderContainer = ContainerExtensionProvider.GetFolderContainer();
-
     private readonly ILocalSettingsService localSettingsService;
     private readonly IOfflineExplorerService offlineExplorerService;
 
-    private readonly object repositoryFoldersLock = new();
+    private readonly Lock repositoryFoldersLock = new();
     private readonly List<string> repositoryFolders = [];
     private readonly List<FileSystemWatcher> repositoryFoldersWatchers = [];
 
-    private readonly object cueFoldersLock = new();
+    private readonly Lock cueFoldersLock = new();
     private readonly List<string> cueFolders = [];
 
     private readonly ConcurrentDictionary<string, RomDatabase?> databaseCache = new();
@@ -317,90 +314,9 @@ public class DatabaseService : IDatabaseService
 
             this.ScanProgress?.Invoke(this, new ScanEventArgs { DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Scanning, Results = new DatabaseScanResults() });
 
-            var files = await GetFilesAsync(this.offlineExplorerService, scanSettings.ScanOnlineFolders, scanSettings.ScanOfflineFolders, ct);
-
-            ct.ThrowIfCancellationRequested();
-
             this.scanResultsCache.TryRemove(db.Name, out _);
 
-            this.scanResultsCache[db.Name] = await Scanner.ScanAsync((ea) => this.ScanProgress?.Invoke(this, ea), file, db, scanSettings.ForceCalculateChecksums, files, ct);
-        }
-
-        static async Task<List<FileInformation>> GetFilesAsync(IOfflineExplorerService offlineExplorerService, List<EffectiveOnlineFolderSetting> scanOnlineFolders, List<EffectiveOfflineFolderSetting> scanOfflineFolders, CancellationToken ct)
-        {
-            var files = new List<FileInformation>();
-
-            foreach (var folder in scanOnlineFolders)
-            {
-                files.AddRange(GetAllFilesFromOnlineDisk(folder.FolderPath, SearchOption.AllDirectories, ct));
-            }
-
-            foreach (var folder in scanOfflineFolders)
-            {
-                var disk = await offlineExplorerService.FindDiskByNameAsync(folder.DiskName, ct);
-                if (disk is null)
-                {
-                    continue;
-                }
-
-                files.AddRange(GetAllFilesFromOfflineDisk(disk, folder.FolderPath, SearchOption.AllDirectories));
-            }
-
-            return files;
-        }
-
-        static FileInformation[] GetAllFilesFromOnlineDisk(string folderPath, SearchOption option, CancellationToken ct)
-        {
-            ArgumentException.ThrowIfNullOrEmpty(folderPath);
-
-            return FolderContainer.GetAllFiles(folderPath, option, ct);
-        }
-
-        static IEnumerable<FileInformation> GetAllFilesFromOfflineDisk(OfflineDisk disk, string folderPath, SearchOption option)
-        {
-            ArgumentNullException.ThrowIfNull(disk);
-            ArgumentException.ThrowIfNullOrEmpty(folderPath);
-
-            var indexedFolder = disk.GetItemByPath(folderPath);
-            if (indexedFolder is not null)
-            {
-                var folderFiles = indexedFolder
-                    .Items
-                    .Where(ii => ii.Kind == OfflineItemKind.Folder)
-                    .SelectMany(containerItem =>
-                        containerItem.Items
-                            .Where(ii => ii.Kind == OfflineItemKind.File)
-                            .Select(fileItem => CreateFileInfo(containerIsFolder: true, containerItem, fileItem)));
-
-                var archiveFiles = indexedFolder
-                    .Items
-                    .Where(ii => ii.Kind == OfflineItemKind.ArchiveFile)
-                    .SelectMany(containerItem =>
-                        containerItem.Items
-                            .Where(ii => ii.Kind == OfflineItemKind.File)
-                            .Select(fileItem => CreateFileInfo(containerIsFolder: false, containerItem, fileItem)));
-
-                return folderFiles.Concat(archiveFiles).ToArray();
-            }
-
-            return [];
-
-            static FileInformation CreateFileInfo(bool containerIsFolder, OfflineItem containerItem, OfflineItem fileItem)
-            {
-                return new FileInformation
-                {
-                    ContainerIsFolder = containerIsFolder,
-                    ContainerAbsolutePath = containerItem.Path,
-                    FileRelativePath = fileItem.Name,
-                    Size = fileItem.Size ?? 0,
-                    DataBlockSize = fileItem.Size ?? 0,
-                    ReportedCRC32 = ByteArrayUtility.HexToByteArray(fileItem.ReportedCRC32),
-                    CRC32 = ByteArrayUtility.HexToByteArray(fileItem.CRC32),
-                    MD5 = ByteArrayUtility.HexToByteArray(fileItem.MD5),
-                    SHA1 = ByteArrayUtility.HexToByteArray(fileItem.SHA1),
-                    SHA256 = ByteArrayUtility.HexToByteArray(fileItem.SHA256),
-                };
-            }
+            this.scanResultsCache[db.Name] = await Scanner.ScanAsync((ea) => this.ScanProgress?.Invoke(this, ea), file, db, scanSettings, this.offlineExplorerService.FindDiskByNameAsync, ct);
         }
     }
 

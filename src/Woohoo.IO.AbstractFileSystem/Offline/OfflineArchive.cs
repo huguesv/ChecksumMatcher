@@ -54,12 +54,12 @@ public class OfflineArchive : IArchive
                 CompressionMethod = null,
                 IsDirectory = entry.Kind == OfflineItemKind.Folder,
                 LastModifiedUtc = entry.Modified,
-                ReportedCRC32 = ByteArrayUtility.HexToByteArray(entry.ReportedCRC32),
-                CRC32 = ByteArrayUtility.HexToByteArray(entry.CRC32),
-                MD5 = ByteArrayUtility.HexToByteArray(entry.MD5),
-                SHA1 = ByteArrayUtility.HexToByteArray(entry.SHA1),
-                SHA256 = ByteArrayUtility.HexToByteArray(entry.SHA256),
-                SHA512 = ByteArrayUtility.HexToByteArray(entry.SHA512),
+                ReportedCRC32 = ChecksumConversion.ToByteArray(entry.ReportedCRC32),
+                CRC32 = ChecksumConversion.ToByteArray(entry.CRC32),
+                MD5 = ChecksumConversion.ToByteArray(entry.MD5),
+                SHA1 = ChecksumConversion.ToByteArray(entry.SHA1),
+                SHA256 = ChecksumConversion.ToByteArray(entry.SHA256),
+                SHA512 = ChecksumConversion.ToByteArray(entry.SHA512),
             };
         }
     }

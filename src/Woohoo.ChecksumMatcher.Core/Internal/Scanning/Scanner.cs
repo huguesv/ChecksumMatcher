@@ -11,24 +11,35 @@ using System.Threading.Tasks;
 using Woohoo.ChecksumDatabase.Model;
 using Woohoo.ChecksumDatabase.Serialization.Extensions.ClrMame;
 using Woohoo.ChecksumMatcher.Core.Contracts.Models;
-using Woohoo.IO.AbstractFileSystem;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers;
+using Woohoo.IO.AbstractFileSystem.Offline.Models;
+using static Woohoo.ChecksumMatcher.Core.Services.DatabaseService;
 
 internal static class Scanner
 {
     private static readonly IContainer FolderContainer = ContainerExtensionProvider.GetFolderContainer();
 
-    public static Task<DatabaseScanResults> ScanAsync(Action<ScanEventArgs> reportProgress, DatabaseFile file, RomDatabase db, bool forceCalculateChecksums, List<FileInformation> files, CancellationToken ct)
+    public static async Task<DatabaseScanResults> ScanAsync(
+        Action<ScanEventArgs> reportProgress,
+        DatabaseFile file,
+        RomDatabase db,
+        EffectiveScanSettings scanSettings,
+        Func<string, CancellationToken, Task<OfflineDisk?>> findOfflineDisk,
+        CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(reportProgress);
         ArgumentNullException.ThrowIfNull(file);
         ArgumentNullException.ThrowIfNull(db);
-        ArgumentNullException.ThrowIfNull(files);
 
         var usedButIncorrectName = new List<FileInformation>();
         var matched = new List<RomAndFileMoniker>();
         var wrongNamed = new List<RomAndFileMoniker>();
         var missing = new List<RomMoniker>();
         var unused = new List<FileMoniker>();
+
+        ct.ThrowIfCancellationRequested();
+
+        var files = await GetFilesAsync(findOfflineDisk, scanSettings.ScanOnlineFolders, scanSettings.ScanOfflineFolders, ct);
 
         foreach (var rom in db.GetAllRoms())
         {
@@ -48,7 +59,7 @@ internal static class Scanner
                         var container = ContainerExtensionProvider.GetContainer(sizeMatch.ContainerAbsolutePath);
                         if (container != null)
                         {
-                            if (forceCalculateChecksums || sizeMatch.ReportedCRC32.Length == 0)
+                            if (scanSettings.ForceCalculateChecksums || sizeMatch.ReportedCRC32.Length == 0)
                             {
                                 reportProgress(new ScanEventArgs { DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Hashing, Results = new DatabaseScanResults(), HashingFile = new FileMoniker(sizeMatch.ContainerAbsolutePath, sizeMatch.ContainerName, sizeMatch.FileRelativePath) });
 
@@ -61,7 +72,7 @@ internal static class Scanner
                 }
 
                 // Find all files that match the checksums
-                var checksumMatches = sizeMatches.Where(file => Scanner.DoesChecksumMatch(rom, file, !forceCalculateChecksums)).ToArray();
+                var checksumMatches = sizeMatches.Where(file => Scanner.DoesChecksumMatch(rom, file, !scanSettings.ForceCalculateChecksums)).ToArray();
                 if (checksumMatches.Length > 0)
                 {
                     // Find the file that has the correct container name (there can only be one)
@@ -135,16 +146,48 @@ internal static class Scanner
 
         reportProgress(new ScanEventArgs { DatabaseFile = file, Database = db, ProgressPercentage = 100, Status = ScanStatus.Completed, Results = new DatabaseScanResults() });
 
-        return Task.FromResult(new DatabaseScanResults
+        return new DatabaseScanResults
         {
             Matched = [.. matched],
             WrongNamed = [.. wrongNamed],
             Missing = [.. missing],
             Unused = [.. unused],
-        });
+        };
+
+        static async Task<List<FileInformation>> GetFilesAsync(Func<string, CancellationToken, Task<OfflineDisk?>> findOfflineDisk, List<EffectiveOnlineFolderSetting> scanOnlineFolders, List<EffectiveOfflineFolderSetting> scanOfflineFolders, CancellationToken ct)
+        {
+            var result = new List<FileInformation>();
+
+            foreach (var folder in scanOnlineFolders)
+            {
+                var onlineFiles = FolderContainer.GetAllFiles(folder.FolderPath, SearchOption.AllDirectories, ct);
+                result.AddRange(onlineFiles);
+            }
+
+            foreach (var folder in scanOfflineFolders)
+            {
+                var disk = await findOfflineDisk(folder.DiskName, ct);
+                if (disk is null)
+                {
+                    continue;
+                }
+
+                IContainer container = ContainerExtensionProvider.GetOfflineFolderContainer(disk);
+                var offlineFiles = container.GetAllFiles(folder.FolderPath, SearchOption.AllDirectories, ct);
+                result.AddRange(offlineFiles);
+            }
+
+            return result;
+        }
     }
 
-    public static Task<DatabaseRebuildResults> RebuildAsync(Action<RebuildEventArgs> reportProgress, DatabaseFile file, RomDatabase db, RebuildSettings rebuildSettings, string[] cueFolders, CancellationToken ct)
+    public static Task<DatabaseRebuildResults> RebuildAsync(
+        Action<RebuildEventArgs> reportProgress,
+        DatabaseFile file,
+        RomDatabase db,
+        RebuildSettings rebuildSettings,
+        string[] cueFolders,
+        CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(reportProgress);
         ArgumentNullException.ThrowIfNull(file);
@@ -317,7 +360,13 @@ internal static class Scanner
         }
     }
 
-    public static Task CreateDatabaseAsync(Action<DatabaseCreateEventArgs> reportProgress, string sourceFolderPath, string targetFolderPath, string targetDatabaseFilePath, DatabaseCreateSettings settings, CancellationToken ct)
+    public static Task CreateDatabaseAsync(
+        Action<DatabaseCreateEventArgs> reportProgress,
+        string sourceFolderPath,
+        string targetFolderPath,
+        string targetDatabaseFilePath,
+        DatabaseCreateSettings settings,
+        CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(reportProgress);
         ArgumentException.ThrowIfNullOrEmpty(sourceFolderPath);
@@ -466,13 +515,13 @@ internal static class Scanner
         {
             if (rom.CRC32.Length > 0 && file.ReportedCRC32.Length > 0)
             {
-                return ByteArrayUtility.AreEqual(rom.CRC32, file.ReportedCRC32);
+                return rom.CRC32.SequenceEqual(file.ReportedCRC32);
             }
         }
 
         if (rom.MD5.Length > 0 && file.MD5.Length > 0)
         {
-            if (!ByteArrayUtility.AreEqual(rom.MD5, file.MD5))
+            if (!rom.MD5.SequenceEqual(file.MD5))
             {
                 return false;
             }
@@ -482,7 +531,7 @@ internal static class Scanner
 
         if (rom.SHA1.Length > 0 && file.SHA1.Length > 0)
         {
-            if (!ByteArrayUtility.AreEqual(rom.SHA1, file.SHA1))
+            if (!rom.SHA1.SequenceEqual(file.SHA1))
             {
                 return false;
             }
@@ -492,7 +541,7 @@ internal static class Scanner
 
         if (rom.SHA256.Length > 0 && file.SHA256.Length > 0)
         {
-            if (!ByteArrayUtility.AreEqual(rom.SHA256, file.SHA256))
+            if (!rom.SHA256.SequenceEqual(file.SHA256))
             {
                 return false;
             }
@@ -502,7 +551,7 @@ internal static class Scanner
 
         if (rom.CRC32.Length > 0 && file.CRC32.Length > 0)
         {
-            if (!ByteArrayUtility.AreEqual(rom.CRC32, file.CRC32))
+            if (!rom.CRC32.SequenceEqual(file.CRC32))
             {
                 return false;
             }

@@ -145,21 +145,21 @@ public class ClrMameImporter : IDatabaseImporter
                     }
                     else
                     {
-                        rom.CRC32 = Hex.TextToByteArray(romPairVal);
+                        rom.CRC32 = ChecksumConversion.ToByteArray(romPairVal);
                     }
 
                     break;
 
                 case "md5":
-                    rom.MD5 = Hex.TextToByteArray(romPairVal);
+                    rom.MD5 = ChecksumConversion.ToByteArray(romPairVal);
                     break;
 
                 case "sha1":
-                    rom.SHA1 = Hex.TextToByteArray(romPairVal);
+                    rom.SHA1 = ChecksumConversion.ToByteArray(romPairVal);
                     break;
 
                 case "sha256":
-                    rom.SHA256 = Hex.TextToByteArray(romPairVal);
+                    rom.SHA256 = ChecksumConversion.ToByteArray(romPairVal);
                     break;
 
                 case "flags":

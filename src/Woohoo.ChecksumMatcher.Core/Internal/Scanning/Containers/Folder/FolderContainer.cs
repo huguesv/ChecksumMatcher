@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
 
-namespace Woohoo.IO.AbstractFileSystem.Internal;
+namespace Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers.Folder;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Woohoo.IO.AbstractFileSystem;
+using Woohoo.ChecksumMatcher.Core.Helpers;
+using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers;
 
 internal sealed class FolderContainer : IContainer
 {
