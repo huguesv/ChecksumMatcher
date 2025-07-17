@@ -13,7 +13,6 @@ using Woohoo.ChecksumDatabase.Serialization.Extensions.ClrMame;
 using Woohoo.ChecksumMatcher.Core.Contracts.Models;
 using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers;
 using Woohoo.IO.AbstractFileSystem.Offline.Models;
-using static Woohoo.ChecksumMatcher.Core.Services.DatabaseService;
 
 internal static class Scanner
 {

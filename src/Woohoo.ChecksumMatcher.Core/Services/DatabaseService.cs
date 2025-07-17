@@ -18,6 +18,7 @@ using Woohoo.ChecksumDatabase.Serialization;
 using Woohoo.ChecksumMatcher.Core.Contracts.Models;
 using Woohoo.ChecksumMatcher.Core.Contracts.Services;
 using Woohoo.ChecksumMatcher.Core.Helpers;
+using Woohoo.ChecksumMatcher.Core.Internal;
 using Woohoo.ChecksumMatcher.Core.Internal.Scanning;
 
 public class DatabaseService : IDatabaseService
@@ -713,58 +714,6 @@ public class DatabaseService : IDatabaseService
             {
                 return null;
             }
-        }
-    }
-
-    internal class EffectiveScanSettings
-    {
-        public bool ForceCalculateChecksums { get; set; }
-
-        public List<EffectiveOnlineFolderSetting> ScanOnlineFolders { get; init; } = [];
-
-        public List<EffectiveOfflineFolderSetting> ScanOfflineFolders { get; init; } = [];
-    }
-
-    internal sealed record class EffectiveOnlineFolderSetting
-    {
-        public required string FolderPath { get; init; }
-
-        public bool Equals(EffectiveOnlineFolderSetting? other)
-        {
-            if (other is null)
-            {
-                return false;
-            }
-
-            return this.FolderPath.Equals(other.FolderPath, StringComparison.OrdinalIgnoreCase);
-        }
-
-        public override int GetHashCode()
-        {
-            return this.FolderPath.ToLowerInvariant().GetHashCode();
-        }
-    }
-
-    internal sealed record class EffectiveOfflineFolderSetting
-    {
-        public required string DiskName { get; init; }
-
-        public required string FolderPath { get; init; }
-
-        public bool Equals(EffectiveOfflineFolderSetting? other)
-        {
-            if (other is null)
-            {
-                return false;
-            }
-
-            return this.DiskName.Equals(other.DiskName, StringComparison.OrdinalIgnoreCase) &&
-                   this.FolderPath.Equals(other.FolderPath, StringComparison.OrdinalIgnoreCase);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(this.DiskName.ToLowerInvariant(), this.FolderPath.ToLowerInvariant());
         }
     }
 }
