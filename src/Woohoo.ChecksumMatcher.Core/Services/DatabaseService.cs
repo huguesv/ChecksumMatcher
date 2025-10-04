@@ -241,11 +241,72 @@ public sealed class DatabaseService : IDatabaseService
             return cachedDatabase;
         }
 
-        return await Task.Run(() => this.databaseCache.GetOrAdd(file.FullPath, _ => LoadDatabase(file)), ct);
+        CloneMode cloneMode = CloneMode.Split;
+        return await Task.Run(() => this.databaseCache.GetOrAdd(file.FullPath, _ => LoadDatabase(file, cloneMode)), ct);
 
-        static RomDatabase? LoadDatabase(DatabaseFile file)
+        static RomDatabase? LoadDatabase(DatabaseFile file, CloneMode cloneMode)
         {
-            return new DatabaseLoader().TryLoadFrom(Path.Combine(file.FullPath));
+            var db = new DatabaseLoader().TryLoadFrom(Path.Combine(file.FullPath));
+            return TransformDatabase(db, cloneMode);
+        }
+
+        static RomDatabase? TransformDatabase(RomDatabase? db, CloneMode cloneMode)
+        {
+            if (db is null)
+            {
+                return null;
+            }
+
+            switch (cloneMode)
+            {
+                case CloneMode.Split:
+                    return db;
+                case CloneMode.NonMerge:
+                    return TransformNonMergeClone(db);
+                case CloneMode.Merge:
+                    return TransformMergeClone(db, cloneInChildFolder: false);
+                case CloneMode.MergeCloneInChildFolder:
+                    return TransformMergeClone(db, cloneInChildFolder: true);
+                default:
+                    return db;
+            }
+        }
+
+        static RomDatabase TransformMergeClone(RomDatabase db, bool cloneInChildFolder)
+        {
+            var clones = db.Games.Where(g => g.CloneOf.Length > 0).ToList();
+            foreach (var clone in clones)
+            {
+                var parent = db.Games.FirstOrDefault(g => string.Equals(g.Name, clone.CloneOf, StringComparison.OrdinalIgnoreCase));
+                if (parent is not null)
+                {
+                    foreach (var cloneRom in clone.Roms)
+                    {
+                        if (!parent.Roms.Any(r => r.Name.Equals(cloneRom.Name, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            if (cloneInChildFolder)
+                            {
+                                cloneRom.Name = Path.Combine(clone.Name, cloneRom.Name);
+                            }
+
+                            parent.Roms.Add(cloneRom);
+                        }
+                    }
+                }
+            }
+
+            foreach (var clone in clones)
+            {
+                db.Games.Remove(clone);
+            }
+
+            return db;
+        }
+
+        static RomDatabase TransformNonMergeClone(RomDatabase db)
+        {
+            // TODO: Implement non-merge clone handling
+            return db;
         }
     }
 
