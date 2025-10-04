@@ -242,6 +242,20 @@ public sealed class DatabaseService : IDatabaseService
         }
 
         CloneMode cloneMode = CloneMode.Split;
+        var relativeFolder = Path.GetDirectoryName(file.RelativePath) ?? string.Empty;
+        if (relativeFolder.EndsWith(".NonMerge", StringComparison.OrdinalIgnoreCase))
+        {
+            cloneMode = CloneMode.NonMerge;
+        }
+        else if (relativeFolder.EndsWith(".Merge", StringComparison.OrdinalIgnoreCase))
+        {
+            cloneMode = CloneMode.Merge;
+        }
+        else if (relativeFolder.EndsWith(".MergeCloneInChildFolder", StringComparison.OrdinalIgnoreCase))
+        {
+            cloneMode = CloneMode.MergeCloneInChildFolder;
+        }
+
         return await Task.Run(() => this.databaseCache.GetOrAdd(file.FullPath, _ => LoadDatabase(file, cloneMode)), ct);
 
         static RomDatabase? LoadDatabase(DatabaseFile file, CloneMode cloneMode)
