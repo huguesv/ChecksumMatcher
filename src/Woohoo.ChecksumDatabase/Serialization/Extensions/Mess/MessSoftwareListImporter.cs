@@ -16,7 +16,7 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
     {
         Requires.NotNull(text);
 
-        if (text.StartsWith("<?xml version=\"1.0\"?>", StringComparison.OrdinalIgnoreCase))
+        if (text.StartsWith("<?xml version=\"1.0\"", StringComparison.OrdinalIgnoreCase))
         {
             if (text.Contains("<softwarelist") && text.Contains("</softwarelist>"))
             {
