@@ -16,7 +16,8 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
     {
         Requires.NotNull(text);
 
-        if (text.StartsWith("<?xml version=\"1.0\"", StringComparison.OrdinalIgnoreCase))
+        if (text.StartsWith("<?xml version=\"1.0\"", StringComparison.OrdinalIgnoreCase) ||
+            text.StartsWith("<?xml version='1.0'", StringComparison.OrdinalIgnoreCase))
         {
             if (text.Contains("<softwarelist") && text.Contains("</softwarelist>"))
             {
@@ -77,6 +78,12 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
                 {
                     case "software":
                         ReadSoftware(reader, db);
+                        break;
+                    case "notes":
+                        _ = reader.ReadElementContentAsString();
+                        break;
+                    default:
+                        Debug.Assert(false, "Unexpected xml element.");
                         break;
                 }
             }
