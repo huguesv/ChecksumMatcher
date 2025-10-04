@@ -199,6 +199,7 @@ public sealed class DatabaseService : IDatabaseService
             var files = Directory
                 .EnumerateFiles(folderAbsolutePath, "*.zip")
                 .Union(Directory.EnumerateFiles(folderAbsolutePath, "*.dat"))
+                .Union(Directory.EnumerateFiles(folderAbsolutePath, "*.xml"))
                 .Select(childFilePath => TryCreateDatabaseFile(rootAbsolutePath, relativePath, childFilePath))
                 .Where(df => df is not null);
 
@@ -746,6 +747,7 @@ public sealed class DatabaseService : IDatabaseService
         watcher.Created += this.OnFileSystemChanged;
         watcher.Deleted += this.OnFileSystemChanged;
         watcher.Filters.Add("*.dat");
+        watcher.Filters.Add("*.xml");
         watcher.Filters.Add("*.zip");
         watcher.EnableRaisingEvents = true;
 
@@ -807,7 +809,8 @@ public sealed class DatabaseService : IDatabaseService
                         }
                     }
                 }
-                else if (string.Equals(Path.GetExtension(filePath), ".dat", StringComparison.InvariantCultureIgnoreCase))
+                else if (string.Equals(Path.GetExtension(filePath), ".dat", StringComparison.InvariantCultureIgnoreCase) ||
+                    string.Equals(Path.GetExtension(filePath), ".xml", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return this.importerProvider.Load(File.ReadAllText(filePath), Path.GetDirectoryName(filePath) ?? string.Empty);
                 }

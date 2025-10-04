@@ -90,6 +90,7 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
         var game = new RomGame(db)
         {
             Name = reader.GetAttribute("name") ?? string.Empty,
+            CloneOf = reader.GetAttribute("cloneof") ?? string.Empty,
         };
 
         if (reader.IsEmptyElement)
@@ -115,6 +116,15 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
                         break;
                     case "part":
                         ReadPart(reader, game);
+                        break;
+                    case "notes":
+                        game.Comments.Add(reader.ReadElementContentAsString());
+                        break;
+                    case "sharedfeat":
+                        _ = reader.ReadElementContentAsString();
+                        break;
+                    case "info":
+                        _ = reader.ReadElementContentAsString();
                         break;
                     default:
                         Debug.Assert(false, "Unexpected xml element.");
@@ -153,6 +163,12 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
                         break;
                     case "dipswitch":
                         ReadDipSwitch(reader);
+                        break;
+                    case "diskarea":
+                        _ = reader.ReadOuterXml();
+                        break;
+                    default:
+                        Debug.Assert(false, "Unexpected xml element.");
                         break;
                 }
             }
@@ -211,7 +227,14 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
         var size = reader.GetAttribute("size");
         if (!string.IsNullOrEmpty(size))
         {
-            rom.Size = long.Parse(size, CultureInfo.InvariantCulture);
+            if (size.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
+                rom.Size = long.Parse(size[2..], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                rom.Size = long.Parse(size, CultureInfo.InvariantCulture);
+            }
         }
 
         var crc = reader.GetAttribute("crc");
@@ -234,6 +257,8 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
 
         var offset = reader.GetAttribute("offset");
         var offsetVal = 0;
+
+#if false
         if (!string.IsNullOrEmpty(offset))
         {
             offsetVal = int.Parse(offset);
@@ -242,6 +267,7 @@ public sealed class MessSoftwareListImporter : IDatabaseImporter
                 throw new NotSupportedException(string.Format("Rom '{0}' has non-zero offset {1}.", rom.Name, offsetVal));
             }
         }
+#endif
 
         var status = reader.GetAttribute("status");
         if (!string.IsNullOrEmpty(status))
