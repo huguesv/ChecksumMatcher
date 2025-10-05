@@ -288,28 +288,38 @@ public sealed class DatabaseService : IDatabaseService
 
         static RomDatabase TransformMergeClone(RomDatabase db, bool cloneInChildFolder)
         {
-            var clones = db.Games.Where(g => g.CloneOf.Length > 0).ToList();
-            foreach (var clone in clones)
+            var cloneGames = db.Games.Where(g => g.CloneOf.Length > 0).ToList();
+            foreach (var clone in cloneGames)
             {
-                var parent = db.Games.FirstOrDefault(g => string.Equals(g.Name, clone.CloneOf, StringComparison.OrdinalIgnoreCase));
-                if (parent is not null)
+                var parentGame = db.Games.FirstOrDefault(g => string.Equals(g.Name, clone.CloneOf, StringComparison.OrdinalIgnoreCase));
+                if (parentGame is not null)
                 {
                     foreach (var cloneRom in clone.Roms)
                     {
-                        if (!parent.Roms.Any(r => r.Name.Equals(cloneRom.Name, StringComparison.OrdinalIgnoreCase)))
-                        {
-                            if (cloneInChildFolder)
-                            {
-                                cloneRom.Name = Path.Combine(clone.Name, cloneRom.Name);
-                            }
+                        var newName = cloneInChildFolder ? Path.Combine(clone.Name, cloneRom.Name) : cloneRom.Name;
 
-                            parent.Roms.Add(cloneRom);
+                        if (!parentGame.Roms.Any(r => r.Name.Equals(newName, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            var parentRom = new RomFile(parentGame)
+                            {
+                                Name = newName,
+                                Size = cloneRom.Size,
+                                CRC32 = cloneRom.CRC32,
+                                MD5 = cloneRom.MD5,
+                                SHA1 = cloneRom.SHA1,
+                                SHA256 = cloneRom.SHA256,
+                                Date = cloneRom.Date,
+                                Merge = cloneRom.Merge,
+                                Status = cloneRom.Status,
+                            };
+
+                            parentGame.Roms.Add(parentRom);
                         }
                     }
                 }
             }
 
-            foreach (var clone in clones)
+            foreach (var clone in cloneGames)
             {
                 db.Games.Remove(clone);
             }
