@@ -62,10 +62,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Woohoo.IO.Compression\Woohoo.IO.Compression.csproj" />
   </ItemGroup>
 

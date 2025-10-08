@@ -113,6 +113,16 @@ namespace Woohoo.IO.Compression.UnitTest {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] smalldvdv5 {
+            get {
+                object obj = ResourceManager.GetObject("smalldvdv5", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] zip_multi_data {
             get {
                 object obj = ResourceManager.GetObject("zip_multi_data", resourceCulture);
