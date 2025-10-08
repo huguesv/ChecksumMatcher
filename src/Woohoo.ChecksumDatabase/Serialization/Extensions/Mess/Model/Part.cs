@@ -11,16 +11,16 @@ using System.Xml.Serialization;
 public class Part
 {
     [XmlElement("feature")]
-    public Feature[] Feature { get; set; } = [];
+    public List<Feature> Feature { get; set; } = [];
 
     [XmlElement("dataarea")]
     public List<DataArea> DataArea { get; set; } = [];
 
     [XmlElement("diskarea")]
-    public DiskArea[] DiskArea { get; set; } = [];
+    public List<DiskArea> DiskArea { get; set; } = [];
 
     [XmlElement("dipswitch")]
-    public DipSwitch[] DipSwitch { get; set; } = [];
+    public List<DipSwitch> DipSwitch { get; set; } = [];
 
     [XmlAttribute("name")]
     public string Name { get; set; } = string.Empty;

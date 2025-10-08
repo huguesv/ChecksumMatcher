@@ -18,7 +18,7 @@ public sealed class DatabaseImporterProvider
         [
             new ClrMameXmlImporter(),
             new ClrMameImporter(),
-            new MessSoftwareListImporter(),
+            new MessSoftwareListImporter2(),
         ];
     }
 

@@ -39,13 +39,14 @@ public sealed class MessSoftwareListImporter2 : IDatabaseImporter
             DtdProcessing = DtdProcessing.Ignore,
         };
 
-        XmlSerializer serializer = new XmlSerializer(typeof(SoftwareList));
-        using XmlReader reader = XmlReader.Create(new StringReader(text), settings);
+        var serializer = new XmlSerializer(typeof(SoftwareList));
+        using var reader = XmlReader.Create(new StringReader(text), settings);
         var actual = (SoftwareList?)serializer.Deserialize(reader);
         if (actual is not null)
         {
             db.Name = actual.Name;
             db.Description = actual.Description ?? string.Empty;
+
             foreach (var software in actual.Software)
             {
                 var game = new RomGame(db)
@@ -63,20 +64,43 @@ public sealed class MessSoftwareListImporter2 : IDatabaseImporter
                     {
                         foreach (var rom in dataArea.Rom)
                         {
+                            if (string.IsNullOrEmpty(rom.Name))
+                            {
+                                continue;
+                            }
+
                             var romFile = new RomFile(game)
                             {
                                 Name = rom.Name ?? string.Empty,
                                 Size = rom.Size != null && rom.Size.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ?
                                     long.Parse(rom.Size[2..], NumberStyles.HexNumber, CultureInfo.InvariantCulture) :
                                     (rom.Size != null ? long.Parse(rom.Size, CultureInfo.InvariantCulture) : 0),
-                                Status = ConvertStatus(rom.Status),
-                                CRC32 = rom.Crc != null ? ChecksumConversion.ToByteArray(rom.Crc) : Array.Empty<byte>(),
-                                SHA1 = rom.Sha1 != null ? ChecksumConversion.ToByteArray(rom.Sha1) : Array.Empty<byte>(),
+                                Status = ConvertRomStatus(rom.Status),
+                                CRC32 = rom.Crc != null ? ChecksumConversion.ToByteArray(rom.Crc) : [],
+                                SHA1 = rom.Sha1 != null ? ChecksumConversion.ToByteArray(rom.Sha1) : [],
                             };
-                            if (!string.IsNullOrEmpty(romFile.Name))
+
+                            game.Roms.Add(romFile);
+                        }
+                    }
+
+                    foreach (var diskArea in part.DiskArea)
+                    {
+                        foreach (var disk in diskArea.Disk)
+                        {
+                            if (string.IsNullOrEmpty(disk.Name))
                             {
-                                game.Roms.Add(romFile);
+                                continue;
                             }
+
+                            var romDisk = new RomDisk(game)
+                            {
+                                Name = disk.Name ?? string.Empty,
+                                Status = ConvertDiskStatus(disk.Status),
+                                SHA1 = disk.Sha1 != null ? ChecksumConversion.ToByteArray(disk.Sha1) : [],
+                            };
+
+                            game.Disks.Add(romDisk);
                         }
                     }
                 }
@@ -87,7 +111,7 @@ public sealed class MessSoftwareListImporter2 : IDatabaseImporter
 
         return db;
 
-        static ChecksumDatabase.Model.RomStatus ConvertStatus(Model.RomStatus status)
+        static ChecksumDatabase.Model.RomStatus ConvertRomStatus(Model.RomStatus status)
         {
             switch (status)
             {
@@ -96,6 +120,21 @@ public sealed class MessSoftwareListImporter2 : IDatabaseImporter
                 case Model.RomStatus.NoDump:
                     return ChecksumDatabase.Model.RomStatus.NoDump;
                 case Model.RomStatus.Good:
+                    return ChecksumDatabase.Model.RomStatus.Good;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        static ChecksumDatabase.Model.RomStatus ConvertDiskStatus(Model.DiskStatus status)
+        {
+            switch (status)
+            {
+                case DiskStatus.BadDump:
+                    return ChecksumDatabase.Model.RomStatus.BadDump;
+                case DiskStatus.NoDump:
+                    return ChecksumDatabase.Model.RomStatus.NoDump;
+                case DiskStatus.Good:
                     return ChecksumDatabase.Model.RomStatus.Good;
                 default:
                     throw new NotSupportedException();
