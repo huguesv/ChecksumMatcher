@@ -29,13 +29,13 @@ public class Software
     public string? Notes { get; set; }
 
     [XmlElement("info")]
-    public Info[] Info { get; set; } = [];
+    public List<Info> Info { get; set; } = [];
 
     [XmlElement("sharedfeat")]
-    public SharedFeat[] SharedFeat { get; set; } = [];
+    public List<SharedFeat> SharedFeat { get; set; } = [];
 
     [XmlElement("part")]
-    public Part[] Part { get; set; } = [];
+    public List<Part> Part { get; set; } = [];
 
     [XmlAttribute("name")]
     public string Name { get; set; } = string.Empty;

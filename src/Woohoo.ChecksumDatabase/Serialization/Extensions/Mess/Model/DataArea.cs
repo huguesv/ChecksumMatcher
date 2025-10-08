@@ -18,7 +18,7 @@ public class DataArea
     }
 
     [XmlElement("rom")]
-    public Rom[] Rom { get; set; } = [];
+    public List<Rom> Rom { get; set; } = [];
 
     [XmlAttribute("name")]
     public string Name { get; set; } = string.Empty;

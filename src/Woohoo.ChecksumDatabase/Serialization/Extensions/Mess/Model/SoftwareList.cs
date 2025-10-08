@@ -14,7 +14,7 @@ public class SoftwareList
     public string? Notes { get; set; }
 
     [XmlElement("software")]
-    public Software[] Software { get; set; } = [];
+    public List<Software> Software { get; set; } = [];
 
     [XmlAttribute("name")]
     public string Name { get; set; } = string.Empty;

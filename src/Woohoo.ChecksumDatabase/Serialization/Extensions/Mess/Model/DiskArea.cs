@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 public class DiskArea
 {
     [XmlElement("disk")]
-    public Disk[] Disk { get; set; } = [];
+    public List<Disk> Disk { get; set; } = [];
 
     [XmlAttribute]
     public string Name { get; set; } = string.Empty;

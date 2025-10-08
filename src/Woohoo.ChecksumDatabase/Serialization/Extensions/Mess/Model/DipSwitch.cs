@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 public class DipSwitch
 {
     [XmlElement("dipvalue")]
-    public DipValue[] DipValue { get; set; } = [];
+    public List<DipValue> DipValue { get; set; } = [];
 
     [XmlAttribute("name")]
     public string Name { get; set; } = string.Empty;

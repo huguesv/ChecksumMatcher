@@ -14,7 +14,7 @@ public class Part
     public Feature[] Feature { get; set; } = [];
 
     [XmlElement("dataarea")]
-    public DataArea[] DataArea { get; set; } = [];
+    public List<DataArea> DataArea { get; set; } = [];
 
     [XmlElement("diskarea")]
     public DiskArea[] DiskArea { get; set; } = [];
