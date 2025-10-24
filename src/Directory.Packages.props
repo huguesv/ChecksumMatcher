@@ -38,6 +38,6 @@
     <PackageVersion Include="WinUIEx" Version="2.8.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
     <PackageVersion Include="Xunit.StaFact" Version="3.0.13" />
-    <PackageVersion Include="xunit.v3" Version="3.0.1" />
+    <PackageVersion Include="xunit.v3" Version="3.1.0" />
   </ItemGroup>
 </Project>
