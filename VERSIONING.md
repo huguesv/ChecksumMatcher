@@ -4,10 +4,10 @@
     ```
     <assemblyIdentity version="0.1.0.0" name="Woohoo.ChecksumMatcher.WinUI.app"/>
     ```
-1. Update the version number in `Common.AssemblyInfo.cs`.
+1. Update the version number in `Directory.Build.props`.
     ```
-    [assembly: AssemblyVersion("0.1.0.0")]
-    [assembly: AssemblyFileVersion("0.1.0.0")]
+    <Version>0.1.0.0</Version>
+    <FileVersion>0.1.0.0</FileVersion>
     ```
 1. Update the version number in `Package.appxmanifest`.
     ```
