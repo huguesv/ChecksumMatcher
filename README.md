@@ -1,5 +1,7 @@
 # Checksum Matcher
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/huguesv/ChecksumMatcher/build-and-test.yml)
+
 An application to manage your digital files collection.
 
 - Scan your folders using checksum databases (dat files) to find missing, incorrect
