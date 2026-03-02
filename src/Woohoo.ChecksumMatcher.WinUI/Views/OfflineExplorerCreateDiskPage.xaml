@@ -84,13 +84,19 @@
                 x:Name="CreateOfflineStoragePage_Name"
                 x:Uid="CreateOfflineStoragePage_Name"
                 Margin="{StaticResource MediumTopMargin}" />
-            <TextBox
-                MinWidth="{StaticResource TextBoxDefaultMinWidth}"
-                Margin="{StaticResource SmallTopMargin}"
-                HorizontalAlignment="Left"
-                AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_Name}"
-                IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                Text="{x:Bind ViewModel.DiskName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel Margin="{StaticResource SmallTopMargin}" Orientation="Horizontal">
+                <TextBox
+                    MinWidth="{StaticResource TextBoxDefaultMinWidth}"
+                    HorizontalAlignment="Left"
+                    AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_Name}"
+                    IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                    Text="{x:Bind ViewModel.DiskName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    x:Uid="CreateOfflineStoragePage_UseDiskLabelForNameButton"
+                    MinWidth="{StaticResource ButtonDefaultMinWidth}"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{x:Bind ViewModel.UseDiskLabelForNameCommand, Mode=OneWay}" />
+            </StackPanel>
 
             <StackPanel Margin="{StaticResource LargeTopMargin}" Orientation="Horizontal">
                 <Button

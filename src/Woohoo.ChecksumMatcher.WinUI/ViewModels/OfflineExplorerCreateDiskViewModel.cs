@@ -88,6 +88,7 @@ public sealed partial class OfflineExplorerCreateDiskViewModel : ObservableObjec
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CreateDiskCommand))]
+    [NotifyCanExecuteChangedFor(nameof(UseDiskLabelForNameCommand))]
     public partial OfflineExplorerDriveViewModel? SelectedDrive { get; set; }
 
     public ObservableCollection<OfflineExplorerDriveViewModel> Drives { get; }
@@ -150,6 +151,15 @@ public sealed partial class OfflineExplorerCreateDiskViewModel : ObservableObjec
         catch (Exception ex)
         {
             this.logger.LogError(ex, "Error processing command.");
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanUseDiskLabelForName))]
+    private void UseDiskLabelForName()
+    {
+        if (this.SelectedDrive is not null)
+        {
+            this.DiskName = this.SelectedDrive.Label;
         }
     }
 
@@ -272,6 +282,11 @@ public sealed partial class OfflineExplorerCreateDiskViewModel : ObservableObjec
         {
             this.logger.LogError(ex, "Error processing command.");
         }
+    }
+
+    private bool CanUseDiskLabelForName()
+    {
+        return !string.IsNullOrEmpty(this.SelectedDrive?.Name);
     }
 
     private bool CanCancel()

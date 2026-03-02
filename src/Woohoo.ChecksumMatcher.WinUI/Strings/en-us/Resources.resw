@@ -338,6 +338,9 @@
   <data name="CreateOfflineStoragePage_CancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CreateOfflineStoragePage_UseDiskLabelForNameButton.Content" xml:space="preserve">
+    <value>Use Disk Label</value>
+  </data>
   <data name="CreateOfflineStoragePage_BrowseSourceFolderButton.Content" xml:space="preserve">
     <value>...</value>
   </data>
