@@ -15,10 +15,15 @@
         <StackPanel Margin="0,0,50,20">
 
             <TextBlock x:Name="CreateOfflineStoragePage_SourceFolder" x:Uid="CreateOfflineStoragePage_SourceFolder" />
-            <StackPanel Margin="{StaticResource SmallTopMargin}" Orientation="Horizontal">
+            <Grid Margin="{StaticResource SmallTopMargin}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MaxWidth="{StaticResource PathTextBoxDefaultMaxWidth}" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <ComboBox
                     x:Name="CreateOfflineStoragePage_SourceDriveComboBox"
-                    MinWidth="{StaticResource PathTextBoxDefaultMinWidth}"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_SourceFolder}"
                     IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
@@ -37,6 +42,7 @@
                 </ComboBox>
                 <Button
                     x:Uid="CreateOfflineStoragePage_RefreshDrivesButton"
+                    Grid.Column="1"
                     MinWidth="{StaticResource SmallButtonDefaultMinWidth}"
                     Margin="{StaticResource SmallLeftMargin}"
                     VerticalAlignment="Stretch"
@@ -44,7 +50,7 @@
                     IsEnabled="{x:Bind ViewModel.IsIndexing, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
                     <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}" Text="&#xE72C;" />
                 </Button>
-            </StackPanel>
+            </Grid>
 
             <TextBlock
                 x:Name="CreateOfflineStoragePage_TargetFolder"
@@ -52,13 +58,12 @@
                 Margin="{StaticResource MediumTopMargin}" />
             <Grid Margin="{StaticResource SmallTopMargin}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MaxWidth="{StaticResource PathTextBoxDefaultMaxWidth}" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <ComboBox
                     Grid.Column="0"
-                    MinWidth="{StaticResource PathTextBoxDefaultMinWidth}"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AutomationProperties.LabeledBy="{Binding ElementName=CreateOfflineStoragePage_TargetFolder}"
                     IsEditable="True"

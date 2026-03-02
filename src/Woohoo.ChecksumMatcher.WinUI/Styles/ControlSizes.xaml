@@ -2,6 +2,7 @@
 
     <x:Double x:Key="TextBoxDefaultMinWidth">300</x:Double>
     <x:Double x:Key="PathTextBoxDefaultMinWidth">600</x:Double>
+    <x:Double x:Key="PathTextBoxDefaultMaxWidth">800</x:Double>
 
     <x:Double x:Key="ButtonDefaultMinWidth">120</x:Double>
     <x:Double x:Key="SmallButtonDefaultMinWidth">40</x:Double>

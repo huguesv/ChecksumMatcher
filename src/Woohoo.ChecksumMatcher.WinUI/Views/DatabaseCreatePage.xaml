@@ -16,13 +16,12 @@
             <TextBlock x:Name="CreateDatabasePage_SourceFolder" x:Uid="CreateDatabasePage_SourceFolder" />
             <Grid Margin="{StaticResource SmallTopMargin}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MaxWidth="{StaticResource PathTextBoxDefaultMaxWidth}" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox
                     Grid.Column="0"
-                    MinWidth="{StaticResource PathTextBoxDefaultMinWidth}"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     AutomationProperties.LabeledBy="{Binding ElementName=CreateDatabasePage_SourceFolder}"
                     IsEnabled="{x:Bind ViewModel.IsScanning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Text="{x:Bind ViewModel.SourceFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -41,13 +40,12 @@
                 Margin="{StaticResource MediumTopMargin}" />
             <Grid Margin="{StaticResource SmallTopMargin}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" MaxWidth="{StaticResource PathTextBoxDefaultMaxWidth}" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox
                     Grid.Column="0"
-                    MinWidth="{StaticResource PathTextBoxDefaultMinWidth}"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     AutomationProperties.LabeledBy="{Binding ElementName=CreateDatabasePage_DatabaseDestinationFile}"
                     IsEnabled="{x:Bind ViewModel.IsScanning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                     Text="{x:Bind ViewModel.DatabaseFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
