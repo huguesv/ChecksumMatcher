@@ -1579,13 +1579,13 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
         switch (this.FilterText.Length)
         {
             case 8:
-                return game.Roms.Any(r => r.CRC32 == this.FilterText);
+                return game.Roms.Any(r => string.Equals(r.CRC32, this.FilterText, StringComparison.OrdinalIgnoreCase));
             case 32:
-                return game.Roms.Any(r => r.MD5 == this.FilterText);
+                return game.Roms.Any(r => string.Equals(r.MD5, this.FilterText, StringComparison.OrdinalIgnoreCase));
             case 40:
-                return game.Roms.Any(r => r.SHA1 == this.FilterText);
+                return game.Roms.Any(r => string.Equals(r.SHA1, this.FilterText, StringComparison.OrdinalIgnoreCase));
             case 64:
-                return game.Roms.Any(r => r.SHA256 == this.FilterText);
+                return game.Roms.Any(r => string.Equals(r.SHA256, this.FilterText, StringComparison.OrdinalIgnoreCase));
             default:
                 return false;
         }
