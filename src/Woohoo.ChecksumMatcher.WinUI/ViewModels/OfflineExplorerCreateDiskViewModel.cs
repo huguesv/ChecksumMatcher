@@ -286,7 +286,7 @@ public sealed partial class OfflineExplorerCreateDiskViewModel : ObservableObjec
 
     private bool CanUseDiskLabelForName()
     {
-        return !string.IsNullOrEmpty(this.SelectedDrive?.Name);
+        return !this.IsIndexing && !string.IsNullOrEmpty(this.SelectedDrive?.Name);
     }
 
     private bool CanCancel()
