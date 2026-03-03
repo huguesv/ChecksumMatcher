@@ -17,9 +17,10 @@ public sealed class DatabaseLoader
         this.importerProvider = new DatabaseImporterProvider();
     }
 
-    public RomDatabase? TryLoad(string filePath, CloneMode cloneMode)
+    public RomDatabase? TryLoad(string filePath, CloneMode cloneMode, RomNameConflictFixMode fixMode, INotificationSink sink)
     {
         var db = this.TryLoadFrom(filePath);
+        db = DatabaseCleanTransform.TransformDatabase(db, fixMode, sink);
         return DatabaseCloneTransform.TransformDatabase(db, cloneMode);
     }
 

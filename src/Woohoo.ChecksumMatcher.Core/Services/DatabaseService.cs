@@ -21,7 +21,7 @@ using Woohoo.ChecksumMatcher.Core.Helpers;
 using Woohoo.ChecksumMatcher.Core.Internal;
 using Woohoo.ChecksumMatcher.Core.Internal.Scanning;
 
-public sealed class DatabaseService : IDatabaseService
+public sealed class DatabaseService : IDatabaseService, INotificationSink
 {
     private static readonly string[] DatFileNameOmitList =
     [
@@ -68,6 +68,17 @@ public sealed class DatabaseService : IDatabaseService
     public event EventHandler<RebuildEventArgs>? RebuildProgress;
 
     public event EventHandler<DatabaseCreateEventArgs>? DatabaseCreateProgress;
+
+    public void Warning(string item, string warning)
+    {
+        this.logger.LogWarning($"{warning} : {item}");
+    }
+
+    public NotificationPrompt Prompt(string item, string warning, NotificationPrompt prompt)
+    {
+        this.logger.LogWarning($"{warning} : {item}");
+        return NotificationPrompt.YesToAll;
+    }
 
     public Task<string[]> GetRepositoryFoldersAsync(CancellationToken ct)
     {
@@ -242,12 +253,13 @@ public sealed class DatabaseService : IDatabaseService
         }
 
         var cloneMode = DetectCloneModeFromDatabaseFilePath(file);
+        var fixMode = RomNameConflictFixMode.AppendInteger;
 
-        return await Task.Run(() => this.databaseCache.GetOrAdd(file.FullPath, _ => LoadDatabase(file, cloneMode)), ct);
+        return await Task.Run(() => this.databaseCache.GetOrAdd(file.FullPath, _ => LoadDatabase(file, cloneMode, fixMode, this)), ct);
 
-        static RomDatabase? LoadDatabase(DatabaseFile file, CloneMode cloneMode)
+        static RomDatabase? LoadDatabase(DatabaseFile file, CloneMode cloneMode, RomNameConflictFixMode fixMode, INotificationSink sink)
         {
-            return new DatabaseLoader().TryLoad(Path.Combine(file.FullPath), cloneMode);
+            return new DatabaseLoader().TryLoad(Path.Combine(file.FullPath), cloneMode, fixMode, sink);
         }
     }
 

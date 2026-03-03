@@ -127,19 +127,17 @@ internal static class Scanner
                 {
                     ct.ThrowIfCancellationRequested();
 
-                    if (!sizeMatch.AllChecksumsCalculated)
+                    if (!sizeMatch.AllChecksumsCalculated &&
+                        (scanSettings.ForceCalculateChecksums || sizeMatch.ReportedCRC32.Length == 0))
                     {
                         var container = ContainerExtensionProvider.GetContainer(sizeMatch.ContainerAbsolutePath);
                         if (container != null)
                         {
-                            if (scanSettings.ForceCalculateChecksums || sizeMatch.ReportedCRC32.Length == 0)
-                            {
-                                reportProgress(new ScanEventArgs { OperationId = operationId, DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Hashing, Results = new DatabaseScanResults(), HashingFile = new FileMoniker(sizeMatch.ContainerAbsolutePath, sizeMatch.ContainerName, sizeMatch.FileRelativePath, sizeMatch.IsFromOfflineStorage) });
+                            reportProgress(new ScanEventArgs { OperationId = operationId, DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Hashing, Results = new DatabaseScanResults(), HashingFile = new FileMoniker(sizeMatch.ContainerAbsolutePath, sizeMatch.ContainerName, sizeMatch.FileRelativePath, sizeMatch.IsFromOfflineStorage) });
 
-                                await container.CalculateChecksumsAsync(sizeMatch, ct);
+                            await container.CalculateChecksumsAsync(sizeMatch, ct);
 
-                                reportProgress(new ScanEventArgs { OperationId = operationId, DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Scanning, Results = new DatabaseScanResults() });
-                            }
+                            reportProgress(new ScanEventArgs { OperationId = operationId, DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Scanning, Results = new DatabaseScanResults() });
                         }
                     }
                 }
@@ -148,11 +146,13 @@ internal static class Scanner
                 var checksumMatches = sizeMatches.Where(file => Scanner.DoesChecksumMatch(rom, file, !scanSettings.ForceCalculateChecksums)).ToArray();
                 if (checksumMatches.Length > 0)
                 {
-                    // Find the file that has the correct container name (there can only be one)
-                    var gameMatch = checksumMatches.FirstOrDefault(result => result.ContainerName == rom.ParentGame.Name);
-                    if (gameMatch != null)
+                    // Find the file(s) that have the correct container name
+                    var gameMatches = checksumMatches.Where(result => result.ContainerName == rom.ParentGame.Name).ToList();
+                    if (gameMatches.Count > 0)
                     {
-                        if (gameMatch.FileRelativePath == rom.Name)
+                        // In case the container has multiple files with the same checksum, try to find the best match first
+                        var gameMatch = gameMatches.FirstOrDefault(result => result.FileRelativePath == rom.Name);
+                        if (gameMatch is not null)
                         {
                             // Perfect match of size, crc, container name and file name
                             // Let's remove it from the list of candidates now that it has been matched
@@ -168,6 +168,9 @@ internal static class Scanner
                         }
                         else
                         {
+                            // Guaranteed that there is one
+                            gameMatch = gameMatches.First();
+
                             // Wrong file name, but correct container name
                             var result = new RomAndFileMoniker(
                                 new RomMoniker(rom.ParentGame.Name, rom.Name),
