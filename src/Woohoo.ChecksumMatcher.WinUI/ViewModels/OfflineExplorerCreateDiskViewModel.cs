@@ -81,6 +81,7 @@ public sealed partial class OfflineExplorerCreateDiskViewModel : ObservableObjec
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(CreateDiskCommand))]
     [NotifyCanExecuteChangedFor(nameof(CancelCommand))]
+    [NotifyCanExecuteChangedFor(nameof(UseDiskLabelForNameCommand))]
     public partial bool IsIndexing { get; set; }
 
     [ObservableProperty]
