@@ -65,7 +65,9 @@ internal static class Scanner
             list.Add(f);
         }
 
-        foreach (var disk in db.GetAllDisks())
+        var disks = db.GetAllDisks();
+        var reportDisksMinSize = disks.Length / 100;
+        foreach (var disk in disks)
         {
             ct.ThrowIfCancellationRequested();
 
@@ -87,7 +89,7 @@ internal static class Scanner
                             new FileMoniker(checksumMatch.ContainerAbsolutePath, checksumMatch.ContainerName, checksumMatch.FileRelativePath, checksumMatch.IsFromOfflineStorage));
                         matched.Add(result);
 
-                        ThrottleScanProgress(matched: result);
+                        ThrottleScanProgress(matched: result, reportBatchMinSize: reportDisksMinSize);
                     }
                     else
                     {
@@ -97,7 +99,7 @@ internal static class Scanner
                             new FileMoniker(checksumMatch.ContainerAbsolutePath, checksumMatch.ContainerName, checksumMatch.FileRelativePath, checksumMatch.IsFromOfflineStorage));
                         wrongNamed.Add(result);
 
-                        ThrottleScanProgress(wrongNamed: result);
+                        ThrottleScanProgress(wrongNamed: result, reportBatchMinSize: reportDisksMinSize);
 
                         usedButIncorrectName.Add(checksumMatch);
                     }
@@ -108,11 +110,13 @@ internal static class Scanner
                 var result = new RomMoniker(disk.ParentGame.Name, diskFileName);
                 missing.Add(result);
 
-                ThrottleScanProgress(missing: result);
+                ThrottleScanProgress(missing: result, reportBatchMinSize: reportDisksMinSize);
             }
         }
 
-        foreach (var rom in db.GetAllRoms())
+        var roms = db.GetAllRoms();
+        var reportRomsMinSize = roms.Length / 100;
+        foreach (var rom in roms)
         {
             ct.ThrowIfCancellationRequested();
 
@@ -164,7 +168,7 @@ internal static class Scanner
                                 new FileMoniker(gameMatch.ContainerAbsolutePath, gameMatch.ContainerName, gameMatch.FileRelativePath, gameMatch.IsFromOfflineStorage));
                             matched.Add(result);
 
-                            ThrottleScanProgress(matched: result);
+                            ThrottleScanProgress(matched: result, reportBatchMinSize: reportRomsMinSize);
                         }
                         else
                         {
@@ -177,7 +181,7 @@ internal static class Scanner
                                 new FileMoniker(gameMatch.ContainerAbsolutePath, gameMatch.ContainerName, gameMatch.FileRelativePath, gameMatch.IsFromOfflineStorage));
                             wrongNamed.Add(result);
 
-                            ThrottleScanProgress(wrongNamed: result);
+                            ThrottleScanProgress(wrongNamed: result, reportBatchMinSize: reportRomsMinSize);
 
                             usedButIncorrectName.Add(gameMatch);
                         }
@@ -190,7 +194,7 @@ internal static class Scanner
                             new FileMoniker(checksumMatches[0].ContainerAbsolutePath, checksumMatches[0].ContainerName, checksumMatches[0].FileRelativePath, checksumMatches[0].IsFromOfflineStorage));
                         wrongNamed.Add(result);
 
-                        ThrottleScanProgress(wrongNamed: result);
+                        ThrottleScanProgress(wrongNamed: result, reportBatchMinSize: reportRomsMinSize);
 
                         usedButIncorrectName.AddRange(checksumMatches);
                     }
@@ -200,7 +204,7 @@ internal static class Scanner
                     var result = new RomMoniker(rom.ParentGame.Name, rom.Name);
                     missing.Add(result);
 
-                    ThrottleScanProgress(missing: result);
+                    ThrottleScanProgress(missing: result, reportBatchMinSize: reportRomsMinSize);
                 }
             }
             else
@@ -208,7 +212,7 @@ internal static class Scanner
                 var result = new RomMoniker(rom.ParentGame.Name, rom.Name);
                 missing.Add(result);
 
-                ThrottleScanProgress(missing: result);
+                ThrottleScanProgress(missing: result, reportBatchMinSize: reportRomsMinSize);
             }
         }
 
@@ -233,7 +237,7 @@ internal static class Scanner
             Unused = [.. unused],
         };
 
-        void ThrottleScanProgress(RomAndFileMoniker? matched = null, RomAndFileMoniker? wrongNamed = null, RomMoniker? missing = null, bool forceSend = false)
+        void ThrottleScanProgress(RomAndFileMoniker? matched = null, RomAndFileMoniker? wrongNamed = null, RomMoniker? missing = null, int reportBatchMinSize = 1, bool forceSend = false)
         {
             if (matched is not null)
             {
@@ -250,7 +254,8 @@ internal static class Scanner
                 pendingProgressMissing.Add(missing);
             }
 
-            if (pendingProgressMatched.Count + pendingProgressWrongNamed.Count + pendingProgressMissing.Count == 0)
+            int pendingCount = pendingProgressMatched.Count + pendingProgressWrongNamed.Count + pendingProgressMissing.Count;
+            if (pendingCount < reportBatchMinSize)
             {
                 return;
             }
