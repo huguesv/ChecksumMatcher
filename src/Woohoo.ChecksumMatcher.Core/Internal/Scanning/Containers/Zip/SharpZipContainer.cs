@@ -45,6 +45,11 @@ internal sealed class SharpZipContainer : IContainer
             {
                 foreach (ZipEntry entry in archive)
                 {
+                    if (entry.IsDirectory)
+                    {
+                        continue;
+                    }
+
                     var file = new FileInformation
                     {
                         ContainerIsFolder = false,

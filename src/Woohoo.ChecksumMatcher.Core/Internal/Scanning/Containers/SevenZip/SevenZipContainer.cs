@@ -38,6 +38,11 @@ internal sealed class SevenZipContainer : IContainer
             var archive = new SevenZipFile(containerFilePath);
             foreach (var entry in archive.Entries)
             {
+                if (entry.IsDirectory)
+                {
+                    continue;
+                }
+
                 var file = new FileInformation
                 {
                     ContainerIsFolder = false,
