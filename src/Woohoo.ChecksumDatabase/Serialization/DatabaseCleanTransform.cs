@@ -4,6 +4,7 @@
 namespace Woohoo.ChecksumDatabase.Serialization;
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Woohoo.ChecksumDatabase.Model;
 
 internal sealed class DatabaseCleanTransform
@@ -92,10 +93,10 @@ internal sealed class DatabaseCleanTransform
         int index = 0;
         foreach (var rom in romGroup.Skip(1))
         {
-            if (IsRomContentIdentical(firstRom, rom))
+            if (IsRomContentIdentical(firstRom, rom, out var toRemove))
             {
-                sink.Warning(firstRom.Name, Notifications.Warnings.DuplicateRomName);
-                romsToRemove.Add(rom);
+                sink.Warning(toRemove.Name, Notifications.Warnings.DuplicateRomName);
+                romsToRemove.Add(toRemove);
             }
             else
             {
@@ -126,10 +127,10 @@ internal sealed class DatabaseCleanTransform
         var lastRom = romGroup.Last();
         foreach (var rom in romGroup.SkipLast(1))
         {
-            if (IsRomContentIdentical(lastRom, rom))
+            if (IsRomContentIdentical(lastRom, rom, out var toRemove))
             {
-                sink.Warning(lastRom.Name, Notifications.Warnings.DuplicateRomName);
-                romsToRemove.Add(rom);
+                sink.Warning(toRemove.Name, Notifications.Warnings.DuplicateRomName);
+                romsToRemove.Add(toRemove);
             }
             else
             {
@@ -139,34 +140,51 @@ internal sealed class DatabaseCleanTransform
         }
     }
 
-    private static bool IsRomContentIdentical(RomFile a, RomFile b)
+    private static bool IsRomContentIdentical(RomFile a, RomFile b, [NotNullWhen(true)] out RomFile? toRemove)
     {
+        toRemove = null;
+
         if (a.Size != b.Size)
         {
             return false;
         }
 
-        if (!a.CRC32.SequenceEqual(b.CRC32))
+        if (a.CRC32.Length > 0 && b.CRC32.Length > 0 && !a.CRC32.SequenceEqual(b.CRC32))
         {
             return false;
         }
 
-        if (!a.MD5.SequenceEqual(b.MD5))
+        if (a.MD5.Length > 0 && b.MD5.Length > 0 && !a.MD5.SequenceEqual(b.MD5))
         {
             return false;
         }
 
-        if (!a.SHA1.SequenceEqual(b.SHA1))
+        if (a.SHA1.Length > 0 && b.SHA1.Length > 0 && !a.SHA1.SequenceEqual(b.SHA1))
         {
             return false;
         }
 
-        // SHA256 is optional, only consider the rom different if it is specified
-        // on both and it is different.
         if (a.SHA256.Length > 0 && b.SHA256.Length > 0 && !a.SHA256.SequenceEqual(b.SHA256))
         {
             return false;
         }
+
+        // They are considered identical, but one may be better than the other
+        // If one has more checksums type specified, keep that one.
+        // Otherwise, remove the second one.
+        int countA =
+            (a.CRC32.Length > 0 ? 1 : 0) +
+            (a.MD5.Length > 0 ? 1 : 0) +
+            (a.SHA1.Length > 0 ? 1 : 0) +
+            (a.SHA256.Length > 0 ? 1 : 0);
+
+        int countB =
+            (b.CRC32.Length > 0 ? 1 : 0) +
+            (b.MD5.Length > 0 ? 1 : 0) +
+            (b.SHA1.Length > 0 ? 1 : 0) +
+            (b.SHA256.Length > 0 ? 1 : 0);
+
+        toRemove = countA >= countB ? b : a;
 
         return true;
     }
