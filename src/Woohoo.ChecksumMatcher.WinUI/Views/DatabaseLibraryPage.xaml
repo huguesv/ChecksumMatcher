@@ -100,6 +100,11 @@
                             x:Uid="DatabaseLibraryPage_FileOpenInExplorerMenuItem"
                             Command="{x:Bind OpenInExplorerCommand, Mode=OneWay}"
                             Icon="{ct:FontIcon Glyph=&#xEC50;}" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            x:Uid="DatabaseLibraryPage_FileCopyDatabaseNameMenuItem"
+                            Command="{x:Bind CopyDatabaseNameCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xF164;}" />
                     </MenuFlyout>
                 </TreeViewItem.ContextFlyout>
             </TreeViewItem>

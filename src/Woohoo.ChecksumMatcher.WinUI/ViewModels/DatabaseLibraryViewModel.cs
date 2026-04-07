@@ -263,6 +263,7 @@ public sealed partial class DatabaseLibraryViewModel : ObservableRecipient, INav
                     file.RelativePath,
                     null,
                     databaseService,
+                    clipboardService,
                     fileExplorerService,
                     dispatcherQueue,
                     logger);

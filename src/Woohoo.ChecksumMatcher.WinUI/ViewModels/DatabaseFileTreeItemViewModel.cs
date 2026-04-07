@@ -18,6 +18,7 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
     private readonly DisposableBag disposables = DisposableBag.Create<DatabaseLibraryViewModel>();
 
     private readonly IDatabaseService databaseService;
+    private readonly IClipboardService clipboardService;
     private readonly IFileExplorerService fileExplorerService;
     private readonly IDispatcherQueue dispatcherQueue;
     private readonly ILogger logger;
@@ -31,6 +32,7 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
         string relativeFilePath,
         DatabaseFileViewModel? databaseViewModel,
         IDatabaseService databaseService,
+        IClipboardService clipboardService,
         IFileExplorerService fileExplorerService,
         IDispatcherQueue dispatcherQueue,
         ILogger logger)
@@ -41,6 +43,7 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
         ArgumentNullException.ThrowIfNull(rootFolder);
         ArgumentNullException.ThrowIfNull(absoluteFilePath);
         ArgumentNullException.ThrowIfNull(databaseService);
+        ArgumentNullException.ThrowIfNull(clipboardService);
         ArgumentNullException.ThrowIfNull(fileExplorerService);
         ArgumentNullException.ThrowIfNull(dispatcherQueue);
         ArgumentNullException.ThrowIfNull(logger);
@@ -52,6 +55,7 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
         this.FileName = Path.GetFileNameWithoutExtension(absoluteFilePath);
         this.Database = databaseViewModel;
         this.databaseService = databaseService;
+        this.clipboardService = clipboardService;
         this.fileExplorerService = fileExplorerService;
         this.dispatcherQueue = dispatcherQueue;
         this.logger = logger;
@@ -110,6 +114,7 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
             this.RelativeFilePath,
             databaseViewModel,
             this.databaseService,
+            this.clipboardService,
             this.fileExplorerService,
             this.dispatcherQueue,
             this.logger)
@@ -141,6 +146,25 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
             this.logger.LogError(ex, "Error processing command.");
         }
     }
+
+    [RelayCommand(CanExecute = nameof(CanCopyDatabaseName))]
+    private void CopyDatabaseName()
+    {
+        try
+        {
+            if (this.Database is not null)
+            {
+               this.clipboardService.SetText(this.Database.Metadata.Name);
+            }
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error processing command.");
+        }
+    }
+
+    private bool CanCopyDatabaseName()
+        => this.Database is not null;
 
     private void DatabaseService_ScanProgress(object? sender, ScanEventArgs e)
     {
