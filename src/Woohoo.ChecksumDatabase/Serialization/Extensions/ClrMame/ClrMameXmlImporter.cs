@@ -71,7 +71,8 @@ public sealed class ClrMameXmlImporter : IDatabaseImporter
                         ReadHeader(reader, db);
                         break;
                     case "game":
-                        ReadGame(reader, db);
+                    case "machine":
+                        ReadGameOrMachine(reader, db, reader.Name);
                         break;
                     default:
                         reader.Skip();
@@ -153,7 +154,7 @@ public sealed class ClrMameXmlImporter : IDatabaseImporter
         reader.Skip();
     }
 
-    private static void ReadGame(XmlReader reader, RomDatabase db)
+    private static void ReadGameOrMachine(XmlReader reader, RomDatabase db, string elementName)
     {
         var game = new RomGame(db)
         {
@@ -210,7 +211,7 @@ public sealed class ClrMameXmlImporter : IDatabaseImporter
         {
             reader.ReadStartElement();
 
-            while (reader.Name != "game")
+            while (reader.Name != elementName)
             {
                 switch (reader.Name)
                 {
