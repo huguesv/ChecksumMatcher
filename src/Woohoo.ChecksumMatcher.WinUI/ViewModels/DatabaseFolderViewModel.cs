@@ -331,9 +331,7 @@ public sealed partial class DatabaseFolderViewModel : ObservableObject, IDisposa
 
     private bool CanScan()
     {
-        return
-            !this.IsScanning &&
-            ((this.UseOnlineStorage && this.ScanOnlineFolders.Any(sf => sf.IsIncluded && Directory.Exists(sf.Path))) || (this.UseOfflineStorage && this.ScanOfflineFolders.Any(sf => sf.IsIncluded)));
+        return !this.IsScanning;
     }
 
     private bool CanCancelScan()
