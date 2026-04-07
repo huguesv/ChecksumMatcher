@@ -154,7 +154,7 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
         {
             if (this.Database is not null)
             {
-               this.clipboardService.SetText(this.Database.Metadata.Name);
+                this.clipboardService.SetText(this.Database.Metadata.Name);
             }
         }
         catch (Exception ex)
