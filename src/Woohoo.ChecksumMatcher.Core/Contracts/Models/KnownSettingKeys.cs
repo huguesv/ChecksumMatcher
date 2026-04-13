@@ -18,6 +18,7 @@ public static class KnownSettingKeys
     public static readonly string RedumpPassword = ToCamelCase(nameof(RedumpPassword));
     public static readonly string RedumpSystems = ToCamelCase(nameof(RedumpSystems));
     public static readonly string RedumpDownloadFolder = ToCamelCase(nameof(RedumpDownloadFolder));
+    public static readonly string RedumpDownloadTimeoutSeconds = ToCamelCase(nameof(RedumpDownloadTimeoutSeconds));
     public static readonly string UseWindowsNotifications = ToCamelCase(nameof(UseWindowsNotifications));
     public static readonly string UseSystemSounds = ToCamelCase(nameof(UseSystemSounds));
     public static readonly string UseWinUIFolderPicker = ToCamelCase(nameof(UseWinUIFolderPicker));

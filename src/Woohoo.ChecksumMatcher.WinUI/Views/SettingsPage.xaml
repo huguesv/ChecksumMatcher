@@ -275,6 +275,16 @@
                     </StackPanel>
                 </ctcontrols:SettingsExpander>
 
+                <ctcontrols:SettingsCard x:Uid="SettingsPage_RedumpTimeout" HeaderIcon="{ct:FontIcon Glyph=&#xE916;}">
+                    <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                        <NumberBox
+                            MinWidth="100"
+                            Maximum="300"
+                            Minimum="1"
+                            Value="{x:Bind ViewModel.RedumpDownloadTimeoutSeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </ctcontrols:SettingsCard>
+
                 <ctcontrols:SettingsExpander
                     x:Uid="SettingsPage_RedumpDownload"
                     HeaderIcon="{ct:FontIcon Glyph=&#xEBD3;}"

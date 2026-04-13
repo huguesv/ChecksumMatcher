@@ -515,8 +515,14 @@
   <data name="SettingsPage_RedumpLogin.Header" xml:space="preserve">
     <value>Credentials</value>
   </data>
+  <data name="SettingsPage_RedumpTimeout.Header" xml:space="preserve">
+    <value>Timeout</value>
+  </data>
   <data name="SettingsPage_RedumpLogin.Description" xml:space="preserve">
     <value>Enter credentials of a user with dumper status to enable download of private artifacts from redump.org</value>
+  </data>
+  <data name="SettingsPage_RedumpTimeout.Description" xml:space="preserve">
+    <value>Timeout for every Redump request (in seconds)</value>
   </data>
   <data name="SettingsPage_RedumpCredentialsTestButton.Content" xml:space="preserve">
     <value>Test credentials</value>

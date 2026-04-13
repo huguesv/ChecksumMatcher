@@ -28,7 +28,7 @@ internal sealed class RedumpClient
 
     public bool IsStaff { get; private set; } = false;
 
-    public static async Task<bool?> ValidateCredentialsAsync(string username, string password, CancellationToken ct)
+    public static async Task<bool?> ValidateCredentialsAsync(string username, string password, TimeSpan timeout, CancellationToken ct)
     {
         // If options are invalid or we're missing something key, just return
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -37,7 +37,7 @@ internal sealed class RedumpClient
         }
 
         // Try logging in with the supplied credentials otherwise
-        var redumpClient = new RedumpClient(TimeSpan.FromSeconds(30));
+        var redumpClient = new RedumpClient(timeout);
         return await redumpClient.LoginAsync(username, password, ct);
     }
 

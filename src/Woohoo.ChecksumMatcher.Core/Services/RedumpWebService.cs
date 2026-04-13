@@ -29,30 +29,30 @@ public sealed class RedumpWebService : IRedumpWebService
         })];
     }
 
-    public Task<bool?> ValidateCredentialsAsync(string username, string password, CancellationToken ct)
+    public Task<bool?> ValidateCredentialsAsync(string username, string password, TimeSpan timeout, CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(username);
         ArgumentNullException.ThrowIfNull(password);
 
         this.logger.LogInformation("Validating Redump credentials for user: {Username}.", username);
 
-        return Task.Run(() => RedumpClient.ValidateCredentialsAsync(username, password, ct), ct);
+        return Task.Run(() => RedumpClient.ValidateCredentialsAsync(username, password, timeout, ct), ct);
     }
 
-    public Task<bool> DownloadAllAsync(string outputFolderPath, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct)
+    public Task<bool> DownloadAllAsync(string outputFolderPath, bool useSubfolders, string? username, string? password, TimeSpan timeout, DownloaderProgress progress, CancellationToken ct)
     {
         ArgumentException.ThrowIfNullOrEmpty(outputFolderPath);
         ArgumentNullException.ThrowIfNull(progress);
 
         this.logger.LogInformation("Downloading all Redump systems to: {OutputFolderPath}.", outputFolderPath);
 
-        var redumpClient = new RedumpClient(TimeSpan.FromSeconds(60));
+        var redumpClient = new RedumpClient(timeout);
 
         var selected = RedumpSystems.All;
         return Task.Run(() => this.DownloadAsync(selected, redumpClient, outputFolderPath, useSubfolders, username, password, progress, ct), ct);
     }
 
-    public Task<bool> DownloadAsync(string[] ids, string outputFolderPath, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct)
+    public Task<bool> DownloadAsync(string[] ids, string outputFolderPath, bool useSubfolders, string? username, string? password, TimeSpan timeout, DownloaderProgress progress, CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(ids);
         ArgumentException.ThrowIfNullOrEmpty(outputFolderPath);
@@ -60,7 +60,7 @@ public sealed class RedumpWebService : IRedumpWebService
 
         this.logger.LogInformation("Downloading Redump systems with IDs: {Ids} to: {OutputFolderPath}.", string.Join(", ", ids), outputFolderPath);
 
-        var redumpClient = new RedumpClient(TimeSpan.FromSeconds(60));
+        var redumpClient = new RedumpClient(timeout);
 
         var selected = RedumpSystems.All.Where(s => ids.Contains(s.Id)).ToArray();
         return Task.Run(() => this.DownloadAsync(selected, redumpClient, outputFolderPath, useSubfolders, username, password, progress, ct), ct);

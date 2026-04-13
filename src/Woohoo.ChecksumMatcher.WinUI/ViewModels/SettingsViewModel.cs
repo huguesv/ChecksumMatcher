@@ -95,6 +95,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient
             this.RedumpDownloadFolder = this.CreateFolderViewModel(this.localSettingsService.ReadSetting<string>(KnownSettingKeys.RedumpDownloadFolder) ?? string.Empty, this.RemoveRedumpFolderCommand);
             this.RedumpUser = this.localSettingsService.LoadEncryptedSetting(KnownSettingKeys.RedumpUser, string.Empty);
             this.RedumpPassword = this.localSettingsService.LoadEncryptedSetting(KnownSettingKeys.RedumpPassword, string.Empty);
+            this.RedumpDownloadTimeoutSeconds = Math.Clamp(this.localSettingsService.ReadSetting<int?>(KnownSettingKeys.RedumpDownloadTimeoutSeconds) ?? 60, 1, 300);
 
             var redumpSystems = this.redumpWebService.GetSystems().OrderBy(s => s.Name);
             var redumpEnabledSystems = this.localSettingsService.ReadSetting<string[]>(KnownSettingKeys.RedumpSystems);
@@ -148,6 +149,9 @@ public sealed partial class SettingsViewModel : ObservableRecipient
 
     [ObservableProperty]
     public partial string RedumpPassword { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial int RedumpDownloadTimeoutSeconds { get; set; } = 60;
 
     [ObservableProperty]
     public partial StatusViewModel RedumpCredentialsStatus { get; set; } = new(string.Empty, StatusSeverity.None);
@@ -276,7 +280,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient
         {
             this.RedumpCredentialsStatus = new(Localized.RedumpCredentialsStatusInProgress, StatusSeverity.Info);
 
-            var success = await ValidateCredentialsAsync(this.redumpWebService, this.RedumpUser, this.RedumpPassword, ct);
+            var success = await ValidateCredentialsAsync(this.redumpWebService, this.RedumpUser, this.RedumpPassword, TimeSpan.FromSeconds(this.RedumpDownloadTimeoutSeconds), ct);
 
             if (success)
             {
@@ -292,14 +296,14 @@ public sealed partial class SettingsViewModel : ObservableRecipient
             this.logger.LogError(ex, "Error processing command.");
         }
 
-        static async Task<bool> ValidateCredentialsAsync(IRedumpWebService redumpDownloaderService, string user, string password, CancellationToken ct)
+        static async Task<bool> ValidateCredentialsAsync(IRedumpWebService redumpDownloaderService, string user, string password, TimeSpan timeout, CancellationToken ct)
         {
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(password))
             {
                 return false;
             }
 
-            return (await redumpDownloaderService.ValidateCredentialsAsync(user, password, ct)) == true;
+            return (await redumpDownloaderService.ValidateCredentialsAsync(user, password, timeout, ct)) == true;
         }
     }
 
@@ -339,7 +343,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient
 
                 var ids = this.RedumpSystems.Where(s => s.IsEnabled).Select(s => s.Id).ToArray();
 
-                await this.redumpWebService.DownloadAsync(ids, this.RedumpDownloadFolder.Path, false, this.RedumpUser, this.RedumpPassword, ProgressUpdate, this.redumpDownloadCancellationTokenSource.Token);
+                await this.redumpWebService.DownloadAsync(ids, this.RedumpDownloadFolder.Path, false, this.RedumpUser, this.RedumpPassword, TimeSpan.FromSeconds(this.RedumpDownloadTimeoutSeconds), ProgressUpdate, this.redumpDownloadCancellationTokenSource.Token);
 
                 this.RedumpDownloadStatus = new StatusViewModel(string.Format(CultureInfo.CurrentUICulture, Localized.RedumpDownloadStatusCompleteFormat, this.dateTimeProviderService.Now), StatusSeverity.Success);
 
@@ -700,6 +704,14 @@ public sealed partial class SettingsViewModel : ObservableRecipient
             this.RedumpCredentialsStatus = new(string.Empty, StatusSeverity.None);
 
             this.localSettingsService.SaveEncryptedSetting(KnownSettingKeys.RedumpPassword, value);
+        }
+    }
+
+    partial void OnRedumpDownloadTimeoutSecondsChanged(int value)
+    {
+        if (!this.isLoadingSettings)
+        {
+            this.localSettingsService.SaveSetting(KnownSettingKeys.RedumpDownloadTimeoutSeconds, value);
         }
     }
 

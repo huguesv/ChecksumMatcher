@@ -10,9 +10,9 @@ public interface IRedumpWebService
 {
     public ImmutableArray<RedumpSystemInfo> GetSystems();
 
-    Task<bool?> ValidateCredentialsAsync(string username, string password, CancellationToken ct);
+    Task<bool?> ValidateCredentialsAsync(string username, string password, TimeSpan timeout, CancellationToken ct);
 
-    Task<bool> DownloadAllAsync(string outputFolderPath, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct);
+    Task<bool> DownloadAllAsync(string outputFolderPath, bool useSubfolders, string? username, string? password, TimeSpan timeout, DownloaderProgress progress, CancellationToken ct);
 
-    Task<bool> DownloadAsync(string[] ids, string outputFolderPath, bool useSubfolders, string? username, string? password, DownloaderProgress progress, CancellationToken ct);
+    Task<bool> DownloadAsync(string[] ids, string outputFolderPath, bool useSubfolders, string? username, string? password, TimeSpan timeout, DownloaderProgress progress, CancellationToken ct);
 }
