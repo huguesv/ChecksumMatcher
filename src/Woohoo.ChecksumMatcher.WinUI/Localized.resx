@@ -638,6 +638,19 @@
 
 All files and subfolders will be lost.</value>
   </data>
+  <data name="SettingsPageCleanupRedumpFolderContentsMessageFormat" xml:space="preserve">
+    <value>Are you sure you want to permanently remove old artifacts from '{0}'?
+
+This operation cannot be undone.</value>
+  </data>
+  <data name="SettingsPageCleanupRedumpFolderNoDeletedFilesMessageFormat" xml:space="preserve">
+    <value>No files deleted.</value>
+  </data>
+  <data name="SettingsPageCleanupRedumpFolderDeletedFilesMessageFormat" xml:space="preserve">
+    <value>The following files were deleted:
+
+{0}</value>
+  </data>
   <data name="CreateDatabaseSaveFilter" xml:space="preserve">
     <value>Database Files (*.dat)</value>
   </data>

@@ -27,6 +27,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient
     private readonly IDatabaseService databaseService;
     private readonly IOfflineExplorerService offlineExplorerService;
     private readonly IRedumpWebService redumpWebService;
+    private readonly IRedumpArtifactsService redumpArtifactsService;
     private readonly IOperationCompletionService operationCompletionService;
     private readonly IDateTimeProviderService dateTimeProviderService;
     private readonly ILogger logger;
@@ -45,6 +46,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient
         IDatabaseService databaseService,
         IOfflineExplorerService offlineExplorerService,
         IRedumpWebService redumpWebService,
+        IRedumpArtifactsService redumpArtifactsService,
         IOperationCompletionService operationCompletionService,
         IDateTimeProviderService dateTimeProviderService,
         IDispatcherQueueService dispatcherQueueService,
@@ -59,6 +61,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient
         ArgumentNullException.ThrowIfNull(databaseService);
         ArgumentNullException.ThrowIfNull(offlineExplorerService);
         ArgumentNullException.ThrowIfNull(redumpWebService);
+        ArgumentNullException.ThrowIfNull(redumpArtifactsService);
         ArgumentNullException.ThrowIfNull(operationCompletionService);
         ArgumentNullException.ThrowIfNull(dateTimeProviderService);
         ArgumentNullException.ThrowIfNull(dispatcherQueueService);
@@ -73,6 +76,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient
         this.databaseService = databaseService;
         this.offlineExplorerService = offlineExplorerService;
         this.redumpWebService = redumpWebService;
+        this.redumpArtifactsService = redumpArtifactsService;
         this.operationCompletionService = operationCompletionService;
         this.dateTimeProviderService = dateTimeProviderService;
         this.logger = logger;
@@ -414,15 +418,7 @@ public sealed partial class SettingsViewModel : ObservableRecipient
                 return;
             }
 
-            foreach (var file in Directory.EnumerateFiles(this.RedumpDownloadFolder.Path))
-            {
-                FileUtility.SafeDelete(file);
-            }
-
-            foreach (var folder in Directory.EnumerateDirectories(this.RedumpDownloadFolder.Path))
-            {
-                FileUtility.SafeDeleteFolder(folder, recursive: true);
-            }
+            this.redumpArtifactsService.DeleteContents(this.RedumpDownloadFolder.Path);
         }
         catch (Exception ex)
         {
@@ -431,6 +427,51 @@ public sealed partial class SettingsViewModel : ObservableRecipient
     }
 
     private bool CanDeleteRedumpDownloadFolderContents()
+    {
+        return Directory.Exists(this.RedumpDownloadFolder.Path) && !this.IsDownloading;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanCleanupRedumpArtifacts))]
+    private async Task CleanupRedumpArtifactsAsync()
+    {
+        try
+        {
+            var result = await this.confirmationService.ShowAsync(
+                Localized.MainWindowCaption,
+                string.Format(CultureInfo.CurrentUICulture, Localized.SettingsPageCleanupRedumpFolderContentsMessageFormat, this.RedumpDownloadFolder.Path),
+                defaultToCancel: true);
+
+            if (!result)
+            {
+                return;
+            }
+
+            var deletedFiles = this.redumpArtifactsService.CleanupContents(this.RedumpDownloadFolder.Path);
+            if (deletedFiles.IsEmpty)
+            {
+                await this.confirmationService.ShowAsync(
+                    Localized.MainWindowCaption,
+                    Localized.SettingsPageCleanupRedumpFolderNoDeletedFilesMessageFormat,
+                    defaultToCancel: false,
+                    cancelButtonText: string.Empty);
+            }
+            else
+            {
+                var fileNames = string.Join(Environment.NewLine, deletedFiles.Select(f => Path.GetFileName(f)));
+                await this.confirmationService.ShowAsync(
+                    Localized.MainWindowCaption,
+                    string.Format(CultureInfo.CurrentUICulture, Localized.SettingsPageCleanupRedumpFolderDeletedFilesMessageFormat, fileNames),
+                    defaultToCancel: false,
+                    cancelButtonText: string.Empty);
+            }
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error processing command.");
+        }
+    }
+
+    private bool CanCleanupRedumpArtifacts()
     {
         return Directory.Exists(this.RedumpDownloadFolder.Path) && !this.IsDownloading;
     }

@@ -503,6 +503,9 @@
   <data name="SettingsPage_RedumpFolderDeleteContentsMenuItem.Text" xml:space="preserve">
     <value>Delete all contents</value>
   </data>
+  <data name="SettingsPage_RedumpFolderCleanupMenuItem.Text" xml:space="preserve">
+    <value>Cleanup</value>
+  </data>
   <data name="DatabaseFileRebuildSettings_SourceFolderRemoveMenuItem.Text" xml:space="preserve">
     <value>Reset</value>
   </data>
@@ -530,14 +533,26 @@
   <data name="SettingsPage_RedumpDownloadButton.Content" xml:space="preserve">
     <value>Download now</value>
   </data>
+  <data name="SettingsPage_RedumpCleanupButton.Content" xml:space="preserve">
+    <value>Cleanup now</value>
+  </data>
   <data name="SettingsPage_RedumpCancelDownloadButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SettingsPage_RedumpCancelCleanupButton.Content" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="SettingsPage_RedumpDownload.Header" xml:space="preserve">
     <value>Downloads</value>
   </data>
+  <data name="SettingsPage_RedumpCleanup.Header" xml:space="preserve">
+    <value>Cleanup</value>
+  </data>
   <data name="SettingsPage_RedumpDownload.Description" xml:space="preserve">
     <value>Start a download of redump artifacts</value>
+  </data>
+  <data name="SettingsPage_RedumpCleanup.Description" xml:space="preserve">
+    <value>Remove old artifacts from the download folder</value>
   </data>
   <data name="Settings_Notifications.Text" xml:space="preserve">
     <value>Notifications</value>

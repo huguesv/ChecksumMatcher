@@ -19,7 +19,7 @@ namespace Woohoo.ChecksumMatcher.WinUI {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Localized {
@@ -1731,6 +1731,37 @@ namespace Woohoo.ChecksumMatcher.WinUI {
         public static string ScanSuccessNotification {
             get {
                 return ResourceManager.GetString("ScanSuccessNotification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to permanently remove old artifacts from &apos;{0}&apos;?
+        ///
+        ///This operation cannot be undone..
+        /// </summary>
+        public static string SettingsPageCleanupRedumpFolderContentsMessageFormat {
+            get {
+                return ResourceManager.GetString("SettingsPageCleanupRedumpFolderContentsMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following files were deleted:
+        ///
+        ///{0}.
+        /// </summary>
+        public static string SettingsPageCleanupRedumpFolderDeletedFilesMessageFormat {
+            get {
+                return ResourceManager.GetString("SettingsPageCleanupRedumpFolderDeletedFilesMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No files deleted..
+        /// </summary>
+        public static string SettingsPageCleanupRedumpFolderNoDeletedFilesMessageFormat {
+            get {
+                return ResourceManager.GetString("SettingsPageCleanupRedumpFolderNoDeletedFilesMessageFormat", resourceCulture);
             }
         }
         

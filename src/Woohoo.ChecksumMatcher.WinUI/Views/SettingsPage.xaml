@@ -240,6 +240,10 @@
                                                 x:Uid="SettingsPage_RedumpFolderDeleteContentsMenuItem"
                                                 Command="{x:Bind ViewModel.DeleteRedumpDownloadFolderContentsCommand, Mode=OneWay}"
                                                 Icon="{ct:FontIcon Glyph=&#xE74D;}" />
+                                            <MenuFlyoutItem
+                                                x:Uid="SettingsPage_RedumpFolderCleanupMenuItem"
+                                                Command="{x:Bind ViewModel.CleanupRedumpArtifactsCommand, Mode=OneWay}"
+                                                Icon="{ct:FontIcon Glyph=&#xEA99;}" />
                                         </MenuFlyout>
                                     </Button.Flyout>
                                 </Button>
