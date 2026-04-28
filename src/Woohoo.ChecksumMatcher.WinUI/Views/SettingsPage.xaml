@@ -285,6 +285,7 @@
                             MinWidth="100"
                             Maximum="300"
                             Minimum="1"
+                            SpinButtonPlacementMode="Inline"
                             Value="{x:Bind ViewModel.RedumpDownloadTimeoutSeconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </ctcontrols:SettingsCard>
