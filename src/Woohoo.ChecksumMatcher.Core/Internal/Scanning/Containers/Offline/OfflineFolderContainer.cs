@@ -96,4 +96,15 @@ internal sealed class OfflineFolderContainer : IContainer
     {
         return Task.FromException(new NotSupportedException());
     }
+
+    public Task<bool> IsEmptyContainerAsync(string containerFilePath, CancellationToken ct)
+    {
+        var indexedFolder = this.offlineDisk.GetItemByPath(containerFilePath);
+        if (indexedFolder is not null)
+        {
+            return Task.FromResult(!indexedFolder.Items.Any());
+        }
+
+        return Task.FromResult(false);
+    }
 }

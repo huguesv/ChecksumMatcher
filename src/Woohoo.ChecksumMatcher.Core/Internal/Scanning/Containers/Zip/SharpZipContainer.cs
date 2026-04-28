@@ -187,4 +187,15 @@ internal sealed class SharpZipContainer : IContainer
 
         return Task.CompletedTask;
     }
+
+    public Task<bool> IsEmptyContainerAsync(string containerFilePath, CancellationToken ct)
+    {
+        if (!File.Exists(containerFilePath))
+        {
+            return Task.FromResult(false);
+        }
+
+        using var archive = new ZipFile(containerFilePath);
+        return Task.FromResult(archive.Count == 0);
+    }
 }

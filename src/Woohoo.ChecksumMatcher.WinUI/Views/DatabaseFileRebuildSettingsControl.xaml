@@ -80,6 +80,13 @@
                 </ctcontrols:SettingsCard>
 
                 <ctcontrols:SettingsCard
+                    x:Uid="DatabaseFileRebuildSettings_RemoveEmptySourceFoldersSettingsCard"
+                    HeaderIcon="{ct:FontIcon Glyph=&#xE74D;}"
+                    IsEnabled="True">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.RebuildRemoveEmptySourceFolders, Mode=TwoWay}" />
+                </ctcontrols:SettingsCard>
+
+                <ctcontrols:SettingsCard
                     x:Uid="DatabaseFileRebuildSettings_FindMissingCueSettingsCard"
                     HeaderIcon="{ct:FontIcon Glyph=&#xE8D6;}"
                     IsEnabled="True">

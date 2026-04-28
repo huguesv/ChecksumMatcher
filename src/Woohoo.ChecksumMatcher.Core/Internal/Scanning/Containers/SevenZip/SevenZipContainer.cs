@@ -160,4 +160,15 @@ internal sealed class SevenZipContainer : IContainer
 
         return Task.CompletedTask;
     }
+
+    public Task<bool> IsEmptyContainerAsync(string containerFilePath, CancellationToken ct)
+    {
+        if (!File.Exists(containerFilePath))
+        {
+            return Task.FromResult(false);
+        }
+
+        var archive = new SevenZipFile(containerFilePath);
+        return Task.FromResult(archive.Entries.Count == 0);
+    }
 }

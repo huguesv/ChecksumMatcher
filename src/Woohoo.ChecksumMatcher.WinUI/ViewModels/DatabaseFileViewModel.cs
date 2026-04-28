@@ -270,6 +270,9 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
     public partial bool RebuildRemoveSource { get; set; } = false;
 
     [ObservableProperty]
+    public partial bool RebuildRemoveEmptySourceFolders { get; set; } = false;
+
+    [ObservableProperty]
     public partial DatabaseTargetContainerTypeViewModel? RebuildTargetContainerType { get; set; }
 
     [ObservableProperty]
@@ -1757,6 +1760,14 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
         }
     }
 
+    partial void OnRebuildRemoveEmptySourceFoldersChanged(bool value)
+    {
+        if (!this.isLoadingRebuildSettings)
+        {
+            this.SaveRebuildSettingsAsync(CancellationToken.None).FireAndForget((ex) => this.logger.LogError(ex, "Error saving rebuild settings."));
+        }
+    }
+
     partial void OnRebuildSourceFolderChanged(SettingsFolderViewModel value)
     {
         if (!this.isLoadingRebuildSettings)
@@ -1843,6 +1854,7 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
             this.RebuildFindMissingCueFiles = settings.FindMissingCueFiles;
             this.RebuildForceCalculateChecksums = settings.ForceCalculateChecksums;
             this.RebuildRemoveSource = settings.RemoveSource;
+            this.RebuildRemoveEmptySourceFolders = settings.RemoveEmptySourceFolders;
             this.RebuildTorrentZipIncomplete = settings.TorrentZipIncomplete;
             this.RebuildSourceFolder = this.CreateFolderViewModel(settings.SourceFolderPath, this.RemoveSourceFolderCommand);
             this.RebuildTargetFolder = this.CreateFolderViewModel(settings.TargetFolderPath, this.RemoveTargetFolderCommand);
@@ -1864,6 +1876,7 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
             FindMissingCueFiles = this.RebuildFindMissingCueFiles,
             ForceCalculateChecksums = this.RebuildForceCalculateChecksums,
             RemoveSource = this.RebuildRemoveSource,
+            RemoveEmptySourceFolders = this.RebuildRemoveEmptySourceFolders,
             TorrentZipIncomplete = this.RebuildTorrentZipIncomplete,
             SourceFolderPath = this.RebuildSourceFolder.Path,
             TargetFolderPath = this.RebuildTargetFolder.Path,

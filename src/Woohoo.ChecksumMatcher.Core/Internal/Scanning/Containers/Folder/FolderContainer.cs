@@ -129,4 +129,9 @@ internal sealed class FolderContainer : IContainer
 
         return Task.CompletedTask;
     }
+
+    public Task<bool> IsEmptyContainerAsync(string containerFilePath, CancellationToken ct)
+    {
+        return Task.FromResult(Directory.Exists(containerFilePath) && !Directory.EnumerateFileSystemEntries(containerFilePath).Any());
+    }
 }

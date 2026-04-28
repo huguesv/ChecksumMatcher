@@ -22,4 +22,9 @@ internal interface IContainer
     Task RemoveAsync(FileInformation file, CancellationToken ct);
 
     Task RemoveContainerAsync(string containerFilePath, CancellationToken ct);
+
+    /// <summary>
+    /// Determines if the container exists and is empty. If it does not exists, it returns <c>false</c>.
+    /// </summary>
+    Task<bool> IsEmptyContainerAsync(string containerFilePath, CancellationToken ct);
 }

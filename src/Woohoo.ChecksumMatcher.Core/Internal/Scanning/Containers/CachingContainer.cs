@@ -94,6 +94,11 @@ internal class CachingContainer : IContainer
         return this.inner.GetAllFilesAsync(containerFilePath, searchOption, ct);
     }
 
+    public Task<bool> IsEmptyContainerAsync(string containerFilePath, CancellationToken ct)
+    {
+        return this.inner.IsEmptyContainerAsync(containerFilePath, ct);
+    }
+
     public Task MoveAsync(FileInformation file, string targetFilePath, CancellationToken ct)
     {
         return this.inner.MoveAsync(file, targetFilePath, ct);

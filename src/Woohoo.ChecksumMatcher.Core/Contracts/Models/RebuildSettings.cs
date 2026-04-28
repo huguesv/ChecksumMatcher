@@ -9,6 +9,8 @@ public sealed class RebuildSettings
 
     public bool RemoveSource { get; init; }
 
+    public bool RemoveEmptySourceFolders { get; init; }
+
     public bool FindMissingCueFiles { get; init; }
 
     public bool TorrentZipIncomplete { get; init; }

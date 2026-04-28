@@ -980,6 +980,9 @@
   <data name="DatabaseFileRebuildSettings_RemoveSourceSettingsCard.Header" xml:space="preserve">
     <value>Remove matched files</value>
   </data>
+  <data name="DatabaseFileRebuildSettings_RemoveEmptySourceFoldersSettingsCard.Header" xml:space="preserve">
+    <value>Remove empty source folders</value>
+  </data>
   <data name="DatabaseFileRebuildSettings_TorrentZipIncompleteSettingsCard.Header" xml:space="preserve">
     <value>TorrentZip incomplete containers</value>
   </data>
@@ -997,6 +1000,9 @@
   </data>
   <data name="DatabaseFileRebuildSettings_RemoveSourceSettingsCard.Description" xml:space="preserve">
     <value>Files are removed from the source folder when they are rebuilt (when container format allows it)</value>
+  </data>
+  <data name="DatabaseFileRebuildSettings_RemoveEmptySourceFoldersSettingsCard.Description" xml:space="preserve">
+    <value>Source folders and subfolders are removed when they are empty</value>
   </data>
   <data name="DatabaseFileRebuildSettings_TorrentZipIncompleteSettingsCard.Description" xml:space="preserve">
     <value>Ensure that rebuilt containers are TorrentZip/Torrent7z even when incomplete</value>

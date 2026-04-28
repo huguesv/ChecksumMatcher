@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Woohoo.ChecksumDatabase.Model;
 using Woohoo.ChecksumDatabase.Serialization.Extensions.ClrMame;
 using Woohoo.ChecksumMatcher.Core.Contracts.Models;
+using Woohoo.ChecksumMatcher.Core.Helpers;
 using Woohoo.ChecksumMatcher.Core.Internal.Scanning.Containers;
 using Woohoo.IO.AbstractFileSystem.Offline.Models;
 using Woohoo.IO.Compression.TorrentSevenZip;
@@ -337,7 +338,7 @@ internal static class Scanner
                 if (matchedDisks.Length > 0)
                 {
                     Directory.CreateDirectory(rebuildSettings.TargetFolderPath);
-                    await RebuildDiskFileAsync(reportProgress, operationId, file, sourceFile, matchedDisks, rebuildSettings.TargetFolderPath, rebuildSettings.RemoveSource, ct);
+                    await RebuildDiskFileAsync(reportProgress, operationId, file, sourceFile, matchedDisks, rebuildSettings.TargetFolderPath, rebuildSettings.RemoveSource, rebuildSettings.RemoveEmptySourceFolders, ct);
                 }
                 else
                 {
@@ -353,7 +354,7 @@ internal static class Scanner
                 if (matchedRoms.Length > 0)
                 {
                     Directory.CreateDirectory(rebuildSettings.TargetFolderPath);
-                    await RebuildRomFileAsync(reportProgress, operationId, file, sourceFile, matchedRoms, rebuildSettings.TargetFolderPath, rebuildSettings.TargetContainerType, rebuildSettings.RemoveSource, ct);
+                    await RebuildRomFileAsync(reportProgress, operationId, file, sourceFile, matchedRoms, rebuildSettings.TargetFolderPath, rebuildSettings.TargetContainerType, rebuildSettings.RemoveSource, rebuildSettings.RemoveEmptySourceFolders, ct);
 
                     foreach (var matchedRom in matchedRoms)
                     {
@@ -392,6 +393,14 @@ internal static class Scanner
                 [.. db.Games.Where(g => rebuiltContainers.Contains(g.Name))],
                 rebuildSettings,
                 ct);
+        }
+
+        if (rebuildSettings.RemoveEmptySourceFolders)
+        {
+            if (Directory.Exists(rebuildSettings.SourceFolderPath) && !Directory.EnumerateFileSystemEntries(rebuildSettings.SourceFolderPath).Any())
+            {
+                FileUtility.SafeDeleteFolder(rebuildSettings.SourceFolderPath);
+            }
         }
 
         reportProgress(new RebuildEventArgs { OperationId = operationId, DatabaseFile = file, ProgressPercentage = 100, Status = RebuildStatus.Completed, Results = new DatabaseRebuildResults() });
@@ -496,7 +505,7 @@ internal static class Scanner
             }
         }
 
-        static async Task RebuildDiskFileAsync(Action<RebuildEventArgs> reportProgress, string operationId, DatabaseFile databaseFile, FileInformation sourceFile, RomDisk[] matchedDisks, string targetFolderPath, bool removeSource, CancellationToken ct)
+        static async Task RebuildDiskFileAsync(Action<RebuildEventArgs> reportProgress, string operationId, DatabaseFile databaseFile, FileInformation sourceFile, RomDisk[] matchedDisks, string targetFolderPath, bool removeSource, bool removeEmptySourceFolders, CancellationToken ct)
         {
             var fileMoniker = new FileMoniker(sourceFile.ContainerAbsolutePath, sourceFile.ContainerName, sourceFile.FileRelativePath, sourceFile.IsFromOfflineStorage);
 
@@ -530,10 +539,15 @@ internal static class Scanner
                 {
                     await sourceContainer.RemoveAsync(sourceFile, ct);
                 }
+
+                if (removeEmptySourceFolders && await sourceContainer.IsEmptyContainerAsync(sourceFile.ContainerAbsolutePath, ct))
+                {
+                    await sourceContainer.RemoveContainerAsync(sourceFile.ContainerAbsolutePath, ct);
+                }
             }
         }
 
-        static async Task RebuildRomFileAsync(Action<RebuildEventArgs> reportProgress, string operationId, DatabaseFile databaseFile, FileInformation sourceFile, RomFile[] matchedRoms, string targetFolderPath, string targetContainerType, bool removeSource, CancellationToken ct)
+        static async Task RebuildRomFileAsync(Action<RebuildEventArgs> reportProgress, string operationId, DatabaseFile databaseFile, FileInformation sourceFile, RomFile[] matchedRoms, string targetFolderPath, string targetContainerType, bool removeSource, bool removeEmptySourceFolders, CancellationToken ct)
         {
             var fileMoniker = new FileMoniker(sourceFile.ContainerAbsolutePath, sourceFile.ContainerName, sourceFile.FileRelativePath, sourceFile.IsFromOfflineStorage);
 
@@ -568,6 +582,11 @@ internal static class Scanner
                 if (removeSource && await sourceContainer.ExistsAsync(sourceFile, ct))
                 {
                     await sourceContainer.RemoveAsync(sourceFile, ct);
+                }
+
+                if (removeEmptySourceFolders && await sourceContainer.IsEmptyContainerAsync(sourceFile.ContainerAbsolutePath, ct))
+                {
+                    await sourceContainer.RemoveContainerAsync(sourceFile.ContainerAbsolutePath, ct);
                 }
             }
         }
@@ -625,7 +644,7 @@ internal static class Scanner
 
                     // We can rebuild the cue file
                     Directory.CreateDirectory(rebuildSettings.TargetFolderPath);
-                    await RebuildRomFileAsync(reportProgress, operationId, file, cueSourceFile, [cueRom], rebuildSettings.TargetFolderPath, rebuildSettings.TargetContainerType, removeSource: false, ct: ct);
+                    await RebuildRomFileAsync(reportProgress, operationId, file, cueSourceFile, [cueRom], rebuildSettings.TargetFolderPath, rebuildSettings.TargetContainerType, removeSource: false, removeEmptySourceFolders: false, ct: ct);
                 }
             }
         }
