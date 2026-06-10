@@ -9,3 +9,7 @@ updates:
     communitytoolkit:
       patterns:
         - "CommunityToolkit*"
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
