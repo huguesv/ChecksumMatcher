@@ -118,10 +118,7 @@ public sealed class SavePicker
 
             if (!string.IsNullOrEmpty(this.InitialDirectory))
             {
-                Windows.Win32.PInvoke.SHCreateItemFromParsingName(this.InitialDirectory, null, typeof(IShellItem).GUID, out var ppv);
-                var psi = (IShellItem*)ppv;
-
-                dialog->SetFolder(psi);
+                PickerHelper.SetInitialDirectory(dialog, this.InitialDirectory);
             }
 
             if (!string.IsNullOrEmpty(this.SuggestedFileName))

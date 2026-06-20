@@ -127,10 +127,7 @@ public sealed class FilePicker
 
             if (!string.IsNullOrEmpty(this.InitialDirectory))
             {
-                PInvoke.SHCreateItemFromParsingName(this.InitialDirectory, null, typeof(IShellItem).GUID, out var ppv);
-                var psi = (IShellItem*)ppv;
-
-                dialog->SetFolder(psi);
+                PickerHelper.SetInitialDirectory(dialog, this.InitialDirectory);
             }
 
             if (!string.IsNullOrEmpty(this.SuggestedFileName))
@@ -181,51 +178,10 @@ public sealed class FilePicker
             catch (Exception ex) when ((uint)ex.HResult == 0x800704C7)
             {
                 // User canceled the dialog, return an empty list
-                return new List<string>();
+                return [];
             }
 
-            var filePaths = new List<string>();
-
-            if (allowMultiple)
-            {
-                IShellItemArray* resultsPtr = null;
-                dialog->GetResults(&resultsPtr);
-
-                if (resultsPtr != null)
-                {
-                    resultsPtr->GetCount(out var count);
-
-                    for (uint i = 0; i < count; i++)
-                    {
-                        IShellItem* itemPtr = null;
-                        resultsPtr->GetItemAt(i, &itemPtr);
-                        if (itemPtr != null)
-                        {
-                            itemPtr->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var filePath);
-                            if (filePath != null)
-                            {
-                                filePaths.Add(filePath.ToString());
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                IShellItem* resultsPtr = null;
-                dialog->GetResult(&resultsPtr);
-
-                if (resultsPtr != null)
-                {
-                    resultsPtr->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var filePath);
-                    if (filePath != null)
-                    {
-                        filePaths.Add(filePath.ToString());
-                    }
-                }
-            }
-
-            return filePaths;
+            return PickerHelper.GetFileOpenResults(dialog, allowMultiple);
         }
         finally
         {
