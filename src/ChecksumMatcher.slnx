@@ -1,4 +1,9 @@
 <Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
   <Folder Name="/Solution Items/">
     <File Path="../LICENSE" />
     <File Path="../MANUAL.md" />
@@ -14,7 +19,9 @@
   <Project Path="Woohoo.ChecksumMatcher.Core.UnitTest/Woohoo.ChecksumMatcher.Core.UnitTest.csproj" Id="fc4e89b9-1192-4f4a-985d-0a80c9b3d904" />
   <Project Path="Woohoo.ChecksumMatcher.Core/Woohoo.ChecksumMatcher.Core.csproj" />
   <Project Path="Woohoo.ChecksumMatcher.WinUI/Woohoo.ChecksumMatcher.WinUI.csproj">
-    <Platform Project="x64" />
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
     <Deploy />
   </Project>
   <Project Path="Woohoo.IO.AbstractFileSystem.UnitTest/Woohoo.IO.AbstractFileSystem.UnitTest.csproj" Id="d6a396d6-97a7-4606-b5ff-98cb8a838edf" />
