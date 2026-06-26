@@ -115,7 +115,7 @@ internal sealed class FilePickerService : IFilePickerService
 
     public async Task<OfflineDiskFolder?> GetOfflineDiskFolderAsync()
     {
-        XamlRoot? xamlRoot = (App.MainWindow.Content as FrameworkElement)?.XamlRoot
+        XamlRoot? xamlRoot = (App.MainWindow?.Content as FrameworkElement)?.XamlRoot
             ?? throw new InvalidOperationException("Could not find xaml root.");
 
         var dialog = new OfflineStorageFolderSelectionDialog();
@@ -127,6 +127,11 @@ internal sealed class FilePickerService : IFilePickerService
 
     private Task<string?> GetOpenFolderPathWin32Async(string settingsIdentifier)
     {
+        if (App.MainWindow is null)
+        {
+            return Task.FromResult<string?>(null);
+        }
+
         var openPicker = new Woohoo.WinUI.Pickers.FolderPicker(App.MainWindow);
 
         var locationsMap = this.localSettingsService.ReadSetting<Dictionary<string, string>>(KnownSettingKeys.Win32FolderPickerLastLocations) ?? [];

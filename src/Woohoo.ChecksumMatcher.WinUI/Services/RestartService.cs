@@ -38,7 +38,7 @@ internal class RestartService : IRestartService
 
     private static async Task ShowOperationInProgressMessageAsync()
     {
-        XamlRoot? xamlRoot = (App.MainWindow.Content as FrameworkElement)?.XamlRoot
+        XamlRoot? xamlRoot = (App.MainWindow?.Content as FrameworkElement)?.XamlRoot
             ?? throw new InvalidOperationException("Could not find xaml root.");
 
         ContentDialog errorDialog = new ContentDialog

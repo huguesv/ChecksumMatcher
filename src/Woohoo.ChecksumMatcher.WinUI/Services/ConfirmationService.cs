@@ -21,7 +21,7 @@ internal sealed class ConfirmationService : IConfirmationService
             CloseButtonText = cancelButtonText ?? Localized.ConfirmationDialogCancel,
         };
 
-        XamlRoot? xamlRoot = (App.MainWindow.Content as FrameworkElement)?.XamlRoot
+        XamlRoot? xamlRoot = (App.MainWindow?.Content as FrameworkElement)?.XamlRoot
             ?? throw new InvalidOperationException("Could not find xaml root.");
 
         dlg.DefaultButton = defaultToCancel ? ContentDialogButton.Close : ContentDialogButton.Primary;

@@ -1535,4 +1535,10 @@
   <data name="SettingsPage_OpenInExplorer.Content" xml:space="preserve">
     <value>Open settings file in explorer</value>
   </data>
+  <data name="MainWindow_Window.Title" xml:space="preserve">
+    <value>Checksum Matcher</value>
+  </data>
+  <data name="MainWindow_TitleBar.Title" xml:space="preserve">
+    <value>Checksum Matcher</value>
+  </data>
 </root>

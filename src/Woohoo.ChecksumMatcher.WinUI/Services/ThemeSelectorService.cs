@@ -36,11 +36,11 @@ internal sealed class ThemeSelectorService : IThemeSelectorService
 
     public async Task SetRequestedThemeAsync()
     {
-        if (App.MainWindow.Content is FrameworkElement rootElement)
+        if (App.MainWindow?.Content is FrameworkElement rootElement)
         {
             rootElement.RequestedTheme = this.Theme;
 
-            TitleBarHelper.UpdateTitleBar(this.Theme);
+            TitleBarHelper.UpdateTitleBar(App.MainWindow, this.Theme);
         }
 
         await Task.CompletedTask;

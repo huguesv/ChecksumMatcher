@@ -48,7 +48,7 @@ internal sealed class AppNotificationService : IAppNotificationService
             return;
         }
 
-        App.MainWindow.DispatcherQueue.TryEnqueue(() =>
+        App.MainWindow?.DispatcherQueue.TryEnqueue(() =>
         {
             // App.MainWindow.ShowMessageDialogAsync("TODO: Handle notification invocations when your app is already running.", "Notification Invoked");
             App.MainWindow.BringToFront();

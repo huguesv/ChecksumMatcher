@@ -21,9 +21,9 @@ using Woohoo.ChecksumMatcher.WinUI.Services;
 using Woohoo.ChecksumMatcher.WinUI.ViewModels;
 using Woohoo.ChecksumMatcher.WinUI.Views;
 
-// To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application
 {
+    private WindowEx? window;
     private IOperationListenerService operationListenerService;
 
     public App()
@@ -57,7 +57,6 @@ public partial class App : Application
 
                 // Services
                 services.AddSingleton<IAboutInformationService, AboutInformationService>();
-                services.AddSingleton<IActivationService, ActivationService>();
                 services.AddSingleton<IAppNotificationService, AppNotificationService>();
                 services.AddSingleton<IClipboardService, ClipboardService>();
                 services.AddSingleton<IConfirmationService, ConfirmationService>();
@@ -85,6 +84,9 @@ public partial class App : Application
                 services.AddSingleton<IRedumpArtifactsService, RedumpArtifactsService>();
                 services.AddSingleton<IRestartService, RestartService>();
 
+                // Windows
+                services.AddSingleton<MainWindow>();
+
                 // Views and ViewModels
                 services.AddSingleton<DatabaseCreatePage>();
                 services.AddSingleton<DatabaseCreateViewModel>();
@@ -102,7 +104,6 @@ public partial class App : Application
                 services.AddSingleton<OfflineExplorerViewModel>();
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
-                services.AddSingleton<ShellPage>();
                 services.AddSingleton<ShellViewModel>();
 
                 // Views and ViewModels
@@ -121,9 +122,7 @@ public partial class App : Application
         this.operationListenerService = App.GetService<IOperationListenerService>();
     }
 
-    public static WindowEx MainWindow { get; } = new MainWindow();
-
-    public static UIElement? AppTitlebar { get; set; }
+    public static WindowEx? MainWindow { get; set; }
 
     // The .NET Generic Host provides dependency injection, configuration, logging, and other services.
     // https://docs.microsoft.com/dotnet/core/extensions/generic-host
@@ -153,11 +152,16 @@ public partial class App : Application
         return Path.Combine(logsFolder, $"Woohoo.ChecksumMatcher.WinUI-{stamp}.log");
     }
 
-    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    /// <summary>
+    /// Invoked when the application is launched.
+    /// </summary>
+    /// <param name="args">Details about the launch request and process.</param>
+    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-        base.OnLaunched(args);
+        this.window = GetService<MainWindow>();
+        this.window.Activate();
 
-        await App.GetService<IActivationService>().ActivateAsync(args);
+        MainWindow = this.window;
     }
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -167,8 +171,8 @@ public partial class App : Application
     }
 
     private static class NativeMethods
-    {
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern uint SetCurrentProcessExplicitAppUserModelID(string appID);
-    }
+{
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    public static extern uint SetCurrentProcessExplicitAppUserModelID(string appID);
+}
 }

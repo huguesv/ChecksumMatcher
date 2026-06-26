@@ -3,33 +3,31 @@
 
 namespace Woohoo.ChecksumMatcher.WinUI;
 
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
-using Windows.UI.ViewManagement;
 using WinUIEx;
 using Woohoo.ChecksumMatcher.Core.Contracts.Models;
 using Woohoo.ChecksumMatcher.Core.Contracts.Services;
 using Woohoo.ChecksumMatcher.Core.Helpers;
-using Woohoo.ChecksumMatcher.WinUI.Helpers;
 
 public sealed partial class MainWindow : WindowEx
 {
-    private readonly Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
-
-    private readonly UISettings settings;
     private readonly IHistoryService historyService;
 
     public MainWindow()
     {
         this.InitializeComponent();
 
-        this.AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/Tiles/app-logo.ico"));
-        this.Content = null;
-        this.Title = "AppDisplayName".GetLocalized();
+        // Set a unique persistence ID for automatic state management
+        this.PersistenceId = this.GetType().FullName;
 
-        // Theme change code picked from https://github.com/microsoft/WinUI-Gallery/pull/1239
-        this.dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-        this.settings = new UISettings();
-        this.settings.ColorValuesChanged += this.Settings_ColorValuesChanged; // cannot use FrameworkElement.ActualThemeChanged event
+        // Extend the content into the title bar and hide the default title bar
+        this.ExtendsContentIntoTitleBar = true;
+
+        this.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Standard;
+
+        // Set the custom title bar
+        this.SetTitleBar(this.shellControl.TitleBar);
 
         this.historyService = App.GetService<IHistoryService>();
 
@@ -57,16 +55,5 @@ public sealed partial class MainWindow : WindowEx
         };
 
         await errorDialog.ShowAsync();
-    }
-
-    // this handles updating the caption button colors correctly when indows system theme is changed
-    // while the app is open
-    private void Settings_ColorValuesChanged(UISettings sender, object args)
-    {
-        // This calls comes off-thread, hence we will need to dispatch it to current app's thread
-        this.dispatcherQueue.TryEnqueue(() =>
-        {
-            TitleBarHelper.ApplySystemThemeToCaptionButtons();
-        });
     }
 }
