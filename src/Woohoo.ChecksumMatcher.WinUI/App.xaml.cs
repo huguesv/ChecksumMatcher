@@ -171,8 +171,8 @@ public partial class App : Application
     }
 
     private static class NativeMethods
-{
-    [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-    public static extern uint SetCurrentProcessExplicitAppUserModelID(string appID);
-}
+    {
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern uint SetCurrentProcessExplicitAppUserModelID(string appID);
+    }
 }
