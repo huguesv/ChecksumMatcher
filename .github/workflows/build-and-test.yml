@@ -27,11 +27,11 @@ jobs:
 
     - name: Clean
       working-directory: src
-      run: dotnet clean ${{env.solutionFile}} --configuration Release && dotnet nuget locals all --clear
+      run: dotnet clean ${{env.solutionFile}} --configuration Release -p:PlatformTarget=x64 && dotnet nuget locals all --clear
 
     - name: Build
       working-directory: src
-      run: dotnet build ${{env.solutionFile}} --configuration Release
+      run: dotnet build ${{env.solutionFile}} --configuration Release -p:PlatformTarget=x64
 
     - name: Format
       working-directory: src
@@ -39,7 +39,7 @@ jobs:
 
     - name: Test
       working-directory: src
-      run: dotnet test --solution ${{env.solutionFile}} --no-restore --verbosity normal --configuration Release
+      run: dotnet test --solution ${{env.solutionFile}} --no-restore --verbosity normal --configuration Release -p:PlatformTarget=x64
 
     - name: Upload Woohoo.ChecksumDatabase.UnitTest Results
       uses: actions/upload-artifact@v7
