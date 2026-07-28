@@ -12,7 +12,6 @@ An application to manage your digital files collection.
 - Cache the directory contents of your external drives as offline storage.
   - Explore your drives without needing to connect them.
   - Scan using either online storage or offline storage.
-- Automate download of databases and other artifacts from redump.org.
 
 ## Requirements
 

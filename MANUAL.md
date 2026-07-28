@@ -46,7 +46,7 @@ sections of the application.
 1. Extract the downloaded zip file into the appropriate folder, e.g.,
    `C:\Databases\NoIntro`.
 
-### Downloading Redump databases (manual)
+### Downloading Redump databases
 
 1. Use the link from the **Home** page to open the Redump web site in your browser.
 1. Click on **Downloads**, then click on **Datfile** for each system that you want
@@ -54,20 +54,6 @@ sections of the application.
 1. Move the downloaded files (no need to extract them) into the appropriate
    folder, e.g., `C:\Databases\Redump`. If you download other artifacts, such as
    cue files or key files, you can place them in the same folder as the dat files.
-
-### Downloading Redump databases (automated)
-
-1. Navigate to the **Settings** page and find the **Redump.org** section.
-1. If you have dumper status on Redump.org, enter your username and password in
-   the **Credentials** setting. Click **Test credentials** to validate your input.
-   This allows dowloading of private databases.
-1. Click on **Select** for the **Artifacts folder** setting to choose the folder
-   where you want the databases to be downloaded, e.g., `C:\Databases\Redump`.
-1. Expand the **Systems** setting, and select the systems you want to download
-   databases for. By default, all systems are selected.
-   If you select systems whose databases are private, but have not entered valid
-   credentials, they will be skipped automatically.
-1. Click **Download** to start the download process. This may take a while.
 
 ## Viewing databases
 

@@ -37,7 +37,7 @@ public class MainViewModelUnitTest
 
         // Arrange
         sut.WebSites.Should().HaveCount(3);
-        webLauncherService.CurrentUri.Should().BeEquivalentTo(new Uri("http://www.redump.org/"));
+        webLauncherService.CurrentUri.Should().BeEquivalentTo(new Uri("http://www.redump.info/"));
     }
 
     [UIFact]

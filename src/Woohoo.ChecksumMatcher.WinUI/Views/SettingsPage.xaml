@@ -166,6 +166,7 @@
                     </StackPanel>
                 </ctcontrols:SettingsExpander>
 
+<!--
                 <TextBlock x:Uid="Settings_Redump" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
 
                 <ctcontrols:SettingsExpander
@@ -321,7 +322,7 @@
                         </ctcontrols:SettingsCard>
                     </ctcontrols:SettingsExpander.Items>
                 </ctcontrols:SettingsExpander>
-
+-->
                 <TextBlock x:Uid="Settings_OfflineStorage" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
 
                 <ctcontrols:SettingsExpander

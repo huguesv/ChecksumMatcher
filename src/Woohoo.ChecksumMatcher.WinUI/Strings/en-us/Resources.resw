@@ -477,7 +477,7 @@
     <value>Refresh</value>
   </data>
   <data name="Settings_Redump.Text" xml:space="preserve">
-    <value>Redump.org</value>
+    <value>Redump</value>
   </data>
   <data name="SettingsPage_RedumpUser.Header" xml:space="preserve">
     <value>User name</value>
@@ -486,16 +486,16 @@
     <value>Password</value>
   </data>
   <data name="SettingsPage_RedumpUser.Description" xml:space="preserve">
-    <value>Enter your redump.org user name</value>
+    <value>Enter your redump.info user name</value>
   </data>
   <data name="SettingsPage_RedumpPassword.Description" xml:space="preserve">
-    <value>Warning: The password is sent as clear text to redump.org (the site does not support https)</value>
+    <value></value>
   </data>
   <data name="SettingsPage_RedumpFolder.Header" xml:space="preserve">
     <value>Artifacts folder</value>
   </data>
   <data name="SettingsPage_RedumpFolder.Description" xml:space="preserve">
-    <value>Folder where redump.org artifacts are downloaded</value>
+    <value>Folder where redump artifacts are downloaded</value>
   </data>
   <data name="SettingsPage_RedumpFolderRemoveMenuItem.Text" xml:space="preserve">
     <value>Reset</value>
@@ -522,7 +522,7 @@
     <value>Timeout</value>
   </data>
   <data name="SettingsPage_RedumpLogin.Description" xml:space="preserve">
-    <value>Enter credentials of a user with dumper status to enable download of private artifacts from redump.org</value>
+    <value>Enter credentials of a user with dumper status to enable download of private artifacts from redump</value>
   </data>
   <data name="SettingsPage_RedumpTimeout.Description" xml:space="preserve">
     <value>Timeout for every Redump request (in seconds)</value>

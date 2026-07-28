@@ -235,7 +235,7 @@
     <value>No-Intro</value>
   </data>
   <data name="HomePageDownloadRedumpDescription" xml:space="preserve">
-    <value>Redump.org is a disc preservation database and community dedicated to collecting precise and accurate information about every video game ever released on optical media of any system.</value>
+    <value>Redump is a disc preservation database and community dedicated to collecting precise and accurate information about every video game ever released on optical media of any system.</value>
   </data>
   <data name="HomePageDownloadRedumpSubtitle" xml:space="preserve">
     <value>Video game optical media.</value>
@@ -331,7 +331,7 @@
     <value>Total size</value>
   </data>
   <data name="HomePageDownloadRedumpUrl" xml:space="preserve">
-    <value>http://www.redump.org</value>
+    <value>http://www.redump.info</value>
   </data>
   <data name="HomePageDownloadTosecUrl" xml:space="preserve">
     <value>https://www.tosecdev.org/</value>
