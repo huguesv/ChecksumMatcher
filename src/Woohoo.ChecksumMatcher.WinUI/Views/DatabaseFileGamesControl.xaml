@@ -77,12 +77,12 @@
                     <Border
                         Margin="{StaticResource SmallLeftMargin}"
                         VerticalAlignment="Center"
-                        Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                        Background="{ThemeResource SystemFillColorCautionBackgroundBrush}"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToVisibilityConverter}, ConverterParameter=Mia}">
                         <TextBlock
                             Margin="2"
-                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                             Style="{ThemeResource CaptionTextBlockStyle}"
                             Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToTextConverter}}" />
                     </Border>
@@ -276,12 +276,12 @@
                     <Border
                         Margin="{StaticResource SmallLeftMargin}"
                         VerticalAlignment="Center"
-                        Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                        Background="{ThemeResource SystemFillColorCautionBackgroundBrush}"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToVisibilityConverter}, ConverterParameter=Mia}">
                         <TextBlock
                             Margin="2"
-                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                             Style="{ThemeResource CaptionTextBlockStyle}"
                             Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToTextConverter}}" />
                     </Border>

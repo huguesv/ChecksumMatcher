@@ -13,10 +13,11 @@
 
     <Page.Resources>
         <Style
-            x:Key="CriticalBackgroundDotInfoBadgeStyle"
+            x:Key="CautionDotInfoBadgeStyle"
             BasedOn="{StaticResource DefaultInfoBadgeStyle}"
             TargetType="InfoBadge">
-            <Setter Property="Background" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}" />
+            <Setter Property="Background" Value="{ThemeResource SystemFillColorCautionBackgroundBrush}" />
         </Style>
 
         <!--  Put this Page attribute to remove the header  -->
@@ -91,7 +92,7 @@
                     <InfoBadge
                         Margin="{StaticResource XSmallLeftMargin}"
                         VerticalAlignment="Center"
-                        Style="{StaticResource CriticalBackgroundDotInfoBadgeStyle}"
+                        Style="{StaticResource CautionDotInfoBadgeStyle}"
                         Visibility="{x:Bind MiaFilesCount, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityConverter}}"
                         Value="{x:Bind MiaFilesCount, Mode=OneWay}" />
                     <InfoBadge
