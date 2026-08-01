@@ -77,6 +77,18 @@
                     <Border
                         Margin="{StaticResource SmallLeftMargin}"
                         VerticalAlignment="Center"
+                        Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToVisibilityConverter}, ConverterParameter=Mia}">
+                        <TextBlock
+                            Margin="2"
+                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToTextConverter}}" />
+                    </Border>
+                    <Border
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
                         Background="{ThemeResource SystemFillColorCautionBrush}"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource GameStatusToVisibilityConverter}, ConverterParameter=CompleteIncorrectName|PartialIncorrectName}">
@@ -261,6 +273,18 @@
                             Style="{ThemeResource CaptionTextBlockStyle}"
                             Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToTextConverter}}" />
                     </Border>
+                    <Border
+                        Margin="{StaticResource SmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        Visibility="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToVisibilityConverter}, ConverterParameter=Mia}">
+                        <TextBlock
+                            Margin="2"
+                            Foreground="{ThemeResource InfoBadgeForeground}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind Status, Mode=OneWay, Converter={StaticResource RomStatusToTextConverter}}" />
+                    </Border>
                 </StackPanel>
 
                 <TextBlock
@@ -329,6 +353,10 @@
                             x:Uid="DatabaseFileGames_ScanStatusFilterMissingMenuItem"
                             Command="{x:Bind ViewModel.FilterMissingCommand, Mode=OneWay}"
                             Icon="{ct:FontIcon Glyph=&#xEA39;}" />
+                        <MenuFlyoutItem
+                            x:Uid="DatabaseFileGames_ScanStatusFilterMiaMenuItem"
+                            Command="{x:Bind ViewModel.FilterMiaCommand, Mode=OneWay}"
+                            Icon="{ct:FontIcon Glyph=&#xE733;}" />
                         <MenuFlyoutItem
                             x:Uid="DatabaseFileGames_ScanStatusFilterIncorrectNameMenuItem"
                             Command="{x:Bind ViewModel.FilterWrongNameCommand, Mode=OneWay}"

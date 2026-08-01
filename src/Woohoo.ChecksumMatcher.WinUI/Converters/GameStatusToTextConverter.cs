@@ -27,6 +27,8 @@ internal sealed partial class GameStatusToTextConverter : IValueConverter
                     return "Partial / Wrong Name";
                 case DatabaseGameStatus.Missing:
                     return "Missing";
+                case DatabaseGameStatus.Mia:
+                    return "Mia";
                 default:
                     return string.Empty;
             }

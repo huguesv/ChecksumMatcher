@@ -357,6 +357,9 @@
   <data name="ScanResultMissingWithCountLabel" xml:space="preserve">
     <value>Missing ({0})</value>
   </data>
+  <data name="ScanResultMiaWithCountLabel" xml:space="preserve">
+    <value>Mia ({0})</value>
+  </data>
   <data name="ScanResultUnusedWithCountLabel" xml:space="preserve">
     <value>Unused ({0})</value>
   </data>
@@ -383,6 +386,9 @@
   </data>
   <data name="ScanResultMissingNoCountLabel" xml:space="preserve">
     <value>Missing</value>
+  </data>
+  <data name="ScanResultMiaNoCountLabel" xml:space="preserve">
+    <value>Mia</value>
   </data>
   <data name="OfflineDiskProgressCreatingFormat" xml:space="preserve">
     <value>Creating offline storage '{0}'</value>
@@ -572,6 +578,9 @@
   </data>
   <data name="ScanStatusFilterMissing" xml:space="preserve">
     <value>Missing</value>
+  </data>
+  <data name="ScanStatusFilterMia" xml:space="preserve">
+    <value>Mia</value>
   </data>
   <data name="ScanStatusFilterComplete" xml:space="preserve">
     <value>Complete</value>

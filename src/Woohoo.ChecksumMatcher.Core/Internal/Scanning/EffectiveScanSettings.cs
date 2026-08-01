@@ -9,6 +9,8 @@ internal sealed class EffectiveScanSettings
 {
     public bool ForceCalculateChecksums { get; set; }
 
+    public bool ReportMissingMia { get; set; }
+
     public List<EffectiveOnlineFolderSetting> ScanOnlineFolders { get; init; } = [];
 
     public List<EffectiveOfflineFolderSetting> ScanOfflineFolders { get; init; } = [];

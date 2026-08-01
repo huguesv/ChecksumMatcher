@@ -404,6 +404,7 @@ public sealed partial class DatabaseLibraryViewModel : ObservableRecipient, INav
 
             databaseItemViewModel.MatchedFilesCount = databaseViewModel.ScanMatchedFiles.Count;
             databaseItemViewModel.MissingFilesCount = databaseViewModel.ScanMissingFiles.Count;
+            databaseItemViewModel.MiaFilesCount = databaseViewModel.ScanMiaFiles.Count;
             databaseItemViewModel.WrongNamedFilesCount = databaseViewModel.ScanIncorrectNameFiles.Count;
             databaseItemViewModel.UnusedFilesCount = databaseViewModel.ScanUnusedFiles.Count;
 

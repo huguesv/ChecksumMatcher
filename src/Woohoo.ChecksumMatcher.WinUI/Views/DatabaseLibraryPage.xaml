@@ -12,6 +12,13 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <Style
+            x:Key="CriticalBackgroundDotInfoBadgeStyle"
+            BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+            TargetType="InfoBadge">
+            <Setter Property="Background" Value="{ThemeResource SystemFillColorCriticalBackgroundBrush}" />
+        </Style>
+
         <!--  Put this Page attribute to remove the header  -->
         <!--  behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"  -->
         <DataTemplate x:Key="TreeNoSelectionTemplate" x:DataType="lclviewmodels:DatabaseTreeItemViewModel">
@@ -81,6 +88,12 @@
                         Style="{StaticResource CriticalValueInfoBadgeStyle}"
                         Visibility="{x:Bind MissingFilesCount, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityConverter}}"
                         Value="{x:Bind MissingFilesCount, Mode=OneWay}" />
+                    <InfoBadge
+                        Margin="{StaticResource XSmallLeftMargin}"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CriticalBackgroundDotInfoBadgeStyle}"
+                        Visibility="{x:Bind MiaFilesCount, Mode=OneWay, Converter={StaticResource NonZeroToVisibilityConverter}}"
+                        Value="{x:Bind MiaFilesCount, Mode=OneWay}" />
                     <InfoBadge
                         Margin="{StaticResource XSmallLeftMargin}"
                         VerticalAlignment="Center"

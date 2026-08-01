@@ -11,4 +11,5 @@ public enum DatabaseGameStatus
     Partial,
     PartialIncorrectName,
     Missing,
+    Mia,
 }

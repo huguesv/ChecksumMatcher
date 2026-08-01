@@ -13,5 +13,7 @@ public sealed class DatabaseScanResults
 
     public ImmutableArray<RomMoniker> Missing { get; init; } = [];
 
+    public ImmutableArray<RomMoniker> Mia { get; init; } = [];
+
     public ImmutableArray<FileMoniker> Unused { get; init; } = [];
 }

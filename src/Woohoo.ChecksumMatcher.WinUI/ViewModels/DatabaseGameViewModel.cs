@@ -81,6 +81,7 @@ public sealed partial class DatabaseGameViewModel : ObservableObject
             bool anyFound = false;
             bool anyUnknown = false;
             bool anyMissing = false;
+            bool anyMia = false;
             bool anyIncorrectName = false;
 
             foreach (var rom in this.Roms)
@@ -92,6 +93,10 @@ public sealed partial class DatabaseGameViewModel : ObservableObject
                 else if (rom.Status == DatabaseRomStatus.NotFound)
                 {
                     anyMissing = true;
+                }
+                else if (rom.Status == DatabaseRomStatus.Mia)
+                {
+                    anyMia = true;
                 }
                 else if (rom.Status == DatabaseRomStatus.FoundWrongName)
                 {
@@ -106,6 +111,10 @@ public sealed partial class DatabaseGameViewModel : ObservableObject
             if (anyUnknown)
             {
                 this.Status = DatabaseGameStatus.Unknown;
+            }
+            else if (anyMia)
+            {
+                this.Status = DatabaseGameStatus.Mia;
             }
             else if (anyMissing)
             {

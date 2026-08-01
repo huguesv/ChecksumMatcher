@@ -115,6 +115,7 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
 
         this.ScanMatchedFiles.CollectionChanged += OnScanMatchedFilesChanged;
         this.ScanMissingFiles.CollectionChanged += OnScanMissingFilesChanged;
+        this.ScanMiaFiles.CollectionChanged += OnScanMiaFilesChanged;
         this.ScanUnusedFiles.CollectionChanged += OnScanUnusedFilesChanged;
         this.ScanIncorrectNameFiles.CollectionChanged += OnScanIncorrectNameFilesChanged;
         this.RebuildMatchedFiles.CollectionChanged += OnRebuildMatchedFilesChanged;
@@ -123,6 +124,7 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
         this.disposables
             .Add(() => this.ScanMatchedFiles.CollectionChanged -= OnScanMatchedFilesChanged)
             .Add(() => this.ScanMissingFiles.CollectionChanged -= OnScanMissingFilesChanged)
+            .Add(() => this.ScanMiaFiles.CollectionChanged -= OnScanMiaFilesChanged)
             .Add(() => this.ScanUnusedFiles.CollectionChanged -= OnScanUnusedFilesChanged)
             .Add(() => this.ScanIncorrectNameFiles.CollectionChanged -= OnScanIncorrectNameFilesChanged)
             .Add(() => this.RebuildMatchedFiles.CollectionChanged -= OnRebuildMatchedFilesChanged)
@@ -140,6 +142,13 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
             this.ScanMissingLabel = this.ScanMissingFiles.Count > 0
                 ? string.Format(CultureInfo.CurrentUICulture, Localized.ScanResultMissingWithCountLabel, this.ScanMissingFiles.Count)
                 : Localized.ScanResultMissingNoCountLabel;
+        }
+
+        void OnScanMiaFilesChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            this.ScanMiaLabel = this.ScanMiaFiles.Count > 0
+                ? string.Format(CultureInfo.CurrentUICulture, Localized.ScanResultMiaWithCountLabel, this.ScanMiaFiles.Count)
+                : Localized.ScanResultMiaNoCountLabel;
         }
 
         void OnScanUnusedFilesChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -181,6 +190,11 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
         };
 
         this.ScanSortedMissingFiles = new AdvancedCollectionView(this.ScanMissingFiles, true)
+        {
+            SortDescriptions = { new SortDescription(nameof(DatabaseScanResultExpectedViewModel.ExpectedDisplayName), SortDirection.Ascending) },
+        };
+
+        this.ScanSortedMiaFiles = new AdvancedCollectionView(this.ScanMiaFiles, true)
         {
             SortDescriptions = { new SortDescription(nameof(DatabaseScanResultExpectedViewModel.ExpectedDisplayName), SortDirection.Ascending) },
         };
@@ -320,6 +334,9 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
     public partial string ScanMissingLabel { get; private set; } = Localized.ScanResultMissingNoCountLabel;
 
     [ObservableProperty]
+    public partial string ScanMiaLabel { get; private set; } = Localized.ScanResultMiaNoCountLabel;
+
+    [ObservableProperty]
     public partial string ScanIncorrectNameFilesLabel { get; private set; } = Localized.ScanResultWrongNameNoCountLabel;
 
     [ObservableProperty]
@@ -347,6 +364,10 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
     public ObservableCollection<DatabaseScanResultExpectedViewModel> ScanMissingFiles { get; private set; } = [];
 
     public AdvancedCollectionView ScanSortedMissingFiles { get; }
+
+    public ObservableCollection<DatabaseScanResultExpectedViewModel> ScanMiaFiles { get; private set; } = [];
+
+    public AdvancedCollectionView ScanSortedMiaFiles { get; }
 
     public ObservableCollection<DatabaseScanResultWrongNameViewModel> ScanIncorrectNameFiles { get; private set; } = [];
 
@@ -914,6 +935,21 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
     }
 
     [RelayCommand]
+    private void FilterMia()
+    {
+        try
+        {
+            this.filterKind = DatabaseGameFilterKind.Mia;
+            this.UpdateFilterDescription();
+            this.FilteredGames.RefreshFilter();
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error processing command.");
+        }
+    }
+
+    [RelayCommand]
     private void FilterPartial()
     {
         try
@@ -1131,6 +1167,59 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
         try
         {
             this.clipboardService.SetText(viewModel.ExpectedContainerName);
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error processing command.");
+        }
+    }
+
+    [RelayCommand]
+    private void CopyScanMia(DatabaseScanResultExpectedViewModel viewModel)
+    {
+        try
+        {
+            this.clipboardService.SetText(viewModel.ExpectedDisplayName);
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error processing command.");
+        }
+    }
+
+    [RelayCommand]
+    private void CopyAllScanMia()
+    {
+        try
+        {
+            this.clipboardService.SetText(string.Join(Environment.NewLine, this.ScanMiaFiles.Select(item => item.ExpectedDisplayName).Order()));
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error processing command.");
+        }
+    }
+
+    [RelayCommand]
+    private void CopyScanMiaContainer(DatabaseScanResultExpectedViewModel viewModel)
+    {
+        try
+        {
+            this.clipboardService.SetText(viewModel.ExpectedContainerName);
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error processing command.");
+        }
+    }
+
+    [RelayCommand]
+    private void CopyAllScanMiaContainer()
+    {
+        try
+        {
+            var containers = this.ScanMiaFiles.Select(f => f.ExpectedContainerName).Distinct().Order();
+            this.clipboardService.SetText(string.Join(Environment.NewLine, containers));
         }
         catch (Exception ex)
         {
@@ -1391,6 +1480,7 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
 
                         this.ScanMatchedFiles.Clear();
                         this.ScanMissingFiles.Clear();
+                        this.ScanMiaFiles.Clear();
                         this.ScanUnusedFiles.Clear();
                         this.ScanIncorrectNameFiles.Clear();
 
@@ -1436,6 +1526,26 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
             {
                 var rom = game.Roms.FirstOrDefault(temp => temp.Name == missing.RomRelativeFilePath);
                 rom?.Status = DatabaseRomStatus.NotFound;
+
+                game.RefreshStatus();
+            }
+        }
+
+        foreach (var missing in results.Mia)
+        {
+            var viewModel = new DatabaseScanResultExpectedViewModel
+            {
+                ExpectedContainerName = missing.ContainerName,
+                ExpectedFileRelativePath = missing.RomRelativeFilePath,
+            };
+
+            this.ScanMiaFiles.Add(viewModel);
+
+            this.GamesByName.TryGetValue(missing.ContainerName, out var game);
+            if (game is not null)
+            {
+                var rom = game.Roms.FirstOrDefault(temp => temp.Name == missing.RomRelativeFilePath);
+                rom?.Status = DatabaseRomStatus.Mia;
 
                 game.RefreshStatus();
             }
@@ -1615,6 +1725,7 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
             (this.filterKind == DatabaseGameFilterKind.Complete && game.Status == DatabaseGameStatus.Complete) ||
             (this.filterKind == DatabaseGameFilterKind.Partial && game.Status == DatabaseGameStatus.Partial) ||
             (this.filterKind == DatabaseGameFilterKind.Missing && game.Status == DatabaseGameStatus.Missing) ||
+            (this.filterKind == DatabaseGameFilterKind.Mia && game.Status == DatabaseGameStatus.Mia) ||
             (this.filterKind == DatabaseGameFilterKind.WrongName && (game.Status == DatabaseGameStatus.PartialIncorrectName || game.Status == DatabaseGameStatus.CompleteIncorrectName));
     }
 
@@ -1641,6 +1752,9 @@ public sealed partial class DatabaseFileViewModel : ObservableRecipient, IDispos
                 break;
             case DatabaseGameFilterKind.Missing:
                 this.FilterDescription = Localized.ScanStatusFilterMissing;
+                break;
+            case DatabaseGameFilterKind.Mia:
+                this.FilterDescription = Localized.ScanStatusFilterMia;
                 break;
             case DatabaseGameFilterKind.Complete:
                 this.FilterDescription = Localized.ScanStatusFilterComplete;

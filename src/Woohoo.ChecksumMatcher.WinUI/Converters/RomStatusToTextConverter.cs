@@ -21,6 +21,8 @@ internal sealed partial class RomStatusToTextConverter : IValueConverter
                     return "Found";
                 case DatabaseRomStatus.NotFound:
                     return "Not Found";
+                case DatabaseRomStatus.Mia:
+                    return "Mia";
                 case DatabaseRomStatus.FoundWrongName:
                     return "Wrong Name";
                 default:

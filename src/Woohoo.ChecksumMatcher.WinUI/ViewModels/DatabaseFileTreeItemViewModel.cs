@@ -71,6 +71,9 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
     public partial int MissingFilesCount { get; set; }
 
     [ObservableProperty]
+    public partial int MiaFilesCount { get; set; }
+
+    [ObservableProperty]
     public partial int WrongNamedFilesCount { get; set; }
 
     [ObservableProperty]
@@ -80,6 +83,8 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
     public partial bool HasScanResults { get; set; }
 
     public List<RomMoniker> MissingFiles { get; init; } = [];
+
+    public List<RomMoniker> MiaFiles { get; init; } = [];
 
     public DatabaseFile DatabaseFile { get; }
 
@@ -121,10 +126,12 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
         {
             MatchedFilesCount = this.MatchedFilesCount,
             MissingFilesCount = this.MissingFilesCount,
+            MiaFilesCount = this.MiaFilesCount,
             WrongNamedFilesCount = this.WrongNamedFilesCount,
             UnusedFilesCount = this.UnusedFilesCount,
             HasScanResults = this.HasScanResults,
             MissingFiles = this.MissingFiles,
+            MiaFiles = this.MiaFiles,
         };
 
         return result;
@@ -182,8 +189,10 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
                     case ScanStatus.Cleared:
                         this.HasScanResults = false;
                         this.MissingFiles.Clear();
+                        this.MiaFiles.Clear();
                         this.MatchedFilesCount = 0;
                         this.MissingFilesCount = 0;
+                        this.MiaFilesCount = 0;
                         this.WrongNamedFilesCount = 0;
                         this.UnusedFilesCount = 0;
                         break;
@@ -195,8 +204,11 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
                 }
 
                 this.MissingFiles.AddRange(e.Results.Missing);
+                this.MiaFiles.AddRange(e.Results.Mia);
                 this.MatchedFilesCount += e.Results.Matched.Length;
                 this.MissingFilesCount += e.Results.Missing.Length;
+                this.MiaFilesCount += e.Results.Mia.Length;
+
                 this.WrongNamedFilesCount += e.Results.WrongNamed.Length;
                 this.UnusedFilesCount += e.Results.Unused.Length;
             }

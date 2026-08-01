@@ -7,6 +7,7 @@ public enum DatabaseGameFilterKind
 {
     All,
     Missing,
+    Mia,
     Complete,
     Partial,
     WrongName,

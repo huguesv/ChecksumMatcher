@@ -378,6 +378,12 @@ public sealed class ClrMameXmlImporter : IDatabaseImporter
             rom.Status = ParseStatus(status);
         }
 
+        var mia = reader.GetAttribute("mia");
+        if (!string.IsNullOrEmpty(mia))
+        {
+            rom.Mia = ParseYesNo(mia);
+        }
+
         var date = reader.GetAttribute("date");
         if (!string.IsNullOrEmpty(date))
         {

@@ -39,4 +39,6 @@ public sealed record class RomFile
     public string Merge { get; set; }
 
     public RomStatus Status { get; set; }
+
+    public bool Mia { get; set; }
 }

@@ -401,12 +401,14 @@ public class DatabaseServiceUnitTest
         List<RomAndFileMoniker> wrongNamed = [];
         List<FileMoniker> unused = [];
         List<RomMoniker> missing = [];
+        List<RomMoniker> mia = [];
         sut.ScanProgress += (sender, args) =>
         {
             matched.AddRange(args.Results.Matched);
             wrongNamed.AddRange(args.Results.WrongNamed);
             unused.AddRange(args.Results.Unused);
             missing.AddRange(args.Results.Missing);
+            mia.AddRange(args.Results.Mia);
             progressPercentage = args.ProgressPercentage;
             statuses.Add(args.Status);
         };
@@ -509,6 +511,7 @@ public class DatabaseServiceUnitTest
         Dictionary<string, List<RomAndFileMoniker>> wrongNamed = [];
         Dictionary<string, List<FileMoniker>> unused = [];
         Dictionary<string, List<RomMoniker>> missing = [];
+        Dictionary<string, List<RomMoniker>> mia = [];
         sut.ScanProgress += (sender, args) =>
         {
             if (matched.TryGetValue(args.DatabaseFile.FullPath, out var existingMatched))
@@ -545,6 +548,15 @@ public class DatabaseServiceUnitTest
             else
             {
                 missing[args.DatabaseFile.FullPath] = [.. args.Results.Missing];
+            }
+
+            if (mia.TryGetValue(args.DatabaseFile.FullPath, out var existingMia))
+            {
+                existingMia.AddRange(args.Results.Mia);
+            }
+            else
+            {
+                mia[args.DatabaseFile.FullPath] = [.. args.Results.Mia];
             }
         };
 

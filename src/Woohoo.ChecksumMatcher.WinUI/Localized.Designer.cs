@@ -844,7 +844,7 @@ namespace Woohoo.ChecksumMatcher.WinUI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Redump.org is a disc preservation database and community dedicated to collecting precise and accurate information about every video game ever released on optical media of any system..
+        ///   Looks up a localized string similar to Redump is a disc preservation database and community dedicated to collecting precise and accurate information about every video game ever released on optical media of any system..
         /// </summary>
         public static string HomePageDownloadRedumpDescription {
             get {
@@ -871,7 +871,7 @@ namespace Woohoo.ChecksumMatcher.WinUI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://www.redump.org.
+        ///   Looks up a localized string similar to http://www.redump.info.
         /// </summary>
         public static string HomePageDownloadRedumpUrl {
             get {
@@ -1609,6 +1609,24 @@ namespace Woohoo.ChecksumMatcher.WinUI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mia.
+        /// </summary>
+        public static string ScanResultMiaNoCountLabel {
+            get {
+                return ResourceManager.GetString("ScanResultMiaNoCountLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mia ({0}).
+        /// </summary>
+        public static string ScanResultMiaWithCountLabel {
+            get {
+                return ResourceManager.GetString("ScanResultMiaWithCountLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing: {0}.
         /// </summary>
         public static string ScanResultMissingCountFormat {
@@ -1686,6 +1704,15 @@ namespace Woohoo.ChecksumMatcher.WinUI {
         public static string ScanStatusFilterComplete {
             get {
                 return ResourceManager.GetString("ScanStatusFilterComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mia.
+        /// </summary>
+        public static string ScanStatusFilterMia {
+            get {
+                return ResourceManager.GetString("ScanStatusFilterMia", resourceCulture);
             }
         }
         

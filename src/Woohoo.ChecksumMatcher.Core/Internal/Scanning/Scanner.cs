@@ -46,11 +46,13 @@ internal static class Scanner
         var matched = new List<RomAndFileMoniker>();
         var wrongNamed = new List<RomAndFileMoniker>();
         var missing = new List<RomMoniker>();
+        var mia = new List<RomMoniker>();
         var unused = new List<FileMoniker>();
 
         List<RomAndFileMoniker> pendingProgressMatched = [];
         List<RomAndFileMoniker> pendingProgressWrongNamed = [];
         List<RomMoniker> pendingProgressMissing = [];
+        List<RomMoniker> pendingProgressMia = [];
         DateTime lastProgress = DateTime.Now;
 
         // Create a dictionary mapping file size to list of FileInformation for efficient lookup
@@ -203,9 +205,19 @@ internal static class Scanner
                 else
                 {
                     var result = new RomMoniker(rom.ParentGame.Name, rom.Name);
-                    missing.Add(result);
 
-                    ThrottleScanProgress(missing: result, reportBatchMinSize: reportRomsMinSize);
+                    if (!rom.Mia || scanSettings.ReportMissingMia)
+                    {
+                        missing.Add(result);
+
+                        ThrottleScanProgress(missing: result, reportBatchMinSize: reportRomsMinSize);
+                    }
+                    else
+                    {
+                        mia.Add(result);
+
+                        ThrottleScanProgress(mia: result, reportBatchMinSize: reportRomsMinSize);
+                    }
                 }
             }
             else
@@ -235,10 +247,11 @@ internal static class Scanner
             Matched = [.. matched],
             WrongNamed = [.. wrongNamed],
             Missing = [.. missing],
+            Mia = [.. mia],
             Unused = [.. unused],
         };
 
-        void ThrottleScanProgress(RomAndFileMoniker? matched = null, RomAndFileMoniker? wrongNamed = null, RomMoniker? missing = null, int reportBatchMinSize = 1, bool forceSend = false)
+        void ThrottleScanProgress(RomAndFileMoniker? matched = null, RomAndFileMoniker? wrongNamed = null, RomMoniker? missing = null, RomMoniker? mia = null, int reportBatchMinSize = 1, bool forceSend = false)
         {
             if (matched is not null)
             {
@@ -255,7 +268,12 @@ internal static class Scanner
                 pendingProgressMissing.Add(missing);
             }
 
-            int pendingCount = pendingProgressMatched.Count + pendingProgressWrongNamed.Count + pendingProgressMissing.Count;
+            if (mia is not null)
+            {
+                pendingProgressMia.Add(mia);
+            }
+
+            int pendingCount = pendingProgressMatched.Count + pendingProgressWrongNamed.Count + pendingProgressMissing.Count + pendingProgressMia.Count;
             if (pendingCount < reportBatchMinSize)
             {
                 return;
@@ -266,11 +284,12 @@ internal static class Scanner
                 return;
             }
 
-            reportProgress(new ScanEventArgs { OperationId = operationId, DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Scanning, Results = new DatabaseScanResults() { Matched = [.. pendingProgressMatched], WrongNamed = [.. pendingProgressWrongNamed], Missing = [.. pendingProgressMissing] } });
+            reportProgress(new ScanEventArgs { OperationId = operationId, DatabaseFile = file, Database = db, ProgressPercentage = 0, Status = ScanStatus.Scanning, Results = new DatabaseScanResults() { Matched = [.. pendingProgressMatched], WrongNamed = [.. pendingProgressWrongNamed], Missing = [.. pendingProgressMissing], Mia = [.. pendingProgressMia] } });
 
             pendingProgressMatched.Clear();
             pendingProgressWrongNamed.Clear();
             pendingProgressMissing.Clear();
+            pendingProgressMia.Clear();
         }
 
         static async Task<ImmutableArray<FileInformation>> GetFilesAsync(Func<string, CancellationToken, Task<OfflineDisk?>> findOfflineDisk, List<EffectiveOnlineFolderSetting> scanOnlineFolders, List<EffectiveOfflineFolderSetting> scanOfflineFolders, CancellationToken ct)

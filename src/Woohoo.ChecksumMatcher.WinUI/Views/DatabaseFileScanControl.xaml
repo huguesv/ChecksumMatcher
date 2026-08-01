@@ -94,6 +94,10 @@
                 Icon="{ct:FontIcon Glyph=&#xEA39;}"
                 Text="{x:Bind ViewModel.ScanMissingLabel, Mode=OneWay}" />
             <SelectorBarItem
+                x:Name="ScanPage_SelectorBarItemMia"
+                Icon="{ct:FontIcon Glyph=&#xE733;}"
+                Text="{x:Bind ViewModel.ScanMiaLabel, Mode=OneWay}" />
+            <SelectorBarItem
                 x:Name="ScanPage_SelectorBarItemIncorrectName"
                 Icon="{ct:FontIcon Glyph=&#xE8AC;}"
                 Text="{x:Bind ViewModel.ScanIncorrectNameFilesLabel, Mode=OneWay}" />
@@ -189,6 +193,51 @@
                                     <MenuFlyoutItem
                                         x:Uid="DatabaseFileScan_MissingCopyAllNamesMenuItem"
                                         Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanMissingCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView
+            Grid.Row="2"
+            Margin="{StaticResource SmallTopMargin}"
+            Padding="8"
+            BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            ItemsSource="{x:Bind ViewModel.ScanSortedMiaFiles, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollMode="Auto"
+            Visibility="{Binding ElementName=ScanResultSelectorBar, Path=SelectedItem.Name, Mode=OneWay, Converter={StaticResource EqualsToVisibilityConverter}, ConverterParameter=ScanPage_SelectorBarItemMia}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="lclviewmodels:DatabaseScanResultExpectedViewModel">
+                    <Grid>
+                        <TextBlock Margin="{StaticResource XSmallTopBottomMargin}" Text="{x:Bind ExpectedDisplayName, Mode=OneWay}" />
+                        <Grid.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutSubItem x:Uid="DatabaseFileScan_MiaCopyToClipboardMenuItem">
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MiaCopyContainerNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanMiaContainerCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MiaCopyNameMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyScanMiaCommand, Mode=OneWay}"
+                                        CommandParameter="{x:Bind}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MiaCopyAllContainerNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanMiaContainerCommand, Mode=OneWay}"
+                                        Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
+                                    <MenuFlyoutItem
+                                        x:Uid="DatabaseFileScan_MiaCopyAllNamesMenuItem"
+                                        Command="{Binding ElementName=RootControlElement, Path=ViewModel.CopyAllScanMiaCommand, Mode=OneWay}"
                                         Icon="{ct:FontIcon Glyph=&#xE8C8;}" />
                                 </MenuFlyoutSubItem>
                             </MenuFlyout>

@@ -489,7 +489,7 @@
     <value>Enter your redump.info user name</value>
   </data>
   <data name="SettingsPage_RedumpPassword.Description" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="SettingsPage_RedumpFolder.Header" xml:space="preserve">
     <value>Artifacts folder</value>
@@ -737,7 +737,13 @@
   <data name="DatabaseFileScan_MissingCopyNameMenuItem.Text" xml:space="preserve">
     <value>Copy Name</value>
   </data>
+  <data name="DatabaseFileScan_MiaCopyNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Name</value>
+  </data>
   <data name="DatabaseFileScan_MissingCopyContainerNameMenuItem.Text" xml:space="preserve">
+    <value>Copy Container Name</value>
+  </data>
+  <data name="DatabaseFileScan_MiaCopyContainerNameMenuItem.Text" xml:space="preserve">
     <value>Copy Container Name</value>
   </data>
   <data name="DatabaseFileScan_UnusedCopyNameMenuItem.Text" xml:space="preserve">
@@ -788,7 +794,13 @@
   <data name="DatabaseFileScan_MissingCopyAllNamesMenuItem.Text" xml:space="preserve">
     <value>Copy All Names</value>
   </data>
+  <data name="DatabaseFileScan_MiaCopyAllNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Names</value>
+  </data>
   <data name="DatabaseFileScan_MissingCopyAllContainerNamesMenuItem.Text" xml:space="preserve">
+    <value>Copy All Container Names</value>
+  </data>
+  <data name="DatabaseFileScan_MiaCopyAllContainerNamesMenuItem.Text" xml:space="preserve">
     <value>Copy All Container Names</value>
   </data>
   <data name="DatabaseFileScan_MatchedCopyToClipboardMenuItem.Text" xml:space="preserve">
@@ -801,6 +813,9 @@
     <value>Copy to Clipboard</value>
   </data>
   <data name="DatabaseFileScan_MissingCopyToClipboardMenuItem.Text" xml:space="preserve">
+    <value>Copy to Clipboard</value>
+  </data>
+  <data name="DatabaseFileScan_MiaCopyToClipboardMenuItem.Text" xml:space="preserve">
     <value>Copy to Clipboard</value>
   </data>
   <data name="DatabaseFileRebuild_MissingCopyToClipboardMenuItem.Text" xml:space="preserve">
@@ -892,6 +907,9 @@
   </data>
   <data name="DatabaseFileGames_ScanStatusFilterIncorrectNameMenuItem.Text" xml:space="preserve">
     <value>Wrong Name</value>
+  </data>
+  <data name="DatabaseFileGames_ScanStatusFilterMiaMenuItem.Text" xml:space="preserve">
+    <value>Mia</value>
   </data>
   <data name="DatabaseFileGames_Query.Text" xml:space="preserve">
     <value>Query</value>

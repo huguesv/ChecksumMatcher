@@ -9,4 +9,5 @@ public enum DatabaseRomStatus
     Found,
     FoundWrongName,
     NotFound,
+    Mia,
 }
