@@ -11,7 +11,7 @@ public static class ChecksumConversion
 {
     public static string ToHex(byte[] data)
     {
-        Requires.NotNull(data);
+        ArgumentNullException.ThrowIfNull(data);
 
 #if NET9_0_OR_GREATER
         return Convert.ToHexStringLower(data);

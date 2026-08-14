@@ -26,8 +26,8 @@ public sealed class DatabaseExporterProvider
 
     public string Save(RomDatabase db, string filter)
     {
-        Requires.NotNull(db);
-        Requires.NotNull(filter);
+        ArgumentNullException.ThrowIfNull(db);
+        ArgumentNullException.ThrowIfNull(filter);
 
         var exporter = this.exporters.FirstOrDefault(x => x.Filter == filter);
         return exporter?.Export(db) ?? string.Empty;

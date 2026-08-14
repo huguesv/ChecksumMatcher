@@ -7,7 +7,7 @@ public sealed record class RomDisk
 {
     public RomDisk(RomGame parentGame)
     {
-        Requires.NotNull(parentGame);
+        ArgumentNullException.ThrowIfNull(parentGame);
 
         this.ParentGame = parentGame;
         this.Name = string.Empty;

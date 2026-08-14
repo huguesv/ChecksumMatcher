@@ -15,7 +15,7 @@ public sealed class MessSoftwareListImporter2 : IDatabaseImporter
 {
     public bool CanImport(string text)
     {
-        Requires.NotNull(text);
+        ArgumentNullException.ThrowIfNull(text);
 
         if (text.StartsWith("<?xml", StringComparison.OrdinalIgnoreCase) && text.Contains("softwarelist.dtd", StringComparison.InvariantCulture))
         {
@@ -27,7 +27,7 @@ public sealed class MessSoftwareListImporter2 : IDatabaseImporter
 
     public RomDatabase Import(string text)
     {
-        Requires.NotNull(text);
+        ArgumentNullException.ThrowIfNull(text);
 
         var db = new RomDatabase();
 

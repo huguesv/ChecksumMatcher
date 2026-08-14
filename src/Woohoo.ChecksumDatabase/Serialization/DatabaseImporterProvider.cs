@@ -26,16 +26,16 @@ public sealed class DatabaseImporterProvider
 
     public bool CanLoad(string text, string workingFolderPath)
     {
-        Requires.NotNull(text);
-        Requires.NotNull(workingFolderPath);
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(workingFolderPath);
 
         return this.importers.Any(importer => importer.CanImport(text));
     }
 
     public RomDatabase Load(string text, string workingFolderPath)
     {
-        Requires.NotNull(text);
-        Requires.NotNull(workingFolderPath);
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(workingFolderPath);
 
         foreach (var importer in this.importers)
         {

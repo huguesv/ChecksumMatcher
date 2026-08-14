@@ -12,7 +12,7 @@ public sealed class ClrMameExporter : IDatabaseExporter
 
     public string Export(RomDatabase db)
     {
-        Requires.NotNull(db);
+        ArgumentNullException.ThrowIfNull(db);
 
         var text = new StringBuilder();
 

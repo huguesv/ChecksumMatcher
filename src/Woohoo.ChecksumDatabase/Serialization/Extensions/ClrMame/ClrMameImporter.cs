@@ -16,7 +16,7 @@ public sealed class ClrMameImporter : IDatabaseImporter
 
     public bool CanImport(string text)
     {
-        Requires.NotNull(text);
+        ArgumentNullException.ThrowIfNull(text);
 
         var lines = text.Split('\n');
         var lineCount = lines.Length;
@@ -36,7 +36,7 @@ public sealed class ClrMameImporter : IDatabaseImporter
 
     public RomDatabase Import(string text)
     {
-        Requires.NotNull(text);
+        ArgumentNullException.ThrowIfNull(text);
 
         var db = new RomDatabase();
 

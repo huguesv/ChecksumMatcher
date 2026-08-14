@@ -16,7 +16,7 @@ public sealed class ClrMameXmlExporter : IDatabaseExporter
 
     public string Export(RomDatabase db)
     {
-        Requires.NotNull(db);
+        ArgumentNullException.ThrowIfNull(db);
 
         var settings = new XmlWriterSettings
         {

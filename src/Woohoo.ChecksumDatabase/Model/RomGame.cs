@@ -11,7 +11,7 @@ public sealed record class RomGame
 {
     public RomGame(RomDatabase parentDatabase)
     {
-        Requires.NotNull(parentDatabase);
+        ArgumentNullException.ThrowIfNull(parentDatabase);
 
         this.ParentDatabase = parentDatabase;
         this.Name = string.Empty;
@@ -76,8 +76,8 @@ public sealed record class RomGame
 
     public static int CompareByName(RomGame x, RomGame y)
     {
-        Requires.NotNull(x);
-        Requires.NotNull(y);
+        ArgumentNullException.ThrowIfNull(x);
+        ArgumentNullException.ThrowIfNull(y);
 
         return string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
     }
@@ -86,8 +86,8 @@ public sealed record class RomGame
     {
         public int Compare(RomGame? x, RomGame? y)
         {
-            Requires.NotNull(x);
-            Requires.NotNull(y);
+            ArgumentNullException.ThrowIfNull(x);
+            ArgumentNullException.ThrowIfNull(y);
 
             return RomGame.CompareByName(x!, y!);
         }

@@ -7,7 +7,7 @@ public sealed record class RomFile
 {
     public RomFile(RomGame parentGame)
     {
-        Requires.NotNull(parentGame);
+        ArgumentNullException.ThrowIfNull(parentGame);
 
         this.ParentGame = parentGame;
         this.Name = string.Empty;

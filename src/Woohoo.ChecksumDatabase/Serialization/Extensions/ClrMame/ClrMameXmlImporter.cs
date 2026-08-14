@@ -13,7 +13,7 @@ public sealed class ClrMameXmlImporter : IDatabaseImporter
 {
     public bool CanImport(string text)
     {
-        Requires.NotNull(text);
+        ArgumentNullException.ThrowIfNull(text);
 
         if (text.StartsWith("<?xml version=\"1.0\"", StringComparison.OrdinalIgnoreCase))
         {
@@ -28,7 +28,7 @@ public sealed class ClrMameXmlImporter : IDatabaseImporter
 
     public RomDatabase Import(string text)
     {
-        Requires.NotNull(text);
+        ArgumentNullException.ThrowIfNull(text);
 
         var db = new RomDatabase();
 
