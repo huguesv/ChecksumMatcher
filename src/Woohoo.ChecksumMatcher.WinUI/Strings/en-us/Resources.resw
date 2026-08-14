@@ -1130,6 +1130,9 @@
   <data name="DatabaseLibraryPage_NotLoadedPleaseWait.Text" xml:space="preserve">
     <value>Please wait...</value>
   </data>
+  <data name="DatabaseLibraryPage_LoadingError.Text" xml:space="preserve">
+    <value>Error loading database</value>
+  </data>
   <data name="HashCalculatorPage_SelectFileAppBarButton.Label" xml:space="preserve">
     <value>Select File...</value>
   </data>

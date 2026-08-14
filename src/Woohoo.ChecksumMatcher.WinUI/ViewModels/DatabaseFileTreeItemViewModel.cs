@@ -98,6 +98,9 @@ public sealed partial class DatabaseFileTreeItemViewModel : DatabaseTreeItemView
 
     public DatabaseFileViewModel? Database { get; }
 
+    [ObservableProperty]
+    public partial bool HasLoadingError { get; set; }
+
     public void Dispose()
     {
         this.disposables.TryDispose();

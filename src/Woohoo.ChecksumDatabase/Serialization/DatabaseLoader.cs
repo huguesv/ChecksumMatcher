@@ -20,6 +20,11 @@ public sealed class DatabaseLoader
     public RomDatabase? TryLoad(string filePath, CloneMode cloneMode, RomNameConflictFixMode fixMode, INotificationSink sink)
     {
         var db = this.TryLoadFrom(filePath);
+        if (db is null)
+        {
+            return null;
+        }
+
         db = DatabaseCleanTransform.TransformDatabase(db, fixMode, sink);
         return DatabaseCloneTransform.TransformDatabase(db, cloneMode);
     }

@@ -144,11 +144,21 @@
         </DataTemplate>
 
         <DataTemplate x:Key="DetailsTreeFileNotLoadedTemplate" x:DataType="lclviewmodels:DatabaseFileTreeItemViewModel">
-            <TextBlock
-                x:Uid="DatabaseLibraryPage_NotLoadedPleaseWait"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <Grid>
+                <TextBlock
+                    x:Uid="DatabaseLibraryPage_NotLoadedPleaseWait"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Visibility="{x:Bind HasLoadingError, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                <TextBlock
+                    x:Uid="DatabaseLibraryPage_LoadingError"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource StatusErrorColor}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Visibility="{x:Bind HasLoadingError, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </Grid>
         </DataTemplate>
 
         <lclviews:DatabaseTreeItemTemplateSelector

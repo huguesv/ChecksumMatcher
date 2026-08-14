@@ -423,5 +423,9 @@ public sealed partial class DatabaseLibraryViewModel : ObservableRecipient, INav
                 disposable.Dispose();
             }
         }
+        else
+        {
+            item.HasLoadingError = true;
+        }
     }
 }
