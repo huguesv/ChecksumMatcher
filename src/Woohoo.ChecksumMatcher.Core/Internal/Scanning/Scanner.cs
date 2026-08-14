@@ -191,15 +191,37 @@ internal static class Scanner
                     }
                     else
                     {
-                        // Wrong container name (there may be multiple files matching size and crc, we'll pick the first one)
-                        var result = new RomAndFileMoniker(
-                            new RomMoniker(rom.ParentGame.Name, rom.Name),
-                            new FileMoniker(checksumMatches[0].ContainerAbsolutePath, checksumMatches[0].ContainerName, checksumMatches[0].FileRelativePath, checksumMatches[0].IsFromOfflineStorage));
-                        wrongNamed.Add(result);
+                        // Wrong container name.
+                        if (checksumMatches.Any(match => db.Games.Any(game => game.Name == match.ContainerName)))
+                        {
+                            // There is another game that matches this container name, so mark this rom as missing.
+                            var missingResult = new RomMoniker(rom.ParentGame.Name, rom.Name);
 
-                        ThrottleScanProgress(wrongNamed: result, reportBatchMinSize: reportRomsMinSize);
+                            if (!rom.Mia || scanSettings.ReportMissingMia)
+                            {
+                                missing.Add(missingResult);
 
-                        usedButIncorrectName.AddRange(checksumMatches);
+                                ThrottleScanProgress(missing: missingResult, reportBatchMinSize: reportRomsMinSize);
+                            }
+                            else
+                            {
+                                mia.Add(missingResult);
+
+                                ThrottleScanProgress(mia: missingResult, reportBatchMinSize: reportRomsMinSize);
+                            }
+                        }
+                        else
+                        {
+                            // There may be multiple files matching size and crc, we'll pick the first one
+                            var wrongNameResult = new RomAndFileMoniker(
+                                new RomMoniker(rom.ParentGame.Name, rom.Name),
+                                new FileMoniker(checksumMatches[0].ContainerAbsolutePath, checksumMatches[0].ContainerName, checksumMatches[0].FileRelativePath, checksumMatches[0].IsFromOfflineStorage));
+                            wrongNamed.Add(wrongNameResult);
+
+                            ThrottleScanProgress(wrongNamed: wrongNameResult, reportBatchMinSize: reportRomsMinSize);
+
+                            usedButIncorrectName.AddRange(checksumMatches);
+                        }
                     }
                 }
                 else
