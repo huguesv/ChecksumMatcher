@@ -9,6 +9,11 @@ updates:
     communitytoolkit:
       patterns:
         - "CommunityToolkit*"
+    test:
+      patterns:
+        - "xunit*"
+        - "Microsoft.NET.Test.Sdk"
+        - "AwesomeAssertions*"        
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
