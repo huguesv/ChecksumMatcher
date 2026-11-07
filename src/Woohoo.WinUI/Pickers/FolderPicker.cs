@@ -34,8 +34,6 @@ public sealed class FolderPicker
 
     public string? InitialDirectory { get; set; }
 
-    public Windows.Storage.Pickers.PickerLocationId SuggestedStartLocation { get; set; } = Windows.Storage.Pickers.PickerLocationId.Unspecified;
-
     public string? Title { get; set; }
 
     /// <summary>
@@ -108,11 +106,6 @@ public sealed class FolderPicker
             if (!string.IsNullOrEmpty(this.CommitButtonText))
             {
                 dialog->SetOkButtonLabel(this.CommitButtonText);
-            }
-
-            if (this.SuggestedStartLocation != Windows.Storage.Pickers.PickerLocationId.Unspecified)
-            {
-                this.InitialDirectory = PathHelper.GetKnownFolderPath(this.SuggestedStartLocation);
             }
 
             if (!string.IsNullOrEmpty(this.InitialDirectory))

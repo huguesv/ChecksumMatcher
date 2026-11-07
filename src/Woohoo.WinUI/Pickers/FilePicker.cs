@@ -40,8 +40,6 @@ public sealed class FilePicker
 
     public string? InitialDirectory { get; set; }
 
-    public Windows.Storage.Pickers.PickerLocationId SuggestedStartLocation { get; set; } = Windows.Storage.Pickers.PickerLocationId.Unspecified;
-
     public string? Title { get; set; }
 
     public Dictionary<string, IList<string>> FileTypeChoices { get; set; } = new();
@@ -118,11 +116,6 @@ public sealed class FilePicker
             if (!string.IsNullOrEmpty(this.CommitButtonText))
             {
                 dialog->SetOkButtonLabel(this.CommitButtonText);
-            }
-
-            if (this.SuggestedStartLocation != Windows.Storage.Pickers.PickerLocationId.Unspecified)
-            {
-                this.InitialDirectory = PathHelper.GetKnownFolderPath(this.SuggestedStartLocation);
             }
 
             if (!string.IsNullOrEmpty(this.InitialDirectory))
