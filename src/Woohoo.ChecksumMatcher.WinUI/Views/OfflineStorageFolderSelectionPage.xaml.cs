@@ -1,5 +1,5 @@
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+// Copyright (c) Hugues Valois. All rights reserved.
+// Licensed under the MIT license. See LICENSE in the project root for license information.
 
 namespace Woohoo.ChecksumMatcher.WinUI.Views;
 

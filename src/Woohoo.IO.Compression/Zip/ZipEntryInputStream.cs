@@ -32,7 +32,10 @@ public class ZipEntryInputStream : Stream
 
     public override long Position
     {
-        get => this.position;
+        get
+        {
+            return this.position;
+        }
 
         set
         {

@@ -20,13 +20,13 @@ internal sealed class SoundService : ISoundService
 
         if (name is not null)
         {
-            await Task.Run(() => NativeMethods.PlaySound(name, IntPtr.Zero, 0), ct);
+            await Task.Run(() => NativeMethods.PlaySound(name, nint.Zero, 0), ct);
         }
     }
 
     private static class NativeMethods
     {
         [DllImport("winmm.dll", CharSet = CharSet.Auto)]
-        public static extern bool PlaySound(string lpszName, IntPtr hModule, int dwFlags);
+        public static extern bool PlaySound(string lpszName, nint hModule, int dwFlags);
     }
 }

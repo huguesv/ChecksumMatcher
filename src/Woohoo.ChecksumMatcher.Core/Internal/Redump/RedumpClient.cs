@@ -1,7 +1,5 @@
 // Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
-// Based on code from SabreTools.RedumpLib (https://github.com/SabreTools/SabreTools.RedumpLib)
-// Copyright (c) 2018-2025 Matt Nadareski
 
 namespace Woohoo.ChecksumMatcher.Core.Internal.Redump;
 
@@ -11,6 +9,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 
+// Based on code from SabreTools.RedumpLib (https://github.com/SabreTools/SabreTools.RedumpLib)
+// Copyright (c) 2018-2025 Matt Nadareski
 internal sealed class RedumpClient
 {
     public static readonly Regex LoginTokenRegex = new(@"<input type=""hidden"" name=""csrf_token"" value=""(.*?)"" />", RegexOptions.Compiled);

@@ -65,8 +65,8 @@ public sealed class OfflineFileInfo : IFileInfo
 
     public long Length =>
         this.item is not null
-        ? this.item.Size ?? 0
-        : throw new FileNotFoundException($"Could not find file '{this.path}'");
+            ? this.item.Size ?? 0
+            : throw new FileNotFoundException($"Could not find file '{this.path}'");
 
     public DateTime CreationTime
     {

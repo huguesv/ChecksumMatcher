@@ -80,8 +80,6 @@ public partial class App : Application
                 services.AddSingleton<IFileExplorerService, FileExplorerService>();
                 services.AddSingleton<IFilePickerService, FilePickerService>();
                 services.AddSingleton<IOfflineExplorerService, OfflineExplorerService>();
-                services.AddSingleton<IRedumpWebService, RedumpWebService>();
-                services.AddSingleton<IRedumpArtifactsService, RedumpArtifactsService>();
                 services.AddSingleton<IRestartService, RestartService>();
 
                 // Windows

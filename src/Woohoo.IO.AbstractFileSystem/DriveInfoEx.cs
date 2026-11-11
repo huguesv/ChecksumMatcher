@@ -22,7 +22,7 @@ public static class DriveInfoEx
             throw new IOException("Unable to retrieve drive volume information.");
         }
 
-        var result = $"{serial >> 24 & 0xff:X2}{serial >> 16 & 0xff:X2}-{serial >> 8 & 0xff:X2}{serial & 0xff:X2}";
+        var result = $"{(serial >> 24) & 0xff:X2}{(serial >> 16) & 0xff:X2}-{(serial >> 8) & 0xff:X2}{serial & 0xff:X2}";
 
         return result;
     }

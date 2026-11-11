@@ -78,9 +78,9 @@ public sealed class MameImporter : IDatabaseImporter
                         var romFile = new RomFile(game)
                         {
                             Name = rom.name ?? string.Empty,
-                            Size = rom.size != null && rom.size.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ?
-                                long.Parse(rom.size[2..], NumberStyles.HexNumber, CultureInfo.InvariantCulture) :
-                                (rom.size != null ? long.Parse(rom.size, CultureInfo.InvariantCulture) : 0),
+                            Size = rom.size != null && rom.size.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
+                                ? long.Parse(rom.size[2..], NumberStyles.HexNumber, CultureInfo.InvariantCulture)
+                                : (rom.size != null ? long.Parse(rom.size, CultureInfo.InvariantCulture) : 0),
                             Status = ConvertRomStatus(rom.status),
                             CRC32 = rom.crc != null ? ChecksumConversion.ToByteArray(rom.crc) : [],
                             SHA1 = rom.sha1 != null ? ChecksumConversion.ToByteArray(rom.sha1) : [],

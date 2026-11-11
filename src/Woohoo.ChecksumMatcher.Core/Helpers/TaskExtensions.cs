@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Hugues Valois. All rights reserved.
 // Licensed under the MIT license. See LICENSE in the project root for license information.
-// Based on code from AsyncAwaitBestPractices (https://github.com/TheCodeTraveler/AsyncAwaitBestPractices)
-// Copyright (c) 2018 Brandon Minnick
 
 namespace Woohoo.ChecksumMatcher.Core.Helpers;
 
@@ -9,6 +7,8 @@ using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
+// Based on code from AsyncAwaitBestPractices (https://github.com/TheCodeTraveler/AsyncAwaitBestPractices)
+// Copyright (c) 2018 Brandon Minnick
 public static partial class TaskExtensions
 {
     private static Action<Exception>? onException;

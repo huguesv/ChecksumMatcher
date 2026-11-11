@@ -334,7 +334,7 @@ public class DatabaseServiceUnitTest
             expectedMatches.SelectMany(r => r.Entries.Select(e => new RomAndFileMoniker(new(r.Name, e.Name), new(e.Source.FolderPath, e.Source.FolderName, e.Source.FileName, false)))));
 
         unused.Should().BeEquivalentTo([
-            new FileMoniker(sourceFile3.FolderPath, sourceFile3.FolderName, sourceFile3.FileName, false)
+            new FileMoniker(sourceFile3.FolderPath, sourceFile3.FolderName, sourceFile3.FileName, false),
         ]);
 
         progressPercentage.Should().Be(100);
@@ -422,7 +422,7 @@ public class DatabaseServiceUnitTest
         wrongNamed.Should().BeEquivalentTo([
             new RomAndFileMoniker(
                 new RomMoniker("game1", "file1.bin"),
-                new FileMoniker(sourceFile1.FolderPath, sourceFile1.FolderName, sourceFile1.FileName, false))
+                new FileMoniker(sourceFile1.FolderPath, sourceFile1.FolderName, sourceFile1.FileName, false)),
         ]);
         matched.Should().BeEquivalentTo([
             new RomAndFileMoniker(
@@ -433,10 +433,10 @@ public class DatabaseServiceUnitTest
                 new FileMoniker(sourceFile2b.FolderPath, sourceFile2b.FolderName, sourceFile2b.FileName, false)),
         ]);
         unused.Should().BeEquivalentTo([
-            new FileMoniker(sourceFile3.FolderPath, sourceFile3.FolderName, sourceFile3.FileName, false)
+            new FileMoniker(sourceFile3.FolderPath, sourceFile3.FolderName, sourceFile3.FileName, false),
         ]);
         missing.Should().BeEquivalentTo([
-            new RomMoniker("game3", "file3.bin")
+            new RomMoniker("game3", "file3.bin"),
         ]);
 
         progressPercentage.Should().Be(100);
@@ -577,7 +577,7 @@ public class DatabaseServiceUnitTest
         wrongNamed[databaseFile1.FullPath].Should().BeEquivalentTo([
             new RomAndFileMoniker(
                 new RomMoniker("game1", "file1.bin"),
-                new FileMoniker(sourceFile1.FolderPath, sourceFile1.FolderName, sourceFile1.FileName, false))
+                new FileMoniker(sourceFile1.FolderPath, sourceFile1.FolderName, sourceFile1.FileName, false)),
         ]);
         matched[databaseFile1.FullPath].Should().BeEquivalentTo([
             new RomAndFileMoniker(
@@ -588,10 +588,10 @@ public class DatabaseServiceUnitTest
                 new FileMoniker(sourceFile2b.FolderPath, sourceFile2b.FolderName, sourceFile2b.FileName, false)),
         ]);
         unused[databaseFile1.FullPath].Should().BeEquivalentTo([
-            new FileMoniker(sourceFile3.FolderPath, sourceFile3.FolderName, sourceFile3.FileName, false)
+            new FileMoniker(sourceFile3.FolderPath, sourceFile3.FolderName, sourceFile3.FileName, false),
         ]);
         missing[databaseFile1.FullPath].Should().BeEquivalentTo([
-            new RomMoniker("game3", "file3.bin")
+            new RomMoniker("game3", "file3.bin"),
         ]);
 
         wrongNamed[databaseFile2.FullPath].Should().BeEmpty();

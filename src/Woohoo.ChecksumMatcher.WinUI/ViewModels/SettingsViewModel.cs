@@ -26,15 +26,12 @@ public sealed partial class SettingsViewModel : ObservableRecipient
     private readonly IFileExplorerService fileExplorerService;
     private readonly IDatabaseService databaseService;
     private readonly IOfflineExplorerService offlineExplorerService;
-    private readonly IRedumpWebService redumpWebService;
-    private readonly IRedumpArtifactsService redumpArtifactsService;
     private readonly IOperationCompletionService operationCompletionService;
     private readonly IDateTimeProviderService dateTimeProviderService;
     private readonly ILogger logger;
     private readonly IDispatcherQueue dispatcherQueue;
 
     private bool isLoadingSettings = false;
-    private CancellationTokenSource? redumpDownloadCancellationTokenSource;
 
     public SettingsViewModel(
         IAboutInformationService aboutInformationService,
@@ -45,8 +42,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient
         IFileExplorerService fileExplorerService,
         IDatabaseService databaseService,
         IOfflineExplorerService offlineExplorerService,
-        IRedumpWebService redumpWebService,
-        IRedumpArtifactsService redumpArtifactsService,
         IOperationCompletionService operationCompletionService,
         IDateTimeProviderService dateTimeProviderService,
         IDispatcherQueueService dispatcherQueueService,
@@ -60,8 +55,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient
         ArgumentNullException.ThrowIfNull(fileExplorerService);
         ArgumentNullException.ThrowIfNull(databaseService);
         ArgumentNullException.ThrowIfNull(offlineExplorerService);
-        ArgumentNullException.ThrowIfNull(redumpWebService);
-        ArgumentNullException.ThrowIfNull(redumpArtifactsService);
         ArgumentNullException.ThrowIfNull(operationCompletionService);
         ArgumentNullException.ThrowIfNull(dateTimeProviderService);
         ArgumentNullException.ThrowIfNull(dispatcherQueueService);
@@ -75,8 +68,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient
         this.fileExplorerService = fileExplorerService;
         this.databaseService = databaseService;
         this.offlineExplorerService = offlineExplorerService;
-        this.redumpWebService = redumpWebService;
-        this.redumpArtifactsService = redumpArtifactsService;
         this.operationCompletionService = operationCompletionService;
         this.dateTimeProviderService = dateTimeProviderService;
         this.logger = logger;
@@ -95,22 +86,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient
             this.ExplorerShowArchivesInTree = this.localSettingsService.ReadSetting<bool>(KnownSettingKeys.ExplorerShowArchiveInTree);
             this.ExplorerFolderSortPriority = Enum.Parse<OfflineExplorerFolderSortPriority>(this.localSettingsService.ReadSetting<string>(KnownSettingKeys.ExplorerFolderSortPriority) ?? OfflineExplorerFolderSortPriority.First.ToString());
             this.ExplorerArchiveGrouping = Enum.Parse<OfflineExplorerArchiveGrouping>(this.localSettingsService.ReadSetting<string>(KnownSettingKeys.ExplorerArchiveGrouping) ?? OfflineExplorerArchiveGrouping.WithFiles.ToString());
-
-            this.RedumpDownloadFolder = this.CreateFolderViewModel(this.localSettingsService.ReadSetting<string>(KnownSettingKeys.RedumpDownloadFolder) ?? string.Empty, this.RemoveRedumpFolderCommand);
-            this.RedumpUser = this.localSettingsService.LoadEncryptedSetting(KnownSettingKeys.RedumpUser, string.Empty);
-            this.RedumpPassword = this.localSettingsService.LoadEncryptedSetting(KnownSettingKeys.RedumpPassword, string.Empty);
-            this.RedumpDownloadTimeoutSeconds = Math.Clamp(this.localSettingsService.ReadSetting<int?>(KnownSettingKeys.RedumpDownloadTimeoutSeconds) ?? 60, 1, 300);
-
-            var redumpSystems = this.redumpWebService.GetSystems().OrderBy(s => s.Name);
-            var redumpEnabledSystems = this.localSettingsService.ReadSetting<string[]>(KnownSettingKeys.RedumpSystems);
-            if (redumpEnabledSystems is null)
-            {
-                this.RedumpSystems = [.. redumpSystems.Select(s => new SettingsRedumpSystemViewModel(s.Id, s.Name, true, this.OnRedumpSystemChanged))];
-            }
-            else
-            {
-                this.RedumpSystems = [.. redumpSystems.Select(s => new SettingsRedumpSystemViewModel(s.Id, s.Name, redumpEnabledSystems.Contains(s.Id), this.OnRedumpSystemChanged))];
-            }
         }
         finally
         {
@@ -146,56 +121,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient
 
     public ObservableCollection<SettingsFolderViewModel> OfflineStorageFolders { get; private set; } = [];
 
-    public ObservableCollection<SettingsRedumpSystemViewModel> RedumpSystems { get; private set; } = [];
-
-    [ObservableProperty]
-    public partial string RedumpUser { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial string RedumpPassword { get; set; } = string.Empty;
-
-    [ObservableProperty]
-    public partial int RedumpDownloadTimeoutSeconds { get; set; } = 60;
-
-    [ObservableProperty]
-    public partial StatusViewModel RedumpCredentialsStatus { get; set; } = new(string.Empty, StatusSeverity.None);
-
-    [ObservableProperty]
-    public partial StatusViewModel RedumpDownloadStatus { get; set; } = new(string.Empty, StatusSeverity.None);
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(DownloadRedumpArtifactsCommand))]
-    [NotifyCanExecuteChangedFor(nameof(RemoveRedumpFolderCommand))]
-    [NotifyCanExecuteChangedFor(nameof(DeleteRedumpDownloadFolderContentsCommand))]
-    public partial SettingsFolderViewModel RedumpDownloadFolder { get; set; }
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(DownloadRedumpArtifactsCommand))]
-    [NotifyCanExecuteChangedFor(nameof(CancelDownloadRedumpArtifactsCommand))]
-    [NotifyCanExecuteChangedFor(nameof(DeleteRedumpDownloadFolderContentsCommand))]
-    public partial bool IsDownloading { get; set; } = false;
-
-    [RelayCommand(CanExecute = nameof(CanRemoveRedumpFolder))]
-    private Task RemoveRedumpFolderAsync()
-    {
-        try
-        {
-            this.RedumpDownloadFolder = this.CreateFolderViewModel();
-            this.localSettingsService.SaveSetting(KnownSettingKeys.RedumpDownloadFolder, this.RedumpDownloadFolder.Path);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-
-        return Task.CompletedTask;
-    }
-
-    private bool CanRemoveRedumpFolder()
-    {
-        return !string.IsNullOrEmpty(this.RedumpDownloadFolder.Path);
-    }
-
     [RelayCommand(CanExecute = nameof(CanOpenFolder))]
     private void OpenFolder(string folder)
     {
@@ -212,268 +137,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient
     private bool CanOpenFolder(string folder)
     {
         return Directory.Exists(folder);
-    }
-
-    [RelayCommand]
-    private void SelectAllRedumpSystems()
-    {
-        try
-        {
-            this.ChangeAllRedumpSystems(true);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-    }
-
-    [RelayCommand]
-    private void UnselectAllRedumpSystems()
-    {
-        try
-        {
-            this.ChangeAllRedumpSystems(false);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-    }
-
-    private void ChangeAllRedumpSystems(bool isEnabled)
-    {
-        this.isLoadingSettings = true;
-
-        try
-        {
-            foreach (var system in this.RedumpSystems)
-            {
-                system.IsEnabled = isEnabled;
-            }
-        }
-        finally
-        {
-            this.isLoadingSettings = false;
-        }
-
-        this.OnRedumpSystemChanged();
-    }
-
-    [RelayCommand]
-    private async Task SelectRedumpFolderAsync(CancellationToken ct)
-    {
-        try
-        {
-            var folder = await this.filePickerService.GetOpenFolderPathAsync(FilePickerSettingIdentifiers.RedumpDownloadFolder);
-            if (folder != null)
-            {
-                this.RedumpDownloadFolder = this.CreateFolderViewModel(folder, this.RemoveRedumpFolderCommand);
-                this.localSettingsService.SaveSetting(KnownSettingKeys.RedumpDownloadFolder, this.RedumpDownloadFolder.Path);
-            }
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-    }
-
-    [RelayCommand]
-    private async Task TestRedumpCredentialsAsync(CancellationToken ct)
-    {
-        try
-        {
-            this.RedumpCredentialsStatus = new(Localized.RedumpCredentialsStatusInProgress, StatusSeverity.Info);
-
-            var success = await ValidateCredentialsAsync(this.redumpWebService, this.RedumpUser, this.RedumpPassword, TimeSpan.FromSeconds(this.RedumpDownloadTimeoutSeconds), ct);
-
-            if (success)
-            {
-                this.RedumpCredentialsStatus = new(Localized.RedumpCredentialsStatusSuccess, StatusSeverity.Success);
-            }
-            else
-            {
-                this.RedumpCredentialsStatus = new(Localized.RedumpCredentialsStatusError, StatusSeverity.Error);
-            }
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-
-        static async Task<bool> ValidateCredentialsAsync(IRedumpWebService redumpDownloaderService, string user, string password, TimeSpan timeout, CancellationToken ct)
-        {
-            if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(password))
-            {
-                return false;
-            }
-
-            return (await redumpDownloaderService.ValidateCredentialsAsync(user, password, timeout, ct)) == true;
-        }
-    }
-
-    [RelayCommand(CanExecute = nameof(CanCancelDownloadRedumpArtifacts))]
-    private void CancelDownloadRedumpArtifacts()
-    {
-        try
-        {
-            this.redumpDownloadCancellationTokenSource?.Cancel();
-            this.CancelDownloadRedumpArtifactsCommand.NotifyCanExecuteChanged();
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-    }
-
-    private bool CanCancelDownloadRedumpArtifacts()
-    {
-        return this.IsDownloading &&
-            this.redumpDownloadCancellationTokenSource is not null &&
-            !this.redumpDownloadCancellationTokenSource.IsCancellationRequested;
-    }
-
-    [RelayCommand(CanExecute = nameof(CanDownloadRedumpArtifacts))]
-    private async Task DownloadRedumpArtifacts()
-    {
-        try
-        {
-            this.redumpDownloadCancellationTokenSource = new CancellationTokenSource();
-
-            this.IsDownloading = true;
-
-            try
-            {
-                this.RedumpDownloadStatus = new StatusViewModel(Localized.RedumpDownloadStatusStarted, StatusSeverity.Info);
-
-                var ids = this.RedumpSystems.Where(s => s.IsEnabled).Select(s => s.Id).ToArray();
-
-                await this.redumpWebService.DownloadAsync(ids, this.RedumpDownloadFolder.Path, false, this.RedumpUser, this.RedumpPassword, TimeSpan.FromSeconds(this.RedumpDownloadTimeoutSeconds), ProgressUpdate, this.redumpDownloadCancellationTokenSource.Token);
-
-                this.RedumpDownloadStatus = new StatusViewModel(string.Format(CultureInfo.CurrentUICulture, Localized.RedumpDownloadStatusCompleteFormat, this.dateTimeProviderService.Now), StatusSeverity.Success);
-
-                await this.operationCompletionService.NotifyCompletion(
-                    OperationCompletionResult.Success,
-                    Localized.DownloadSuccessNotification,
-                    CancellationToken.None);
-            }
-            catch (OperationCanceledException)
-            {
-                this.RedumpDownloadStatus = new StatusViewModel(Localized.RedumpDownloadStatusCanceled, StatusSeverity.Error);
-                await this.operationCompletionService.NotifyCompletion(
-                    OperationCompletionResult.Cancelled,
-                    Localized.DownloadCancelNotification,
-                    CancellationToken.None);
-            }
-            catch (Exception ex)
-            {
-                this.RedumpDownloadStatus = new StatusViewModel(string.Format(CultureInfo.CurrentUICulture, Localized.RedumpDownloadStatusErrorFormat, ex.Message), StatusSeverity.Error);
-                await this.operationCompletionService.NotifyCompletion(
-                    OperationCompletionResult.Error,
-                    Localized.DownloadErrorNotification,
-                    CancellationToken.None);
-            }
-            finally
-            {
-                this.IsDownloading = false;
-                this.redumpDownloadCancellationTokenSource?.Dispose();
-                this.redumpDownloadCancellationTokenSource = null;
-            }
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-
-        void ProgressUpdate(int current, int max, string systemName, string artifactName)
-        {
-            if (string.IsNullOrEmpty(systemName) || string.IsNullOrEmpty(artifactName))
-            {
-                return;
-            }
-
-            this.dispatcherQueue.TryEnqueue(() =>
-            {
-                this.RedumpDownloadStatus = new StatusViewModel(string.Format(CultureInfo.CurrentUICulture, Localized.RedumpDownloadStatusInProgressFormat, current + 1, max, artifactName, systemName), StatusSeverity.Info);
-            });
-        }
-    }
-
-    private bool CanDownloadRedumpArtifacts()
-    {
-        return Directory.Exists(this.RedumpDownloadFolder.Path) && !this.IsDownloading;
-    }
-
-    [RelayCommand(CanExecute = nameof(CanDeleteRedumpDownloadFolderContents))]
-    private async Task DeleteRedumpDownloadFolderContentsAsync()
-    {
-        try
-        {
-            var result = await this.confirmationService.ShowAsync(
-                Localized.MainWindowCaption,
-                string.Format(CultureInfo.CurrentUICulture, Localized.SettingsPageDeleteRedumpFolderContentsMessageFormat, this.RedumpDownloadFolder.Path),
-                defaultToCancel: true);
-
-            if (!result)
-            {
-                return;
-            }
-
-            this.redumpArtifactsService.DeleteContents(this.RedumpDownloadFolder.Path);
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-    }
-
-    private bool CanDeleteRedumpDownloadFolderContents()
-    {
-        return Directory.Exists(this.RedumpDownloadFolder.Path) && !this.IsDownloading;
-    }
-
-    [RelayCommand(CanExecute = nameof(CanCleanupRedumpArtifacts))]
-    private async Task CleanupRedumpArtifactsAsync()
-    {
-        try
-        {
-            var result = await this.confirmationService.ShowAsync(
-                Localized.MainWindowCaption,
-                string.Format(CultureInfo.CurrentUICulture, Localized.SettingsPageCleanupRedumpFolderContentsMessageFormat, this.RedumpDownloadFolder.Path),
-                defaultToCancel: true);
-
-            if (!result)
-            {
-                return;
-            }
-
-            var deletedFiles = this.redumpArtifactsService.CleanupContents(this.RedumpDownloadFolder.Path);
-            if (deletedFiles.IsEmpty)
-            {
-                await this.confirmationService.ShowAsync(
-                    Localized.MainWindowCaption,
-                    Localized.SettingsPageCleanupRedumpFolderNoDeletedFilesMessageFormat,
-                    defaultToCancel: false,
-                    cancelButtonText: string.Empty);
-            }
-            else
-            {
-                var fileNames = string.Join(Environment.NewLine, deletedFiles.Select(f => Path.GetFileName(f)));
-                await this.confirmationService.ShowAsync(
-                    Localized.MainWindowCaption,
-                    string.Format(CultureInfo.CurrentUICulture, Localized.SettingsPageCleanupRedumpFolderDeletedFilesMessageFormat, fileNames),
-                    defaultToCancel: false,
-                    cancelButtonText: string.Empty);
-            }
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Error processing command.");
-        }
-    }
-
-    private bool CanCleanupRedumpArtifacts()
-    {
-        return Directory.Exists(this.RedumpDownloadFolder.Path) && !this.IsDownloading;
     }
 
     [RelayCommand]
@@ -703,16 +366,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient
         }
     }
 
-    private void OnRedumpSystemChanged()
-    {
-        if (!this.isLoadingSettings)
-        {
-            this.localSettingsService.SaveSetting<string[]>(
-                KnownSettingKeys.RedumpSystems,
-                [.. this.RedumpSystems.Where(s => s.IsEnabled).Select(s => s.Id)]);
-        }
-    }
-
     private SettingsFolderViewModel CreateFolderViewModel(string path, IAsyncRelayCommand removeCommand)
     {
         return new SettingsFolderViewModel(this.fileExplorerService, this.dispatcherQueue, this.logger, path, removeCommand);
@@ -726,34 +379,6 @@ public sealed partial class SettingsViewModel : ObservableRecipient
     partial void OnExplorerShowArchivesInTreeChanged(bool value)
     {
         this.localSettingsService.SaveSetting(KnownSettingKeys.ExplorerShowArchiveInTree, value);
-    }
-
-    partial void OnRedumpUserChanged(string value)
-    {
-        if (!this.isLoadingSettings)
-        {
-            this.RedumpCredentialsStatus = new(string.Empty, StatusSeverity.None);
-
-            this.localSettingsService.SaveEncryptedSetting(KnownSettingKeys.RedumpUser, value);
-        }
-    }
-
-    partial void OnRedumpPasswordChanged(string value)
-    {
-        if (!this.isLoadingSettings)
-        {
-            this.RedumpCredentialsStatus = new(string.Empty, StatusSeverity.None);
-
-            this.localSettingsService.SaveEncryptedSetting(KnownSettingKeys.RedumpPassword, value);
-        }
-    }
-
-    partial void OnRedumpDownloadTimeoutSecondsChanged(int value)
-    {
-        if (!this.isLoadingSettings)
-        {
-            this.localSettingsService.SaveSetting(KnownSettingKeys.RedumpDownloadTimeoutSeconds, value);
-        }
     }
 
     partial void OnUseSystemSoundsChanged(bool value)

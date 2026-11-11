@@ -1,12 +1,15 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+// Copyright (c) Hugues Valois. All rights reserved.
+// Licensed under the MIT license. See LICENSE in the project root for license information.
 
 namespace Woohoo.ChecksumMatcher.WinUI.Helpers;
 
 using System;
 using System.Collections.Concurrent;
 using Woohoo.ChecksumMatcher.WinUI.Contracts.Services;
+
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 /// <summary>
 /// Set of extension methods for using <see cref="IDispatcherQueueTimer"/>.

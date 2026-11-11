@@ -28,7 +28,7 @@ public sealed class DatabaseService : IDatabaseService, INotificationSink
         "Cuesheets",
         "GDI Files",
         "SBI Subchannels",
-        "Disc Keys"
+        "Disc Keys",
     ];
 
     private readonly ILogger<DatabaseService> logger;

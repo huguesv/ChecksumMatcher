@@ -72,9 +72,9 @@ public sealed class MessSoftwareListImporter2 : IDatabaseImporter
                             var romFile = new RomFile(game)
                             {
                                 Name = rom.Name ?? string.Empty,
-                                Size = rom.Size != null && rom.Size.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ?
-                                    long.Parse(rom.Size[2..], NumberStyles.HexNumber, CultureInfo.InvariantCulture) :
-                                    (rom.Size != null ? long.Parse(rom.Size, CultureInfo.InvariantCulture) : 0),
+                                Size = rom.Size != null && rom.Size.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
+                                    ? long.Parse(rom.Size[2..], NumberStyles.HexNumber, CultureInfo.InvariantCulture)
+                                    : (rom.Size != null ? long.Parse(rom.Size, CultureInfo.InvariantCulture) : 0),
                                 Status = ConvertRomStatus(rom.Status),
                                 CRC32 = rom.Crc != null ? ChecksumConversion.ToByteArray(rom.Crc) : [],
                                 SHA1 = rom.Sha1 != null ? ChecksumConversion.ToByteArray(rom.Sha1) : [],

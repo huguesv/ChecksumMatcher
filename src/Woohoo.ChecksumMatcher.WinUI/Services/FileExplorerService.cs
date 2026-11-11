@@ -10,28 +10,28 @@ using Woohoo.ChecksumMatcher.WinUI.Contracts.Services;
 
 internal sealed class FileExplorerService : IFileExplorerService
 {
-    public void OpenInExplorer(string path)
+    public void OpenInExplorer(string filePath)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            if (Directory.Exists(path))
+            if (Directory.Exists(filePath))
             {
-                Process.Start("explorer", $"\"{path}\"");
+                Process.Start("explorer", $"\"{filePath}\"");
             }
-            else if (File.Exists(path))
+            else if (File.Exists(filePath))
             {
-                Process.Start("explorer", $"/select,\"{path}\"");
+                Process.Start("explorer", $"/select,\"{filePath}\"");
             }
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            Process.Start("open", $"-R \"{path}\"");
+            Process.Start("open", $"-R \"{filePath}\"");
         }
         else
         {
             Process.Start(new ProcessStartInfo()
             {
-                FileName = Path.GetDirectoryName(path),
+                FileName = Path.GetDirectoryName(filePath),
                 UseShellExecute = true,
             });
         }

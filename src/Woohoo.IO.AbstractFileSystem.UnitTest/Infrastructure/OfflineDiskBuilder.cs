@@ -49,7 +49,7 @@ internal class OfflineDiskBuilder
                                                 Created = new DateTime(2023, 2, 1, 12, 0, 0, DateTimeKind.Utc),
                                                 Kind = OfflineItemKind.File,
                                                 Size = 2048,
-                                            }
+                                            },
                                         ],
                                     },
                                     new OfflineItem
@@ -67,11 +67,11 @@ internal class OfflineDiskBuilder
                                         Created = new DateTime(2023, 2, 1, 12, 0, 0, DateTimeKind.Utc),
                                         Kind = OfflineItemKind.File,
                                         Size = 2048,
-                                    }
+                                    },
                                 ],
-                            }
+                            },
                         ],
-                    }
+                    },
             ],
         };
 
