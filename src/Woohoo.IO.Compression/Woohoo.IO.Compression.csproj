@@ -34,6 +34,7 @@
     </PackageReference>
     <PackageReference Include="Squid-Box.SevenZipSharp" />
     <PackageReference Include="SharpZipLib" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" VersionOverride="11.0.0" />
   </ItemGroup>
 
 </Project>
