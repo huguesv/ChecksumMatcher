@@ -479,80 +479,11 @@
   <data name="Settings_Redump.Text" xml:space="preserve">
     <value>Redump</value>
   </data>
-  <data name="SettingsPage_RedumpUser.Header" xml:space="preserve">
-    <value>User name</value>
-  </data>
-  <data name="SettingsPage_RedumpPassword.Header" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="SettingsPage_RedumpUser.Description" xml:space="preserve">
-    <value>Enter your redump.info user name</value>
-  </data>
-  <data name="SettingsPage_RedumpPassword.Description" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SettingsPage_RedumpFolder.Header" xml:space="preserve">
-    <value>Artifacts folder</value>
-  </data>
-  <data name="SettingsPage_RedumpFolder.Description" xml:space="preserve">
-    <value>Folder where redump artifacts are downloaded</value>
-  </data>
-  <data name="SettingsPage_RedumpFolderRemoveMenuItem.Text" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="SettingsPage_RedumpFolderDeleteContentsMenuItem.Text" xml:space="preserve">
-    <value>Delete all contents</value>
-  </data>
-  <data name="SettingsPage_RedumpFolderCleanupMenuItem.Text" xml:space="preserve">
-    <value>Cleanup</value>
-  </data>
   <data name="DatabaseFileRebuildSettings_SourceFolderRemoveMenuItem.Text" xml:space="preserve">
     <value>Reset</value>
   </data>
-  <data name="SettingsPage_RedumpFolderSelectButton.Content" xml:space="preserve">
-    <value>Select</value>
-  </data>
   <data name="DatabaseFileRebuildSettings_SourceFolderSelectButton.Content" xml:space="preserve">
     <value>Select</value>
-  </data>
-  <data name="SettingsPage_RedumpLogin.Header" xml:space="preserve">
-    <value>Credentials</value>
-  </data>
-  <data name="SettingsPage_RedumpTimeout.Header" xml:space="preserve">
-    <value>Timeout</value>
-  </data>
-  <data name="SettingsPage_RedumpLogin.Description" xml:space="preserve">
-    <value>Enter credentials of a user with dumper status to enable download of private artifacts from redump</value>
-  </data>
-  <data name="SettingsPage_RedumpTimeout.Description" xml:space="preserve">
-    <value>Timeout for every Redump request (in seconds)</value>
-  </data>
-  <data name="SettingsPage_RedumpCredentialsTestButton.Content" xml:space="preserve">
-    <value>Test credentials</value>
-  </data>
-  <data name="SettingsPage_RedumpDownloadButton.Content" xml:space="preserve">
-    <value>Download now</value>
-  </data>
-  <data name="SettingsPage_RedumpCleanupButton.Content" xml:space="preserve">
-    <value>Cleanup now</value>
-  </data>
-  <data name="SettingsPage_RedumpCancelDownloadButton.Content" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="SettingsPage_RedumpCancelCleanupButton.Content" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="SettingsPage_RedumpDownload.Header" xml:space="preserve">
-    <value>Downloads</value>
-  </data>
-  <data name="SettingsPage_RedumpCleanup.Header" xml:space="preserve">
-    <value>Cleanup</value>
-  </data>
-  <data name="SettingsPage_RedumpDownload.Description" xml:space="preserve">
-    <value>Start a download of redump artifacts</value>
-  </data>
-  <data name="SettingsPage_RedumpCleanup.Description" xml:space="preserve">
-    <value>Remove old artifacts from the download folder</value>
   </data>
   <data name="Settings_Notifications.Text" xml:space="preserve">
     <value>Notifications</value>
@@ -1334,9 +1265,6 @@
   <data name="OfflineExplorerPage_DiskTemplateVolumeSerial.Text" xml:space="preserve">
     <value> - Volume Serial: </value>
   </data>
-  <data name="SettingsPage_RedumpFolderOpenMenuItem.Text" xml:space="preserve">
-    <value>Open in explorer</value>
-  </data>
   <data name="DatabaseFileRebuildSettings_SourceFolderOpenMenuItem.Text" xml:space="preserve">
     <value>Open in explorer</value>
   </data>
@@ -1406,12 +1334,6 @@
   <data name="DatabaseFileRebuildSettings_TargetIncompleteFolderOpenMenuItem.Text" xml:space="preserve">
     <value>Open in explorer</value>
   </data>
-  <data name="SettingsPage_RedumpSystems.Description" xml:space="preserve">
-    <value>Select the systems to download</value>
-  </data>
-  <data name="SettingsPage_RedumpSystems.Header" xml:space="preserve">
-    <value>Systems</value>
-  </data>
   <data name="SettingsPage_SelectAllRedumpSystemsButton.Content" xml:space="preserve">
     <value>Check all</value>
   </data>
@@ -1434,12 +1356,6 @@
     <value>More options</value>
   </data>
   <data name="SettingsPage_OfflineFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>More options</value>
-  </data>
-  <data name="SettingsPage_RedumpFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>More options</value>
-  </data>
-  <data name="SettingsPage_RedumpFolderOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options</value>
   </data>
   <data name="DatabaseFileRebuildSettings_SourceFolderOptionsButton.AutomationProperties.Name" xml:space="preserve">
