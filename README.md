@@ -34,7 +34,7 @@ application, including screenshots.
 
 This software is licensed under the MIT License. See the [LICENSE](LICENSE) file.
 
-Copyright (c) 2025 Hugues Valois. All rights reserved.
+Copyright (c) 2025-2026 Hugues Valois. All rights reserved.
 
 This software is built using the Microsoft Windows App SDK and Microsoft .NET,
 and uses the following libraries from the .NET community:
