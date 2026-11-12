@@ -12,8 +12,8 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 10
     env:
-      dotnetActionVersion: '10.0.x'
-      dotnetBuildVersion: 'net10.0'
+      dotnetActionVersion: '11.0.x'
+      dotnetBuildVersion: 'net11.0'
       solutionFile: ChecksumMatcher.slnx
 
     steps:
